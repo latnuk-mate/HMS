@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+      integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+    <style rel="stylesheet">
+      body {
+        min-height: 100vh;
+        background: #F2F6F5;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+
+      }
+      .head--text{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        color: #0C359E;
+      }
+      .registration--area{
+        background: #fff;
+        display: block;
+        margin: auto;
+        margin-top: 30px;
+        width: 480px;
+        height: 470px;
+        padding: 1rem 20px 10px 20px;
+        border: 1px solid #0C359E;
+      }
+
+      form .form-control:focus{
+        outline: none;
+        box-shadow: none;
+      }
+
+
+      form .signup--btn{
+        border-radius: 200px;
+        background: #0C359E;
+        color: #ffff;
+        border: none;
+      }
+
+      .msg-for-number{
+        color: red;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <h2 class="fw-bold mb-2 mt-5 head--text">
+          <i class="fa-solid fa-hospital"></i>
+          HealthHub</h2>
+      <div class="registration--area">
+        <h4 class="title mb-3 text-center">Registration Form!</h4>
+        <form action="/signup" method="post" name="signupForm">
+          <div class="form-group mb-2">
+            <label for="username">Your Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              placeholder="Enter Your Name"
+              required
+            />
+          </div>
+          <div class="form-group mb-2">
+            <label for="username">Date Of Birth</label>
+            <input
+              type="date"
+              class="form-control"
+              id="dateOfBirth"
+              name="dob"
+              placeholder="dd/mm/yyyy"
+              required
+            />
+          </div>
+          <div class="form-group mb-2">
+            <label for="username">Your Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="Enter Your Email"
+              required
+            />
+          </div>
+          <div class="form-group mb-3">
+            <label for="phoneNumber">Phone Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="number"
+              name="phone"
+              placeholder="Enter Mobile Number"
+              required
+            />
+            <span class="msg-for-number"></span>
+          </div>
+          <button type="submit" class="px-5 py-2 signup--btn form-control" id="signup">Create Account</button>
+        </form>
+      </div>
+
+    <p class="text-center mt-2">Already have an account? <a href="/user/login" class="text-decoration-none fw-bold ms-1">Sign In</strong></p>
+    </div>
+
+    <script>
+      const number = document.getElementById('number');
+
+      function isNumber(num) {
+        if (!isNaN(num)) {
+          if (num.length > 10 || num.length < 10) {
+            document.querySelector(".msg-for-number").innerHTML =
+              "Please provide a correct number";
+              number.style.border = "1px solid red";
+              number.focus();
+            return false;
+          }
+        } else {
+          document.querySelector(".msg-for-number").innerHTML =
+            "Please provide a number";
+            number.style.border = "1px solid red";
+            number.focus();
+          return false;
+        }
+
+        return true;
+      }
+
+      document.forms["signupForm"].addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if(isNumber(number.value)){
+          document.forms["signupForm"].submit();
+        }else{
+          document.forms["signupForm"].reset();
+        }
+        
+      });
+
+    </script>
+  </body>
+</html>

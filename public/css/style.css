@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+
+:root{
+    --primary-color: #0779E4;
+    --custom-bg : #0C359E;
+    /* --secondary-color: #B0DAFF; */
+    --secondary-color: #c3e1f5;
+    --body-color: #F2F6F5;
+
+    --title-text : 35px;
+    --large-text : 28px;
+    --md-text : 20px;
+}
+
+.roboto-slab {
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+
+body{
+    background-color: var(--body-color);
+    color: #000;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, 'Segoe UI' 'Helvetica Neue', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.topbar{
+    background: var(--custom-bg);
+    padding: 12px 10px;
+}
+
+.topbar .topbar-content-box{
+    display: -webkit-box;
+    display: -moz-box;
+    display: flex;
+    -webkit-box-pack: space-around;
+    -moz-box-pack: space-around;
+    justify-content: space-around;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.topbar .topbar--text{
+    font-weight: 400;
+}
+
+.social-links .link{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    width: 30px;
+    height: 30px;
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.topbar-content-box .social-links a{
+    font-size: var(--md-text);
+    color: var(--custom-bg);
+    text-decoration: none;
+}
+
+.hero--section{
+    position: relative;
+    min-height: 100vh;
+    background-color: var(--secondary-color);
+}
+
+ .hero--section .img-box{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.hero-bg .img-box img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0.2;
+    mix-blend-mode: multiply ;
+}
+
+.navbar-brand{
+    font-size: var(--large-text);
+    color: #000;
+    font-weight: 900;
+    font-style: italic;
+    padding-left: 15px;
+}
+
+.custom-nav .navbar-nav{
+    padding-left: 14px;
+}
+
+.navbar-nav li{
+   padding: 8px 18px;
+   text-align: center;
+}
+
+.navbar ul .nav-item .nav-link{
+    color: #000;
+    font-size: var(--md-text);
+    font-weight: 600;
+    transition: all .4s ease-in-out;
+    border-radius: 200px;
+}
+
+.navbar-nav .nav-item .nav-link:hover{
+    background-color: var(--custom-bg);
+    color: #ffffff;
+    
+}
+
+.hero--section .hero-section-content{
+    padding-top: 4rem;
+    position: relative;
+    z-index: 10;
+}
+
+.hero-section-content .hero-section-text{
+    margin-bottom: 24px;
+}
+
+.hero-section-text .hero-section-title{
+    font-size: var(--title-text);
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+.hero-section-text .sub--info{
+    font-size: var(--md-text);
+}
+
+.hero-section-content .navigational-area{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.navigational-area a{
+    text-decoration: none;
+    font-size: var(--md-text);
+    padding: 6px 8px;
+}
+
+.hero-section-content .navigational-area .registration-link{
+    background: var(--primary-color);
+    color: #fff;
+    border-radius: 200px;
+}
+
+.hero-section-content .navigational-area .appointment-link{
+    color: #000;
+    border: 1px solid var(--custom-bg);
+    border-radius: 200px;
+    transition: all .3s ease-in;
+}
+
+.hero-section-content .navigational-area .appointment-link:hover{
+    background-color: var(--custom-bg);
+    color: #fff;
+}
+
+
+
+
+
+
+
+
+
