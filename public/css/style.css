@@ -3,8 +3,7 @@
 :root{
     --primary-color: #0779E4;
     --custom-bg : #0C359E;
-    /* --secondary-color: #B0DAFF; */
-    --secondary-color: #c3e1f5;
+    --secondary-color: rgb(203, 230, 253);
     --body-color: #F2F6F5;
 
     --title-text : 35px;
@@ -17,6 +16,13 @@
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+  }
+
+  .title--text{
+    text-align: center;
+    font-size: var(--title-text);
+    margin-bottom: 20px;
+
   }
 
   *{
@@ -80,6 +86,7 @@ body{
     position: relative;
     min-height: 100vh;
     background-color: var(--secondary-color);
+    padding-bottom: 4rem;
 }
 
  .hero--section .img-box{
@@ -89,12 +96,13 @@ body{
     width: 100%;
     height: 100%;
 }
+
 .hero-bg .img-box img{
     height: 100%;
     width: 100%;
     object-fit: cover;
     object-position: center top;
-    opacity: 0.2;
+    opacity: 0.4;
     mix-blend-mode: multiply ;
 }
 
@@ -127,6 +135,15 @@ body{
     background-color: var(--custom-bg);
     color: #ffffff;
     
+}
+
+nav .dropdown-menu{
+    background-color: var(--secondary-color);
+}
+
+.custom-nav .dropdown-menu .dropdown-item:hover{
+    background-color: transparent;
+    color: var(--custom-bg);
 }
 
 .hero--section .hero-section-content{
@@ -176,6 +193,118 @@ body{
 .hero-section-content .navigational-area .appointment-link:hover{
     background-color: var(--custom-bg);
     color: #fff;
+}
+
+.about--part{
+    margin-top: 4rem;
+    margin-bottom: 2rem;  
+}
+.about--part .row{
+     padding: 3rem 16px 2rem 16px;
+}
+
+.about--part .text-container{
+    color: #000;
+}
+.text-container .about-text-title{
+    margin-bottom: 15px;
+    font-size: var(--large-text);
+    font-weight: 500;
+}
+
+.text-container p{
+    margin-bottom: 25px;
+}
+
+.text-container .about-btn{
+    background: var(--custom-bg);
+    color: #ffff;
+    text-decoration: none;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+}
+
+.about--part .video--box video{
+    height: 100%;
+    width: 100%;
+    border-radius: 6px;
+}
+
+/* .about--part is done! */
+
+.services{
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+}
+
+.services h4{
+    margin-bottom: 4rem;
+}
+
+.services .service--area{
+    min-height: 500px;
+    position: relative;
+   
+}
+.service--area .service--img--box{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+
+}
+.service--area .service--img--box::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0 , 0, 0, 0.6);
+}
+
+.service--area .service--img--box img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center right;
+    
+}
+.service--area .row{
+    padding-top: 5rem;
+    justify-content: end;
+
+}
+.service--area .service--title{
+    font-size: var(--large-text);
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #000;
+}
+.service--area .about--text--box{
+    background: var(--secondary-color);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 3rem;
+    box-shadow: 2px 3px 4px var(--body-color);
+}
+.service--area .service--list{
+    list-style-type: disc;
+    margin-bottom: 25px;
+}
+
+.service--area .service--list li{
+    font-size: 20px;
+    margin-bottom: 10px;
+    color:var(--custom-bg);
+}
+
+.service--area .service--btn{
+    background-color: var(--primary-color);
+    color: #F2F6F5;
+    border-radius: 10px;
+    text-decoration: none;
+    
 }
 
 

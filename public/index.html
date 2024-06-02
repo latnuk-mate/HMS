@@ -21,6 +21,13 @@
       referrerpolicy="no-referrer"
     />
 
+    <link rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" 
+    integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" 
+    />
+
     <!-- custom styles -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="imgs/icon.png" type="image/png" />
@@ -78,11 +85,17 @@
                     <a class="nav-link" href="#">Department</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Doctors</a>
-                  </li>
-                  <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
                   </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Login As
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/admin/signIn">Admin</a></li>
+                  <li><a class="dropdown-item" href="/doctor/signIn">Doctor</a></li>
+                </ul>
+              </li>
                 </ul>
               </div>
             </nav>
@@ -104,7 +117,7 @@
                   </p>
                 </div>
                 <div class="navigational-area flex-column flex-md-row">
-                 <a href="/user/signup" class="registration-link px-5 py-2">Patient Registration</a>
+                 <a href="/user/login" class="registration-link px-5 py-2">Login As Patient</a>
                  <a href="/user/appointment" class="appointment-link px-5 py-2">
                   <i class="fa-regular fa-pen-to-square"></i>
                   <span>Make An Appointment</span>
@@ -119,7 +132,80 @@
     </div>
     <!-- hero section part is done! -->
 
+    <div class="about--part">
+      <h4 class="title--text roboto-slab">About Us</h4>
+        <div class="container">
+        <div class="row g-5 align-items-center">
+          <div class="col-lg-7">
+            <div class="text-container">
+              <h5 class="about-text-title roboto-slab">About Our Hospital Management System: Empowering Healthcare Excellence</h5>
+              <p class="">At HealthHub, we understand the critical importance of efficient and 
+                effective management in healthcare delivery. Our Hospital Management System 
+                (HMS) is designed to streamline administrative processes, enhance patient care,
+                 and optimize resource utilization within healthcare facilities.
+              </p>
+            <a href="/about.html" class="about-btn px-5 py-2">Learn More</a>
+            </div>
+          </div>
+        <div class="col-lg-5">
+          <div class="video--box">
+            <video autoplay loop class="aboutVideo" controls preload="auto">
+              <source src="imgs/aboutVideo.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+<!-- About section is done! -->
+
+    <div class="services">
+      <!-- Make a title "We Provide" -->
+      <h4 class="title--text roboto-slab">Our Services</h4>
+      <!-- Make cards to display what services we provide -->
+    <div class="service--area">
+      <div class="service--img--box">
+        <img src="imgs/serviceImage.jpg" alt="">
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7">
+            <div class="about--text--box roboto-slab">
+              <h5 class="service--title">Empowering Healthcare Excellence: Explore Our Services</h5>
+              <ol class="service--list">
+                <li>Patient Registration and Management</li>
+                <li>Appointment Scheduling</li>
+                <li>Electronic Health Records (EHR) Management</li>
+                <li>Billing and Revenue Cycle Management</li>
+                <li>Quality Assurance and Compliance Monitoring</li>
+              </ol>
+              <div class="mb-4 text-center">
+                <a href="/user/signup" class="px-5 py-2 service--btn mb-5">Get Health</a> 
+              </div>
+             
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- Service section is done -->
+
+    <div class="departments">
+      <!-- make cards like UI , align image with text about various departments and some doctor names -->
+      <!-- make carousel to display what departments we have -->
+    </div>
+
+    <!-- department section is done -->
+
+    <footer class="footer-section contact--area">
+      <!-- show contact details along with some social links -->
+    </footer>
+
     <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+     crossorigin="anonymous">
+    </script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
       integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
@@ -128,5 +214,11 @@
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+    integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" 
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer">
+    </script>
   </body>
 </html>

@@ -22,36 +22,24 @@
 
     <style rel="stylesheet">
 
-      /* @media screen and (width < 600px) {
-          body{
-            padding-right: 25px;
-            padding-left: 25px;
-          }
-      } */
       body {
-        min-height: 100vh;
-        background: #F2F6F5;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f4f7f6;
         margin: 0;
         padding: 0;
-        overflow: hidden;
 
       }
-      .head--text{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
+      .title{
         color: #0C359E;
+        text-align: center;
+        font-size: 28px;
       }
-      .registration--area{
+      .appointment--area{
         background: #fff;
-        display: block;
-        margin: auto;
         margin-top: 30px;
-        width: 480px;
-        height: 470px;
-        padding: 1rem 20px 10px 20px;
+        padding: 1rem 24px 1.2rem 24px;
         border: 1px solid #0C359E;
+        border-radius: 6px;
       }
 
       form .form-control:focus{
@@ -60,56 +48,44 @@
       }
 
 
-      form .signup--btn{
+      form .appointment--btn{
         border-radius: 200px;
         background: #0C359E;
         color: #ffff;
         border: none;
       }
+
+      .msg-for-number,
+      .msg-for-pass{
+        color: red;
+        font-size: 16px;
+      }
+
+      select option{
+        font-size: medium;
+        font-weight: 500;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-        <h2 class="fw-bold mb-2 mt-5 head--text">
-          <i class="fa-solid fa-hospital"></i>
-          HealthHub</h2>
-      <div class="registration--area">
-        <h4 class="title mb-3 text-center">Registration Form!</h4>
-        <form action="/signup" method="post" name="signupForm">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+        <div class="appointment--area">
+        <h5 class="title">Get An Appointment!</h5>
+        <form action="/appointment" method="post" name="appointmentForm">
           <div class="form-group mb-2">
-            <label for="username">Your Name</label>
+            <label for="username">Patient Name</label>
             <input
               type="text"
               class="form-control"
-              id="username"
-              name="username"
-              placeholder="Enter Your Name"
+              id="patientName"
+              name="patientName"
+              placeholder="Enter Patient Name"
               required
             />
           </div>
           <div class="form-group mb-2">
-            <label for="username">Date Of Birth</label>
-            <input
-              type="date"
-              class="form-control"
-              id="dateOfBirth"
-              name="dob"
-              placeholder="dd/mm/yyyy"
-              required
-            />
-          </div>
-          <div class="form-group mb-2">
-            <label for="username">Your Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              name="email"
-              placeholder="Enter Your Email"
-              required
-            />
-          </div>
-          <div class="form-group mb-3">
             <label for="phoneNumber">Phone Number</label>
             <input
               type="text"
@@ -119,18 +95,90 @@
               placeholder="Enter Mobile Number"
               required
             />
-            <span class="msg-for-number"></span>
+        <span class="msg-for-number"></span>
+        </div>
+      <div class="form-group mb-2">
+        <label for="doctors">Choose Your Doctor</label>
+        <select name="doctors" id="doctors" class="form-control" required>
+        <option value="">Appointment With Your Preferred Doctor</option>
+          <option value="Dr Akash Sen">Dr. Akash Sen
+            <optgroup label="doctor-info">
+              <option disabled>[ Heart Specialist ]</option>
+              <option disabled>Available On [Tuesday , Friday]</option>
+            </optgroup>
+          </option>
+        <hr />
+          <option value="Dr Kushal Singh">Dr. Kushal Singh
+            <optgroup label="doctor-info">
+              <option disabled>[ Child Specialist ]</option>
+              <option disabled>Available On [Sunday , Wednesday]</option>
+            </optgroup>
+          </option>
+          <hr />
+          <option value="Dr Rohit Mehera">Dr. Rohit Mehera
+            <optgroup label="doctor-info">
+              <option disabled>[ ENT Specialist ]</option>
+              <option disabled>Available On [Monday , Thursday]</option>
+            </optgroup>
+          </option>
+          <hr />
+          <option value="Dr Kunal Bose">Dr. Kunal Bose
+            <optgroup label="doctor-info">
+              <option disabled>[ Eye Specialist ]</option>
+              <option disabled>Available On [Tuesday , Saturday]</option>
+            </optgroup>
+          </option>
+        </select>
+    </div>
+
+    <div class="form-group mb-2">
+      <label for="date">Book Your date</label>
+      <input
+        type="date"
+        class="form-control"
+        id="date"
+        name="date"
+        required
+      />
+  </div>
+          <div class="form-group mb-3">
+            <label for="address">Describe Your Health Issue</label>  
+            <textarea name="health"
+             id="health" rows="2"
+            class="form-control" required>
+            </textarea>
           </div>
-          <button type="submit" class="px-5 py-2 signup--btn form-control" id="signup">Create Account</button>
+          <button type="submit" class="px-5 py-2 appointment--btn form-control" id="signup">Make Appointment</button>
         </form>
+      </div>  
+       </div>
       </div>
 
-    <p class="text-center mt-2">Already have an account? <a href="/user/login" class="text-decoration-none fw-bold ms-1">Sign In</strong></p>
     </div>
 
     <script>
-      const number = document.getElementById('number');
 
+      const number = document.getElementById('number');
+      const password = document.getElementById('pass');
+      const pattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).*$/;
+
+      let weekDay =  ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      
+      const datePicker = document.getElementById('date');
+       const doctors = document.getElementById('doctors');
+
+
+      datePicker.addEventListener('change' , ()=>{
+        let date = new Date(datePicker.value);
+         let day = weekDay[date.getDay()];
+         if(doctors.value == "Dr Kunal Bose"){
+              if(day !== "Tuesday" || day !== "Saturday"){
+                alert("Dr. is not avaiable on that day!")
+              }
+         }
+      });
+
+   
       function isNumber(num) {
         if (!isNaN(num)) {
           if (num.length > 10 || num.length < 10) {
@@ -151,13 +199,14 @@
         return true;
       }
 
-      document.forms["signupForm"].addEventListener("submit", (event) => {
+
+      document.forms["appointmentForm"].addEventListener("submit", (event) => {
         event.preventDefault();
 
-        if( isNumber(number.value)){
-          document.forms["signupForm"].submit();
+        if(isNumber(number.value)){
+          document.forms["appointmentForm"].submit();
         }else{
-          document.forms["signupForm"].reset();
+          document.forms["appointmentForm"].reset();
         }
         
       });

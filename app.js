@@ -1,39 +1,64 @@
 require('dotenv').config(); // setting up the env file.
 const express = require('express');
 const Path = require('path');
+const MongoStore = require('connect-mongo');
+const mongoose = require('mongoose');
+const Flash = require('express-flash');
+const Session = require('express-session');
+const passport = require('passport');
 
 const app = express(); //express initializer
+
+
+// setting up the databse..
+const connection = require('./config/db');
+connection();
+
+// calling localStrategy...
+const strategy = require('./config/passportStrategy');
+strategy();
+
+
 
 // setting up the template engine..
 app.set('views' , 'views');
 app.set('view engine' , 'ejs');
 
-
 // using some middlewares && static file rendering...
 app.use(express.urlencoded({extended : false}));
 app.use('/', express.static(Path.join(__dirname , "public")));
 
+app.use(Flash());
+app.use(Session({
+    secret : process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized : false,
+    store : MongoStore.create({
+        mongoUrl : process.env.MONGO_URI,
+        mongooseConnection: mongoose.connection
+    })
+}));
 
-app.use('/user/login' , (req,res)=>{
-    res.render('userlogin');
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next)=>{
+    res.locals.user = req.user;
+    next();
 });
 
-app.use('/user/signup' , (req,res)=>{
-    res.render('registration');
+
+app.use((req,res,next)=>{
+    req.flash('flash' , "Incorrect Credentials!");
+    next();
 })
 
 
-app.post('/login' , (req,res)=>{
 
-    const {phone}  = req.body;
-    res.json({"Number" : phone});
-});
+app.use('/' , require('./route/user'));
+app.use('/' , require('./route/main'));
 
-app.post('/signup' , (req,res)=>{
 
-    const {username, dob , email , phone}  = req.body;
-    res.json({"Name" : username , "Date Of Birth" : dob , "Email" : email , "Number" : phone});
-});
 
 
 
