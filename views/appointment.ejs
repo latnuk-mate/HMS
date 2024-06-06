@@ -158,13 +158,18 @@
 
     <script>
 
+
+      // creating doctors data...
+      // let doctor = [
+      //   {"Kunal Bose" : {spciality : "Ent" , availability : ["Sunday" , "Monday"]}}
+      // ]
       const number = document.getElementById('number');
       let weekDay =  ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
       
       const datePicker = document.getElementById('date');
        const doctors = document.getElementById('doctors');
 
-
+    
       datePicker.addEventListener('change' , ()=>{
         let date = new Date(datePicker.value);
          let day = weekDay[date.getDay()];

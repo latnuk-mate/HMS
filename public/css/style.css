@@ -44,7 +44,7 @@ body{
 }
 
 .topbar{
-    background: var(--custom-bg);
+    background: var(--primary-color);
     padding: 12px 10px;
 }
 
@@ -78,7 +78,7 @@ body{
 
 .topbar-content-box .social-links a{
     font-size: var(--md-text);
-    color: var(--custom-bg);
+    color: var(--primary-color);
     text-decoration: none;
 }
 
@@ -101,7 +101,7 @@ body{
     height: 100%;
     width: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: top center;
     opacity: 0.4;
     mix-blend-mode: multiply ;
 }
@@ -132,7 +132,7 @@ body{
 }
 
 .navbar-nav .nav-item .nav-link:hover{
-    background-color: var(--custom-bg);
+    background-color: var(--primary-color);
     color: #ffffff;
     
 }
@@ -302,9 +302,83 @@ nav .dropdown-menu{
 .service--area .service--btn{
     background-color: var(--primary-color);
     color: #F2F6F5;
-    border-radius: 10px;
+    border-radius: 100px;
     text-decoration: none;
     
+}
+
+.departments{
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+}
+
+.departments .department--title{
+    font-size: var(--title-text);
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.departments .department--list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+    gap: 14px;
+}
+
+.department--list li{
+    padding: 7px 25px;
+    font-size: var(--md-text);
+    color: var(--custom-bg);
+    border-radius: 100px;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+    border: 1px solid var(--custom-bg);
+}
+.department--list li.active{
+    background-color: var(--custom-bg);
+    color: var(--body-color);
+}
+
+.departments .department--card{
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+.department--card .img--box{
+    height: 210px;
+    position: relative; 
+}
+
+.department--card .img--box img{
+    border-bottom-left-radius: 45px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.department--card .information--field{
+    padding: 10px;
+    color: var(--custom-bg);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.information--field .department--name{
+    font-size: var(--large-text);
+    margin-bottom: 10px;
+}
+.information--field .department--name.it{
+    font-size: var(--md-text);
+}
+
+.information--field a{
+    background: var(--custom-bg);
+    color: var(--body-color);
+    border-radius: 100px;
+    text-decoration: none;
 }
 
 
