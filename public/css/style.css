@@ -402,9 +402,6 @@ nav .dropdown-menu{
     font-size: var(--md-text);
 }
 
-.contact--area .quick--links{
-    /* text-align: center; */
-}
 .contact--area .quick--links a{
     display: block;
     margin-bottom: 8px;
