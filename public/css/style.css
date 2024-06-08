@@ -330,14 +330,17 @@ nav .dropdown-menu{
     padding: 7px 25px;
     font-size: var(--md-text);
     color: var(--custom-bg);
-    border-radius: 100px;
     transition: all .3s ease-in-out;
     cursor: pointer;
-    border: 1px solid var(--custom-bg);
 }
 .department--list li.active{
+    border-radius: 100px;
     background-color: var(--custom-bg);
     color: var(--body-color);
+}
+
+.departments .all{
+    margin-bottom: 2rem;
 }
 
 .departments .department--card{
@@ -379,6 +382,12 @@ nav .dropdown-menu{
     color: var(--body-color);
     border-radius: 100px;
     text-decoration: none;
+}
+
+
+.footer--section{
+    background: var(--primary-color);
+    margin-top: 3rem;
 }
 
 
