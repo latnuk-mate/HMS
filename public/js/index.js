@@ -17,5 +17,12 @@ $(window).on('load' , function(){
         masonry: {
           columnWidth: '.all'
         }
+      });
+
+
+
+      $('.feedback--form').submit(function(event){
+          event.preventDefault();
+          location.href = '/user/login';
       })
 })

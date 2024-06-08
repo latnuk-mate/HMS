@@ -344,8 +344,57 @@
        <div class="container">
         <div class="row g-5">
           <div class="col-lg-4">
-            <h5></h5>
+            <h5 class="footer--title roboto-slab">Contact</h5>
+            <div class="contact--links">
+              <p><i class="fa fa-home me-1"></i>Kolkata, India, SaltLake</p>
+              <p><i class="fa fa-envelope me-1"></i>heathhub@yahoo.com</p>
+              <p><i class="fa fa-phone me-1"></i>+91 123456743</p>
+            </div>
           </div>
+        <div class="col-lg-4">
+          <h5 class="footer--title roboto-slab">Quick Links</h5>
+          <div class="quick--links">
+            <a href="about.html">About Us</a>
+            <a href="service.html">Services</a>
+            <a href="doctors.html">Doctors</a>
+            <a href="faq.html">FAQs</a>
+            <a href="privacy.html">Privacy & Policy</a>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <h5 class="footer--title roboto-slab">Feedback Form</h5>
+          <form action="/user/feedback" method="post" name="feedback--form" class="feedback--form">
+            <div class="form-group mb-2">
+              <input type="text" class="form-control" placeholder="Your Name" name="feedbackUser">
+            </div>
+            <div class="form-group mb-2">
+              <input type="email" class="form-control" placeholder="Your Email" name="feedbackEmail">
+            </div>
+            <div class="form-group mb-2">
+              <textarea name="feedbackArea" id="feedbackArea"
+               placeholder="Your Experience!" class="form-control">
+              </textarea>
+            </div>
+          <button type="submit" class="form-control feedback--btn">Submit</button>
+          </form>
+        </div>
+
+        <div class="col-lg-4">
+         <h5 class="footer--title roboto-slab">HealthHub</h5>
+         <p>We believe in revolutionizing healthcare
+          management with innovation and precision. Our comprehensive
+          hospital management system is engineered to streamline
+          operations.</p>
+        </div>
+      <div class="col-lg-4">
+        <h5 class="roboto-slab">Copyrights &copy; Reserved!</h5>
+      </div>
+
+      <div class="col-lg-4">
+        <h5 class="roboto-slab mb-4">Register for HealthTips</h5>
+        <a href="/user/signup" class="px-5 py-2 roboto-slab footer--btn">Register Now</a>
+      </div>
         </div>
        </div>
     </footer>

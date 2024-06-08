@@ -388,6 +388,56 @@ nav .dropdown-menu{
 .footer--section{
     background: var(--primary-color);
     margin-top: 3rem;
+    padding-bottom: 2rem;
+    color: var(--body-color);
+    text-align: center;
+}
+
+.contact--area .footer--title{
+    font-size: var(--large-text);
+    margin-bottom: 10px;
+}
+
+.contact--area .contact--links p{
+    font-size: var(--md-text);
+}
+
+.contact--area .quick--links{
+    /* text-align: center; */
+}
+.contact--area .quick--links a{
+    display: block;
+    margin-bottom: 8px;
+    color: var(--body-color);
+    text-decoration: none;
+    font-size: var(--md-text);
+}
+
+.contact--area .quick--links a:hover{
+    color: var(--custom-bg)
+}
+
+.contact--area form .form-control:focus{
+    outline: none;
+    box-shadow: none;
+    border: 1px solid  var(--custom-bg);
+}
+
+.contact--area form .feedback--btn{
+    border-radius: 100px;
+    background-color: var(--custom-bg);
+    color: var(--body-color);
+    font-size: var(--md-text);
+    border: 1px solid var(--custom-bg);
+}
+
+.contact--area .footer--btn{
+    text-decoration: none;
+    font-size: var(--md-text);
+    color: var(--body-color);
+    border: 1px solid var(--custom-bg);
+    background-color: var(--custom-bg);
+    border-radius: 100px;
 }
 
 
