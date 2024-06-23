@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMIN DASHBOARD | DEPARTMENT</title>
+<style>
+    .department--area{
+        height: 550px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+
+   .main--area .card .img--box{
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+  }
+
+  .card .img--box img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  } 
+
+  
+
+</style>
+</head>
+<body>
+<h5 class="text-center fs-4 pb-3">Check All Departments</h5> 
+<section class="department--area">
+    <div class="row g-4">
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card p-2 bg-secondary text-white">
+            <div class="d-flex justify-content-around align-items-center">
+                <div class="img--box">
+                    <img src="/imgs/neurologycom.jpg" alt="neuro">
+                  </div>
+                 <h5 class="mb-2 fs-4">Neurology</h5>
+            </div>
+            <div class="card-body text-center">
+             <div class="mb-3">
+                <!-- staff details -->
+               <% doctors.map((doctor)=>{ %>
+                    <% if(doctor.Department === "Neurology"){ %>
+                       <% value++ %>
+                    <% } %>
+              <%  }) %>
+              <p>Total Staff: <%= value %></p>
+              <% value = 0 %>
+             </div>
+              <a href="/view/department/neuro" 
+              class="text-decoration-none text-white px-5 py-2 bg-primary rounded-pill">View Details</a>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card p-2 bg-secondary text-white">
+            <div class="d-flex justify-content-around align-items-center">
+                <div class="img--box">
+                    <img src="/imgs/cardiologycom.jpg" alt="cardio">
+                  </div>
+                 <h5 class="mb-2 fs-4">Cardiology</h5>
+            </div>
+            <div class="card-body text-center">
+             <div class="mb-3">
+                <!-- staff details -->
+               <% doctors.map((doctor)=>{ %>
+                    <% if(doctor.Department === "Cardiology"){ %>
+                       <% value++ %>
+                    <% } %>
+              <%  }) %>
+              <p>Total Staff: <%= value %></p>
+              <% value = 0 %>
+             </div>
+              <a href="/view/department/cardio" 
+              class="text-decoration-none text-white px-5 py-2 bg-primary rounded-pill">View Details</a>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card p-2 bg-secondary text-white">
+            <div class="d-flex justify-content-around align-items-center">
+                <div class="img--box">
+                    <img src="/imgs/pathologycom.jpg" alt="patho">
+                  </div>
+                 <h5 class="mb-2 fs-4">Pathology</h5>
+            </div>
+            <div class="card-body text-center">
+             <div class="mb-3">
+                <!-- staff details -->
+               <% doctors.map((doctor)=>{ %>
+                    <% if(doctor.Department === "Pathology"){ %>
+                       <% value++ %>
+                    <% } %>
+              <%  }) %>
+              <p>Total Staff: <%= value %></p>
+              <% value = 0 %>
+             </div>
+              <a href="/view/department/patho" 
+              class="text-decoration-none text-white px-5 py-2 bg-primary rounded-pill">View Details</a>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card p-2 bg-secondary text-white">
+            <div class="d-flex justify-content-around align-items-center">
+                <div class="img--box">
+                    <img src="/imgs/oncologycom.jpg" alt="onco">
+                  </div>
+                 <h5 class="mb-2 fs-4">Oncology</h5>
+            </div>
+            <div class="card-body text-center">
+             <div class="mb-3">
+                <!-- staff details -->
+               <% doctors.map((doctor)=>{ %>
+                    <% if(doctor.Department === "Oncology"){ %>
+                       <% value++ %>
+                    <% } %>
+              <%  }) %>
+              <p>Total Staff: <%= value %></p>
+              <% value = 0 %>
+             </div>
+              <a href="/view/department/onco" 
+              class="text-decoration-none text-white px-5 py-2 bg-primary rounded-pill">View Details</a>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card p-2 bg-secondary text-white">
+            <div class="d-flex justify-content-around align-items-center">
+                <div class="img--box">
+                    <img src="/imgs/computercom.jpg" alt="Information">
+                  </div>
+                 <h5 class="mb-2 fs-4">Operators</h5>
+            </div>
+            <div class="card-body text-center">
+             <div class="mb-3">
+                <!-- staff details -->
+               <% staffs.map((staff)=>{ %>
+                    <% if(staff.Department === "Operators"){ %>
+                       <% value++ %>
+                    <% } %>
+              <%  }) %>
+              <p>Total Staff: <%= value %></p>
+              <% value = 0 %>
+             </div>
+              <a href="/view/department/information" 
+              class="text-decoration-none text-white px-5 py-2 bg-primary rounded-pill">View Details</a>
+            </div>
+        </div>
+      </div>
+
+
+    </div>
+   </section>  
+    
+
+</body>
+</html>
+
+
+
+
+

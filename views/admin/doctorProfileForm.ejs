@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Doctor Profile | PROFILE</title>
+
+<style>
+
+    .form-control:focus{
+      box-shadow: none;
+      outline: none;
+      border: 1px solid #070F2B;
+    }
+
+</style>
+</head>
+<body>
+  <div class="text-center text-danger mb-1">
+    <%= typeof msg != 'undefined' ? msg : "" %>
+     
+  </div>
+    <h5 class="text-center fs-4 mb-1">Create a Doctor's Profile!</h5>  
+    <!-- Designing the doctor page -->
+  <div class="doctors--area mt-2">
+    <!-- copy this area -->
+        <div class="row justify-content-center pb-2">
+        <div class="col-lg-8">
+          <!-- doctor form -->
+           <form action="/doctor/profile/save" method="post" id="doctorForm" class="p-3 border border-primary bg-white" enctype="multipart/form-data">
+            <div class="form-group mb-3">
+              <label for="DoctorName">Doctor's Name</label>
+              <input type="text"
+               name="doctorName"
+               class="form-control"
+               required />
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="DoctorEmail">Doctor's Email</label>
+              <input type="email"
+               name="doctorEmail"
+               class="form-control" 
+               required/>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="DoctorPhone">Doctor's Phone</label>
+              <input type="text"
+               name="doctorPhone"
+               id="doctorsPhone"
+               class="form-control"
+               required/>
+              <span class="msg-for-phone"></span>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="doctorDepartment">Which Department!</label>
+              <input type="text"
+               name="doctorDepartment"
+               class="form-control" 
+               required/>
+            </div>
+  
+            <div class="form-group mb-3">
+              <label for="DoctorDays">Available On ! [Choose at least two days]</label>
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <select name="doctorDate1" id="date" class="form-control">
+                    <option disabled selected>Select a day</option>
+                    <option value="Sunday">Sunday</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                  </select>
+                </div>
+                <div class="col-sm-6">
+                  <select name="doctorDate2" id="date" class="form-control">
+                    <option disabled selected>Select a day</option>
+                    <option value="Sunday">Sunday</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                  </select>
+                </div>
+              </div>
+           </div>
+            <div class="form-group mb-3">
+              <label for="photo">Set a Profile Photo</label>
+              <input type="file"
+                class="form-control"
+                 name="doctorImage"
+                 />
+            </div>
+          <button type="submit" class="form-control rounded-pill bg-primary text-white mb-2">Create Profile</button>
+          </form>
+        </div>
+
+
+      </div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+      <script>
+  
+        $(window).on('load' , function(){
+        
+            function isNumber(){
+              let number = $('#doctorsPhone').val();
+              if($.isNumeric(number)){
+              if(number.length > 10 || number.length < 10){
+                $('.msg-for-phone').css('color' , 'red');
+                $('.msg-for-phone').html('Please Provide a correct number');
+                return false;
+              } 
+            }else{
+               $('.msg-for-phone').css('color' , 'red');
+              $('.msg-for-phone').html('Please Provide a number');
+              return false;
+            }
+      
+              return true;
+            }
+      
+      
+          $('#doctorForm').submit(function(e){
+            e.preventDefault();
+      
+            if(isNumber()){
+                $('#doctorForm').unbind('submit').submit();
+            }
+      
+          
+          });
+      
+      
+        })
+      </script>
+    
+</body>
+</html>

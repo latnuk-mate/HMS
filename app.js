@@ -6,8 +6,11 @@ const mongoose = require('mongoose');
 const Flash = require('express-flash');
 const Session = require('express-session');
 const passport = require('passport');
+const layouts = require('express-ejs-layouts');
+const cookieParser = require('cookie-parser')
 
 const app = express(); //express initializer
+
 
 
 // setting up the databse..
@@ -19,15 +22,21 @@ const strategy = require('./config/passportStrategy');
 strategy();
 
 
-
 // setting up the template engine..
 app.set('views' , 'views');
 app.set('view engine' , 'ejs');
+app.set('layout' , "layouts/layout");
+
 
 // using some middlewares && static file rendering...
 app.use(express.urlencoded({extended : false}));
 app.use('/', express.static(Path.join(__dirname , "public")));
 
+// initializing the layouts
+app.use(layouts);
+
+
+app.use(cookieParser());
 app.use(Flash());
 app.use(Session({
     secret : process.env.SESSION_SECRET,

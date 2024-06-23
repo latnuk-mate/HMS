@@ -4,7 +4,7 @@ const passport = require('passport')
 const router = Router();
 
 const {Patient} = require('../Model/patient');
-const { AuthUser } = require('../middleware/userAuth');
+const { AuthUser, AuthAdmin } = require('../middleware/userAuth');
 
 
 router.get('/user/login', AuthUser, (req,res)=>{
@@ -19,7 +19,7 @@ router.get('/doctor/signIn' , (req,res)=>{
     res.render('verification/doctorLogin' ,  {error : " "})
 });
 
-router.get('/admin/signIn' , (req,res)=>{
+router.get('/admin/signIn' , AuthAdmin, (req,res)=>{
     res.render('verification/adminLogin' , {error : " "})
 })
 
@@ -70,6 +70,7 @@ router.post('/admin/post/login' , (req, res)=>{
     const {adminId , adminPass} = req.body;
     try{
         if(adminId === process.env.ADMIN_ID && adminPass === process.env.ADMIN_PASS){
+            res.cookie('admin' , true);
             res.status(302).redirect('/admin/dashboard');
         }else{
             res.render("verification/adminLogin" , {error : req.flash("flash")});
@@ -84,8 +85,12 @@ router.get('/user/logout' , (req,res,next)=>{
         if(err) throw err;
     });
     res.redirect('/user/login');
-})
+});
 
+router.get('/admin/logout', (req,res)=>{
+    res.clearCookie('admin')
+    .redirect(302 , '/admin/signIn');
+})
 
 
 module.exports = router;
