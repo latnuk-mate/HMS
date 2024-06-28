@@ -13,6 +13,14 @@
       border: 1px solid #070F2B;
     }
 
+    .page {
+      display: none;
+    }
+
+    .page:first-child {
+      display: block;
+    }
+
 </style>
 </head>
 <body>
@@ -20,85 +28,236 @@
     <%= typeof msg != 'undefined' ? msg : "" %>
      
   </div>
-    <h5 class="text-center fs-4 mb-1">Create a Doctor's Profile!</h5>  
+    <h5 class="text-center fs-4 mb-2">Create a Doctor's Profile!</h5>  
     <!-- Designing the doctor page -->
   <div class="doctors--area mt-2">
+  
     <!-- copy this area -->
         <div class="row justify-content-center pb-2">
-        <div class="col-lg-8">
+        <div class="col-lg-8 shadow shadow-lg rounded bg-white p-3">
+          <!-- progress bar of the form -->
+          <div class="progress mb-2" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" style="width: 0%"></div>
+          </div>
+
           <!-- doctor form -->
-           <form action="/doctor/profile/save" method="post" id="doctorForm" class="p-3 border border-primary bg-white" enctype="multipart/form-data">
-            <div class="form-group mb-3">
-              <label for="DoctorName">Doctor's Name</label>
-              <input type="text"
-               name="doctorName"
-               class="form-control"
-               required />
-            </div>
-
-            <div class="form-group mb-3">
-              <label for="DoctorEmail">Doctor's Email</label>
-              <input type="email"
-               name="doctorEmail"
-               class="form-control" 
-               required/>
-            </div>
-
-            <div class="form-group mb-3">
-              <label for="DoctorPhone">Doctor's Phone</label>
-              <input type="text"
-               name="doctorPhone"
-               id="doctorsPhone"
-               class="form-control"
-               required/>
-              <span class="msg-for-phone"></span>
-            </div>
-
-            <div class="form-group mb-3">
-              <label for="doctorDepartment">Which Department!</label>
-              <input type="text"
-               name="doctorDepartment"
-               class="form-control" 
-               required/>
-            </div>
+           <form action="/doctor/profile/save" method="post" id="doctorForm" class="p-1" enctype="multipart/form-data" name="doctorForm">
+            <div class="page" id="FormPage1">
+              <h5 class="text-center mb-2 fs-4">Personal Information</h5>
+              <div class="form-group mb-3">
+                <label for="DoctorName">Doctor's Name</label>
+                <input type="text"
+                 name="doctorName"
+                 class="form-control"
+                 required />
+              </div>
   
-            <div class="form-group mb-3">
-              <label for="DoctorDays">Available On ! [Choose at least two days]</label>
-              <div class="row g-3">
-                <div class="col-sm-6">
-                  <select name="doctorDate1" id="date" class="form-control">
-                    <option disabled selected>Select a day</option>
-                    <option value="Sunday">Sunday</option>
-                    <option value="Monday">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                  </select>
+              <div class="form-group mb-3">
+                <label for="DoctorEmail">Doctor's Email</label>
+                <input type="email"
+                 name="doctorEmail"
+                 class="form-control" 
+                 required/>
+              </div>
+  
+              <div class="form-group mb-3">
+                <label for="DoctorPhone">Doctor's Phone</label>
+                <input type="text"
+                 name="doctorPhone"
+                 id="doctorsPhone"
+                 class="form-control"
+                 required/>
+                <span class="msg-for-phone"></span>
+              </div>
+  
+    
+              <div class="form-group mb-3">
+                <label for="DoctorDays">Available On ! [Choose at least two days]</label>
+                <div class="row g-3">
+                  <div class="col-sm-6">
+                    <select name="doctorDate1" id="date" class="form-control" required>
+                      <option disabled selected>Select a day</option>
+                      <option value="Sunday">Sunday</option>
+                      <option value="Monday">Monday</option>
+                      <option value="Tuesday">Tuesday</option>
+                      <option value="Wednesday">Wednesday</option>
+                      <option value="Thursday">Thursday</option>
+                      <option value="Friday">Friday</option>
+                      <option value="Saturday">Saturday</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-6">
+                    <select name="doctorDate2" id="date" class="form-control" required>
+                      <option disabled selected>Select a day</option>
+                      <option value="Sunday">Sunday</option>
+                      <option value="Monday">Monday</option>
+                      <option value="Tuesday">Tuesday</option>
+                      <option value="Wednesday">Wednesday</option>
+                      <option value="Thursday">Thursday</option>
+                      <option value="Friday">Friday</option>
+                      <option value="Saturday">Saturday</option>
+                    </select>
+                  </div>
                 </div>
+             </div>
+
+              <div class="form-group mb-3">
+                <label for="photo">Set a Profile Photo</label>
+                <input type="file"
+                  class="form-control"
+                   name="doctorImage"
+                   required
+                   />
+              </div>
+            <button onclick="nextPage()" 
+            class="px-5 py-2 bg-primary text-white border-0 next"
+            style="border-radius: 100px;">Next</button>
+            </div>
+            <!-- first form page -->
+             <div class="page" id="FormPage2">
+              <h5 class="text-center fs-4 mb-2">Professional Information</h5>
+              <div class="form-group mb-3">
+                <label for="doctorLicense">Medical License Number</label>
+                <input type="text"
+                 name="doctorLicense"
+                 id="doctorLicense"
+                 class="form-control" 
+                 required/>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="doctorAcademics">Academic Details</label>
+                <select name="doctorAcademics" id="" class="form-control" name="academics" required>
+                  <option value="" disabled selected>Select Doctor's Academic Details</option>
+                  <option value="md">M.D</option>
+                  <option value="phd">PH.D</option>
+                  <option value="mbbs">MBBS</option>
+                </select>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="doctorSpeciality">Speciality / Area of Expertise</label>
+                <input type="text"
+                 name="doctorSpeciality"
+                 class="form-control" 
+                 required/>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="doctorSubSpeciality">Sub-specialties (if any)</label>
+                <input type="text"
+                 name="doctorSubSpeciality"
+                 class="form-control" 
+                 />
+              </div>
+
+              <button onclick="prevPage()"
+              class="px-5 py-2 bg-primary text-white border-0"
+              style="border-radius: 100px;">Back</button>
+              <button onclick="nextPage()" 
+              class="px-5 py-2 bg-primary text-white border-0 next"
+              style="border-radius: 100px;">Next</button>
+              </div>
+              <!-- second page part -->
+
+            <div class="page" id="FormPage3">
+              <h5 class="text-center fs-4 mb-2">Employment Details</h5>
+
+              <div class="form-group mb-3">
+                <label for="doctorEmploymentArea">Hospital or Clinic Affiliation</label>
+                <input type="text"
+                 name="doctorEmploymentArea"
+                 class="form-control"
+                 required/>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="doctorDepartment">Which Department!</label>
+                <input type="text"
+                 name="doctorDepartment"
+                 class="form-control" 
+                 required/>
+              </div>
+          
+              <div class="form-group mb-3">
+                <label for="doctorEmploymentArea">Employment Status</label>
+                <select name="doctorEmploymentStatus" id="" class="form-control" name="empStatus" required>
+                  <option value="" disabled selected>Select Doctor's Employment Status</option>
+                  <option value="fullTime">Full-Time</option>
+                  <option value="partTime">Part-Time</option>
+                  <option value="visitingConsultant">Visting Consultant</option>
+                </select>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="doctorEmploymentDate">Employment Start Date</label>
+                  <input type="date" class="form-control" name="EmpDate" required>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="workingTime">Working Hours [Time Span]</label>
+                 <div class="row">
                 <div class="col-sm-6">
-                  <select name="doctorDate2" id="date" class="form-control">
-                    <option disabled selected>Select a day</option>
-                    <option value="Sunday">Sunday</option>
-                    <option value="Monday">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                  </select>
+                  <input type="time"
+                  class="form-control"
+                   name="doctorHours1"
+                   required
+                   />
+                </div> 
+                  <div class="col-sm-6">
+                    <input type="time"
+                    class="form-control"
+                     name="doctorHours2"
+                     required
+                     />
+                  </div> 
                 </div>
               </div>
-           </div>
-            <div class="form-group mb-3">
-              <label for="photo">Set a Profile Photo</label>
-              <input type="file"
-                class="form-control"
-                 name="doctorImage"
-                 />
+
+              <button onclick="prevPage()"
+              class="px-5 py-2 bg-primary text-white border-0 "
+              style="border-radius: 100px;">Back</button>
+
+              <button onclick="nextPage()" 
+              class="px-5 py-2 bg-primary text-white border-0 next"
+              style="border-radius: 100px;">Next</button>
             </div>
-          <button type="submit" class="form-control rounded-pill bg-primary text-white mb-2">Create Profile</button>
+            <!-- third page is done! -->
+
+            <div class="page" id="FormPage4">
+                <h5 class="text-center fs-4 mb-2">Account SetUp</h5>
+                <div class="form-group mb-3">
+                    <label for="doctorUser">Set a UserName</label>
+                    <input type="text"
+                     class="form-control"
+                     name="doctorUser"
+                     required/>
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="doctorPass">Set a Password</label>
+                    <input type="password"
+                     name="doctorPass"
+                     class="form-control"
+                     required/>
+                  </div>
+ 
+                  <div class="d-flex justify-content-between align-items-center">
+                    <button onclick="prevPage()" 
+                    class="px-5 py-2 bg-primary text-white border-0 "
+                    style="border-radius: 100px;">Back</button>
+
+                    <button 
+                    type="submit" 
+                    class="px-5 py-2 rounded-pill bg-primary text-white mb-2 border-0">
+                    Create Profile
+                   </button>
+                  </div>
+
+            </div>
+             </div>
+        
+            </div>
+         
           </form>
         </div>
 
@@ -109,9 +268,51 @@
       crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
       <script>
+
+let currentPage = 0;
+let prevProgress = 0;
+      let pages = document.querySelectorAll('.page');
+      const progressBar = document.querySelector('.progress-bar');
+
+      function showPage(index){
+        pages[currentPage].style.display = 'none';
+         currentPage = index;
+         pages[index].style.display = 'block';
+      }
+
+      function nextPage(){
+        if(currentPage < pages.length - 1){
+          showPage(currentPage + 1);
+          if(currentPage == 1){
+             prevProgress += 50;
+          }else{
+            prevProgress += 25;
+          }
+         
+          progressBar.style.width = `${prevProgress}%`;
+        }
+      }
+ 
+
+    
+
+
+      function prevPage(){
+        if(currentPage > 0){
+          showPage(currentPage - 1);
+          if(currentPage == 0){
+             prevProgress -= 50;
+          }else{
+            prevProgress -= 25;
+          }
+          progressBar.style.width = `${prevProgress}%`;
+        }
+      }
+      
+  
+
   
         $(window).on('load' , function(){
-        
             function isNumber(){
               let number = $('#doctorsPhone').val();
               if($.isNumeric(number)){
@@ -132,7 +333,6 @@
       
           $('#doctorForm').submit(function(e){
             e.preventDefault();
-      
             if(isNumber()){
                 $('#doctorForm').unbind('submit').submit();
             }

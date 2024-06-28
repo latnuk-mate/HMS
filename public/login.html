@@ -65,98 +65,81 @@
         font-size: medium;
         font-weight: 500;
       }
-    </style>
+
+    .page {
+      display: none;
+    }
+
+    .page:first-child {
+      display: block;
+    }
+  </style>
   </head>
   <body>
-    <div class="container">
+ 
       <div class="row justify-content-center">
-        <div class="col-lg-8">
-        <div class="appointment--area">
-        <h5 class="title">Get An Appointment!</h5>
-        <form action="/appointment" method="post" name="appointmentForm">
-          <div class="form-group mb-2">
-            <label for="username">Patient Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="patientName"
-              name="patientName"
-              placeholder="Enter Patient Name"
-              required
-            />
+        <div class="col-lg-6 shadow shadow-lg rounded bg-white p-3">
+
+          <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" style="width: 0%"></div>
           </div>
-          <div class="form-group mb-2">
-            <label for="phoneNumber">Phone Number</label>
-            <input
-              type="text"
-              class="form-control"
-              id="number"
-              name="phone"
-              placeholder="Enter Mobile Number"
-              required
-            />
-        <span class="msg-for-number"></span>
+
+          <div class="container">
+          <div id="firstPage" class="page">
+            <h5>First Page bok</h5>
+            <p>Helo,</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <button onclick="nextPage()">Next</button>
+          </div>
+  
+          <div id="secondPage" class="page">
+            <h5>Second Page</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              ipsum dolor sit amet consectetur adipisicing elit. Adipisci soluta in itaque, mollitia debitis
+            </p>
+
+
+            <button onclick="prevPage()">Back</button>
+            <button onclick="nextPage()">Next</button>
+          </div>
+          </div>
+       
+
+
+
+  
         </div>
-      <div class="form-group mb-2">
-        <label for="doctors">Choose Your Doctor</label>
-        <select name="doctors" id="doctors" class="form-control" required>
-        <option value="">Appointment With Your Preferred Doctor</option>
-          <option value="Dr Akash Sen">Dr. Akash Sen
-            <optgroup label="doctor-info">
-              <option disabled>[ Heart Specialist ]</option>
-              <option disabled>Available On [Tuesday , Friday]</option>
-            </optgroup>
-          </option>
-        <hr />
-          <option value="Dr Kushal Singh">Dr. Kushal Singh
-            <optgroup label="doctor-info">
-              <option disabled>[ Child Specialist ]</option>
-              <option disabled>Available On [Sunday , Wednesday]</option>
-            </optgroup>
-          </option>
-          <hr />
-          <option value="Dr Rohit Mehera">Dr. Rohit Mehera
-            <optgroup label="doctor-info">
-              <option disabled>[ ENT Specialist ]</option>
-              <option disabled>Available On [Monday , Thursday]</option>
-            </optgroup>
-          </option>
-          <hr />
-          <option value="Dr Kunal Bose">Dr. Kunal Bose
-            <optgroup label="doctor-info">
-              <option disabled>[ Eye Specialist ]</option>
-              <option disabled>Available On [Tuesday , Saturday]</option>
-            </optgroup>
-          </option>
-        </select>
-    </div>
-
-    <div class="form-group mb-2">
-      <label for="date">Book Your date</label>
-      <input
-        type="date"
-        class="form-control"
-        id="date"
-        name="date"
-        required
-      />
-  </div>
-          <div class="form-group mb-3">
-            <label for="address">Describe Your Health Issue</label>  
-            <textarea name="health"
-             id="health" rows="2"
-            class="form-control" required>
-            </textarea>
-          </div>
-          <button type="submit" class="px-5 py-2 appointment--btn form-control" id="signup">Make Appointment</button>
-        </form>
-      </div>  
-       </div>
       </div>
-
-    </div>
+   
 
     <script>
+
+      let currentPage = 0;
+      let pages = document.querySelectorAll('.page');
+      const progressBar = document.querySelector('.progress-bar');
+
+      function showPage(index){
+        pages[currentPage].style.display = 'none';
+         currentPage = index;
+         pages[index].style.display = 'block';
+      }
+
+      function nextPage(){
+        if(currentPage < pages.length - 1){
+          showPage(currentPage + 1);
+          progressBar.style.width = "100%";
+        }
+      }
+
+
+      function prevPage(){
+        if(currentPage > 0){
+          showPage(currentPage - 1);
+          progressBar.style.width = "0%";
+        }
+      }
+
+
 
       const number = document.getElementById('number');
       const password = document.getElementById('pass');

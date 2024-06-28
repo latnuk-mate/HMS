@@ -10,7 +10,7 @@ router.get("/dashboard", NotAuthUser, (req, res) => {
   res.render("layouts/PatientModule", { user: req.user.userName });
 });
 
-router.get("/user/appointment", async(req, res) => {
+router.get("/user/appointment", NotAuthUser , async(req, res) => {
   try{
     const data = await Doctor.find({});
     res.render("appointment", {doctors : data});
@@ -66,10 +66,21 @@ router.post("/doctor/profile/save", (req, res) => {
                         Name : req.body.doctorName,
                         Email : req.body.doctorEmail,
                         Phone : req.body.doctorPhone,
-                        Department : req.body.doctorDepartment,
                         Date1 : req.body.doctorDate1,
                         Date2 : req.body.doctorDate2,
                         Image:  req.file.filename,
+                        License: req.body.doctorLicense,
+                        Academics: req.body.doctorAcademics,
+                        Speciality: req.body.doctorSpeciality,
+                        sub_Speciality: req.body.doctorSubSpeciality,
+                        EmploymentField: req.body.doctorEmploymentArea,
+                        Department : req.body.doctorDepartment,
+                        EmploymentStatus: req.body.doctorEmploymentStatus,
+                        EmploymentDate: req.body.EmpDate,
+                        DoctorHours1: req.body.doctorHours1,
+                        DoctorHours2: req.body.doctorHours2,
+                        userName: req.body.doctorUser,
+                        Password: req.body.doctorPass,
                         createdAt : new Date()
                     });
 
@@ -77,7 +88,7 @@ router.post("/doctor/profile/save", (req, res) => {
                     res.redirect(302 , '/admin/doctor/panel');
                 }
                 catch(err){
-                    res.render("admin/doctorProfileForm", { layout: "layouts/adminModule" , msg: "Email is already taken! Use another"});
+                    res.render("admin/doctorProfileForm", { layout: "layouts/adminModule" , msg: err.message});
                 }
 
         }};
