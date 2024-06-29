@@ -322,6 +322,7 @@ let prevProgress = 0;
         $(window).on('load' , function(){
             function isNumber(){
               let number = $('#doctorsPhone').val();
+              let license = $('#doctorLicense').val();
               if($.isNumeric(number)){
               if(number.length > 10 || number.length < 10){
                 $('.msg-for-phone').css('color' , 'red');

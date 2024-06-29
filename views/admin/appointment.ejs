@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMIN DASHBOARD | Appointment Panel</title>
+<style>
+    .card{
+        border-radius: 8px;
+        background-color: antiquewhite;
+        padding: 10px;
+    }
+    ul{
+        list-style-type: none;
+    }
+    ul li{
+        padding: 4px 6px;
+    }
+</style>
+</head>
+<body>
+    
+  <%- include('../partials/appHeader') %>
+ 
+    
+        <% if(query == 'pending'){ %>
+            <% if(appointments.length == 0){ %>
+                <h5 class="text-center fs-5 text-secondary">No Pending Appointments</h5>
+           <% } %>
+            <div class="row">
+                  <% appointments.map((appointment)=>{ %> 
+                     <% if(appointment.Appointment_Status == "pending") { %>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card shadow-lg">
+                                <ul class="mb-2">
+                                    <li>Name: <%= appointment.Appointment_User_Name %></li>
+                                    <li>Mobile No: <%= appointment.Appointment_User_Phone %></li>
+                                    <li>Age: <%= appointment.Appointment_User_Age %></li>
+                                    <li>Date For Appointment: <%= appointment.Appointment_User_Book_Date.toLocaleDateString() %></li>
+                                </ul>
+                                <div class="d-flex align-items-center gap-2 justify-content-center">
+                                <a href="/user/appointment/cancel/<%= appointment.id %>" 
+                                class="text-decoration-none px-4 py-1 bg-danger text-white">
+                                    Cancel    
+                                </a>
+                                <a href="/user/appointment/confirmed/<%= appointment.id %>" 
+                                class="text-decoration-none px-4 py-1 bg-success text-white">
+                                    Confirm   
+                                </a>
+                                </div>
+                      
+                            </div>
+                        </div>
+                        
+                    <% } %>
+                    
+                 <% }) %>         
+            </div>
+        <% } %>
+
+        <% if(query == 'list'){ %>
+            <% if(appointments.length == 0){ %>
+                <h5 class="text-center fs-5 text-secondary">No Appointments</h5>
+           <% } %>
+            <div class="row">
+                <% appointments.map((appointment)=>{ %> 
+                   <% if(appointment.Appointment_Status == "confirmed") { %>
+                      <div class="col-lg-4 col-md-6">
+                          <div class="card shadow-lg">
+                              <ul class="mb-2">
+                                  <li>Name: <%= appointment.Appointment_User_Name %></li>
+                                  <li>Mobile No: <%= appointment.Appointment_User_Phone %></li>
+                                  <li>Age: <%= appointment.Appointment_User_Age %></li>
+                                  <li>Date For Appointment: <%= appointment.Appointment_User_Book_Date.toLocaleDateString() %></li>
+                              </ul>
+                              <div class="d-flex justify-content-center">
+                              <a href="/user/appointment/update/<%= appointment.id %>" 
+                              class="text-decoration-none px-4 py-1 bg-warning text-black">
+                                  Reschedule    
+                              </a>
+                             </div>
+                    
+                          </div>
+                      </div>
+                      
+                  <% } %>
+                  
+                 <% }) %>
+
+                
+          </div>
+        <% } %>
+</body>
+</html>

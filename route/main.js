@@ -1,4 +1,5 @@
 
+const { Appointment } = require("../Model/appointment");
 const { Doctor } = require("../Model/doctor");
 const upload = require("../middleware/fileSave");
 const { NotAuthUser, NotAuthAdmin } = require("../middleware/userAuth");
@@ -10,7 +11,7 @@ router.get("/dashboard", NotAuthUser, (req, res) => {
   res.render("layouts/PatientModule", { user: req.user.userName });
 });
 
-router.get("/user/appointment", NotAuthUser , async(req, res) => {
+router.get("/user/appointment", async(req, res) => {
   try{
     const data = await Doctor.find({});
     res.render("appointment", {doctors : data});
@@ -44,11 +45,75 @@ router.get('/admin/department/panel', NotAuthAdmin, async(req, res)=>{
   } catch (error) {
       res.sendStatus(500).json(error);
   }
+});
+
+router.get('/admin/appointment/panel/:query?', async(req, res)=>{
+  try {
+    const apponitments = await Appointment.find({});
+    res.render('admin/appointment', 
+      {layout : 'layouts/adminModule', 
+      query : req.params.query, 
+      appointments : apponitments,
+      length : 0});
+
+} catch (error) {
+    res.sendStatus(500).json(error); 
+}
+});
+
+router.get('/user/appointment/confirmed/:id', async(req, res)=>{
+  const app_id = req.params.id;
+  try{
+    const app_data = await Appointment.findById(app_id);
+    app_data.Appointment_Status = "confirmed";
+    await Appointment.create(app_data);
+    res.redirect(302, '/admin/appointment/panel');
+  }catch(err){
+    res.sendStatus(500).json(err);
+  }
+});
+
+router.get('/user/appointment/cancel/:id', async(req,res)=>{
+  const app_id = req.params.id;
+  try{
+    await Appointment.findByIdAndDelete(app_id, (err)=>{
+      if(err){
+        res.sendStatus(500).json(err);
+      }else{
+        res.redirect(302, '/admin/appointment/panel'); 
+      }
+    });
+   
+  }catch(err){
+    res.sendStatus(500).json(err);
+  }
 })
 
-router.post("/appointment", (req, res) => {
-  const { patientName, phone, doctors, date, health } = req.body;
-  res.json({ patientName, phone, doctors, date, health });
+router.post("/appointment/create", async(req, res) => {
+  const {
+      patientName, 
+      patientAge,
+      patientEmail, 
+      patientDob,  phone,
+      doctor, date, health 
+    } = req.body;
+
+  try {
+    const data = await Appointment.create({
+      Appointment_User_Name: patientName,
+      Appointment_User_Age: patientAge,
+      Appointment_User_Email: patientEmail,
+      Appointment_User_Dob: patientDob,
+      Appointment_User_Phone: phone,
+      Appointment_User_Chosen_Doctor: doctor,
+      Appointment_User_Book_Date: date,
+      Appointment_User_Health: health
+    });
+    await data.save();
+    res.redirect(302, '/admin/appointment/panel');
+} catch (error) {
+    res.sendStatus(500).json(error);
+}
 });
 
 router.post("/doctor/profile/save", (req, res) => {

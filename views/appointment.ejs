@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Page</title>
+    <title>Appointment Page | Appointment Request</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
@@ -73,18 +73,55 @@
         <div class="col-lg-8">
         <div class="appointment--area">
         <h5 class="title">Get An Appointment!</h5>
-        <form action="/appointment" method="post" name="appointmentForm">
+        <form action="/appointment/create" method="post" name="appointmentForm">
           <div class="form-group mb-2">
-            <label for="username">Patient Name</label>
+            <label for="username">Your Name</label>
             <input
               type="text"
               class="form-control"
               id="patientName"
               name="patientName"
-              placeholder="Enter Patient Name"
+              placeholder="Enter Your Name"
               required
             />
           </div>
+        
+          <div class="form-group mb-2">
+            <label for="email">Your Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="patientEmail"
+              name="patientEmail"
+              placeholder="Enter Your Email"
+              required
+            />
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="userbirth">Date Of Birth</label>
+            <input
+              type="date"
+              class="form-control"
+              id="patientDob"
+              name="patientDob"
+              required
+              onchange="calculateAge()"
+            />
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="userage">Your Age</label>
+            <input
+              type="text"
+              class="form-control"
+              id="patientAge"
+              name="patientAge"
+              placeholder="Enter Your Age"
+              disabled
+            />
+          </div>
+
           <div class="form-group mb-2">
             <label for="phoneNumber">Phone Number</label>
             <input
@@ -97,50 +134,36 @@
             />
         <span class="msg-for-number"></span>
         </div>
-      <div class="form-group mb-2">
+
+      
+         <div class="form-group mb-2">
         <label for="doctors">Choose Your Doctor</label>
-        <select name="doctors" id="doctors" class="form-control" required>
-        <option value="">Appointment With Your Preferred Doctor</option>
-          <option value="Dr Akash Sen">Dr. Akash Sen
+        <select name="doctor" id="doctors" class="form-control" required>
+        <option value="" selected disabled>Appointment With Your Preferred Doctor</option>
+          <% doctors.map((doctor)=> { %> 
+          <option value="Dr Akash Sen"><%= doctor.Name %>
             <optgroup label="doctor-info">
-              <option disabled>[ Heart Specialist ]</option>
-              <option disabled>Available On [Tuesday , Friday]</option>
+              <option disabled>[<%=doctor.Speciality %>]</option>
+              <option disabled>Available On [<%= doctor.Date1 %> , <%= doctor.Date2 %>]</option>
             </optgroup>
           </option>
         <hr />
-          <option value="Dr Kushal Singh">Dr. Kushal Singh
-            <optgroup label="doctor-info">
-              <option disabled>[ Child Specialist ]</option>
-              <option disabled>Available On [Sunday , Wednesday]</option>
-            </optgroup>
-          </option>
-          <hr />
-          <option value="Dr Rohit Mehera">Dr. Rohit Mehera
-            <optgroup label="doctor-info">
-              <option disabled>[ ENT Specialist ]</option>
-              <option disabled>Available On [Monday , Thursday]</option>
-            </optgroup>
-          </option>
-          <hr />
-          <option value="Dr Kunal Bose">Dr. Kunal Bose
-            <optgroup label="doctor-info">
-              <option disabled>[ Eye Specialist ]</option>
-              <option disabled>Available On [Tuesday , Saturday]</option>
-            </optgroup>
-          </option>
+        <% }) %>
         </select>
     </div>
 
     <div class="form-group mb-2">
-      <label for="date">Book Your date</label>
-      <input
+      <label for="date">Book Your date
+      </label>
+       <input
         type="date"
         class="form-control"
         id="date"
         name="date"
         required
       />
-  </div>
+    </div>
+
           <div class="form-group mb-3">
             <label for="address">Describe Your Health Issue</label>  
             <textarea name="health"
@@ -158,25 +181,28 @@
 
     <script>
 
+   const number = document.getElementById('number');
+   const birthDate = document.getElementById('patientDob');
 
-      const number = document.getElementById('number');
-      let weekDay =  ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-      
-      const datePicker = document.getElementById('date');
-       const doctors = document.getElementById('doctors');
 
+    function calculateAge() {
+    const [year, month, day] = birthDate.value.split('-').map(Number);
     
-      datePicker.addEventListener('change' , ()=>{
-        let date = new Date(datePicker.value);
-         let day = weekDay[date.getDay()];
-         if(doctors.value == "Dr Kunal Bose"){
-              if(day !== "Tuesday" || day !== "Saturday"){
-                alert("Dr. is not avaiable on that day!")
-              }
-         }
-      });
+    // Get current date
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
 
-   
+    let age = currentYear - year;
+
+    if (currentMonth < month || (currentMonth === month && currentDate.getDate() < day)) {
+        age--;
+    }
+
+    document.getElementById('patientAge').value = age;
+
+}
+
       function isNumber(num) {
         if (!isNaN(num)) {
           if (num.length > 10 || num.length < 10) {
