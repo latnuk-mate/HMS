@@ -24,5 +24,18 @@ NotAuthAdmin: function(req,res,next){
 		return next();
 }
 	res.redirect('/admin/signIn');
-}
+},
+
+AuthDoctor: function(req, res,next){
+	if(req.session.user){
+		return res.redirect(`/doctor/dashboard/${req.session.user}`);
+	}
+	next();
+},
+NotAuthDoctor: function(req, res,next){
+	if(req.session.user){
+		return next();
+	}
+	res.redirect('/doctor/signIn');
+},
 }

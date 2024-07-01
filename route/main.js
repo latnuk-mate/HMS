@@ -2,7 +2,7 @@
 const { Appointment } = require("../Model/appointment");
 const { Doctor } = require("../Model/doctor");
 const upload = require("../middleware/fileSave");
-const { NotAuthUser, NotAuthAdmin } = require("../middleware/userAuth");
+const { NotAuthUser, NotAuthAdmin, NotAuthDoctor } = require("../middleware/userAuth");
 
 const router = require("express").Router();
 
@@ -158,10 +158,19 @@ router.post("/doctor/profile/save", (req, res) => {
 
         }};
 });
-     
-
-
 
 });
+
+// doctors module pages...
+
+router.get('/doctor/dashboard/:id?', NotAuthDoctor,  async(req, res)=>{
+  const doctorId = req.params.id;
+  try {
+    const doctorData = await Doctor.findById(doctorId);
+    res.render('doctor/dashboard', {layout: 'layouts/doctorModule', data: doctorData});
+  } catch (error) {
+    res.sendStatus(500).json(error);
+  }
+})
 
 module.exports = router;

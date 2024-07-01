@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard | Admin Page</title>
+<title>Doctor Dashboard | Doctor Page</title>
 
 <link
 rel="stylesheet"
@@ -88,24 +88,24 @@ referrerpolicy="no-referrer"
       <i class="fa fa-bell"></i>
     </a>
   <div class="doctor--img">
-    <img src="imgs/doctorPhoto.png" alt="doctorLogo" class="">
+    <img src="/imgs/doctorPhoto.png" alt="doctorLogo" class="">
   </div>
-  <a href="/admin/logout" class="text-decoration-none text-white ms-4">
+  <a href="/doctor/logout" class="text-decoration-none text-white ms-4">
     <i class="fa fa-arrow-up-from-bracket"></i>
     LogOut
   </a>
    </div>
-    </div>
+</div>
   <div class="d-flex">
     <div class="col-lg-3 p-0 col-2">
       <div class="sidebar p-lg-4 h-100">
         <div class="border border-top-0 border-start-0 border-end-0 pt-2 pt-lg-0">
           <h5 class="title d-flex align-items-center justify-content-center">
             <div class="img--box">
-              <img src="imgs/doctorDashImage.svg" alt="doctorImage" width="70px">
+              <img src="/imgs/doctorDashImage.svg" alt="doctorImage" width="70px">
             </div>
-            <span class="d-none d-lg-block">Jhon Doe</span></h5>
-          <h5 class="sub--title text-center d-none d-lg-block">Password: 12345
+            <span class="d-none d-lg-block"><%= data.Name %></span></h5>
+          <h5 class="sub--title text-center d-none d-lg-block">Password: <%= data.Password %>
             <a href="/doctor/password/update/id" class="text-decoration-none text-white ms-1" title="update Password">
               <i class="fa fa-edit"></i>
             </a>
@@ -179,132 +179,7 @@ referrerpolicy="no-referrer"
         </div>
         <div class="main--area">
           <div class="container">
-            <!-- <%- body %> This is for the server use --> 
-
-            <!-- cut main dashboard section form here... -->
-            <div class="row align-items-center mb-4">
-              <div class="col-lg-7">
-                <div class="p-4 bg-secondary text-white rounded">
-                  <div class="pb-3">
-                    <h5 class="text-white-50 mb-2">Welcome!</h5>
-                    <h5 class="fs-3 mb-2">Jhon Doe</h5>
-                    <p class=" mb-3">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eveniet culpa odio.</p>
-                    
-                    <a href="/doctor/accounts/id"
-                     class="px-5 py-2 bg-primary text-white text-decoration-none" style="border-radius: 100px;">
-                      View My Account
-                    </a>
-                  </div> 
-                </div>
-              </div>
-              
-              <div class="col-lg-5 d-none d-lg-block p-0">
-                <div class="img--box">
-                  <img src="imgs/doctorDash.png" alt="doctor" class="img-fluid">
-                </div>
-              </div>
-
-            </div> 
-            <!-- first row is done! -->
-
-            <div class="row pb-3">
-              <div class="col-lg-6">
-                <h5 class="text-secondary mb-3">Status</h5>
-                <div class="row gx-2">
-                  <div class="col-sm-6">
-                    <div class="card bg-light text-primary">
-                      <div class="card-body d-flex align-items-center justify-content-between ">
-                        <div class="card--text">
-                          <h5 class="fs-2">5</h5>
-                          <p class="fs-5 mb-2 text-black-50">All Doctors</p>
-                        </div>
-                        <div class="bg-light">
-                          <i class="fa fa-user-doctor fs-2"></i>
-                        </div>
-                      </div>
-                    </div> 
-                  </div>
-
-                  <div class="col-sm-6">
-                    <div class="card bg-light text-primary">
-                      <div class="card-body d-flex align-items-center justify-content-between ">
-                        <div class="card--text">
-                          <h5 class="fs-2">2</h5>
-                          <p class="fs-5 mb-2 text-black-50">All Patients</p>
-                        </div>
-                        <div class="bg-light">
-                          <i class="fa fa-wheelchair-move fs-2"></i>
-                        </div>
-                      </div>
-                    </div> 
-                  </div>
-
-                  <div class="col-sm-6">
-                    <div class="card bg-light text-primary">
-                      <div class="card-body d-flex align-items-center justify-content-between ">
-                        <div class="card--text">
-                          <h5 class="fs-2">0</h5>
-                          <p class="fs-5 mb-2 text-black-50">New Bookings</p>
-                        </div>
-                        <div class="bg-light">
-                          <i class="fa fa-user-doctor fs-2"></i>
-                        </div>
-                      </div>
-                    </div> 
-                  </div>
-
-                  <div class="col-sm-6">
-                    <div class="card bg-light text-primary">
-                      <div class="card-body d-flex align-items-center justify-content-between ">
-                        <div class="card--text">
-                          <h5 class="fs-2">1</h5>
-                          <p class="fs-5 mb-2 text-black-50">Appointments</p>
-                        </div>
-                        <div class="">
-                          <i class="fa fa-bookmark fs-2"></i>
-                        </div>
-                      </div>
-                    </div> 
-                  </div>
-
-                </div>
-              </div>
-
-              <!-- first col -->
-
-              <div class="col-lg-6">
-                <h5 class="text-secondary mb-3">
-                  Your upcoming appointments until next week!
-                </h5>
-                <table class="table table-striped border">
-                  <thead>
-                    <tr>
-                      <th scope="col">PatientName</th>
-                      <th scope="col">Date</th>
-                      <th scope="col">Time</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Suzzy</td>
-                      <td>2024/06/24</td>
-                      <td>10.30AM</td>
-                    </tr>
-                    <tr>
-                      
-                      <td>Katty</td>
-                      <td>2024/04/24</td>
-                      <td>11.00AM</td>
-                    </tr>
-                   
-                  </tbody>
-                 
-                </table>
-              </div>
-            </div>
-
-
-
+           <%- body %>     
           </div>
        
         </div>

@@ -4,7 +4,8 @@ const passport = require('passport')
 const router = Router();
 
 const {Patient} = require('../Model/patient');
-const { AuthUser, AuthAdmin } = require('../middleware/userAuth');
+const { AuthUser, AuthAdmin, AuthDoctor } = require('../middleware/userAuth');
+const { Doctor } = require('../Model/doctor');
 
 
 router.get('/user/login', AuthUser, (req,res)=>{
@@ -15,7 +16,7 @@ router.get('/user/signup' , AuthUser, (req,res)=>{
     res.render('verification/registration');
 });
 
-router.get('/doctor/signIn' , (req,res)=>{
+router.get('/doctor/signIn' , AuthDoctor,  (req,res)=>{
     res.render('verification/doctorLogin' ,  {error : " "})
 });
 
@@ -52,11 +53,25 @@ router.post('/signup' , async(req,res)=>{
 });
 
 
-router.post('/doctor/post/login' , (req, res)=>{
+router.post('/doctor/post/login' , async(req, res, next)=>{
     const {doctorId , doctorPass} = req.body;
+
     try{
-        if(doctorId === process.env.DOCTOR_ID && doctorPass === process.env.DOCTOR_PASS){
-            res.status(302).redirect('/doctor/dashboard');
+        const doctorData = await Doctor.findOne({Password : doctorPass});
+        if(doctorId === doctorData.userName && doctorPass === doctorData.Password){
+            req.session.regenerate((err)=>{
+                if(err){next(err)}
+
+                req.session.user = doctorData.id;
+
+                req.session.save((err)=>{
+                    if(err){
+                         return next(err)
+                      }
+                   res.redirect(`/doctor/dashboard/${doctorData.id}`); 
+                });
+            });
+
         }else{
             res.render('verification/doctorLogin' , {error : req.flash("flash")});
         }
@@ -90,6 +105,22 @@ router.get('/user/logout' , (req,res,next)=>{
 router.get('/admin/logout', (req,res)=>{
     res.clearCookie('admin')
     .redirect(302 , '/admin/signIn');
+});
+
+router.get('/doctor/logout', (req,res, next)=>{
+    req.session.user = null;
+    req.session.save((err)=>{
+        if(err){
+            next(err);
+        }
+
+        req.session.regenerate((err)=>{
+            if(err){
+                next(err);
+            }
+            res.redirect(302, '/doctor/signIn');
+        })
+    })
 })
 
 
