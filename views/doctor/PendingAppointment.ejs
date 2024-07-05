@@ -1,0 +1,34 @@
+
+
+<div class="row">
+    <h5 class="text-center text-secondary mb-3">Pending Appointments</h5>
+    <% appointments.map((appointment)=>{ %> 
+       <% if(appointment.Appointment_Status == "pending") { %>
+          <% if(appointment.Appointment_User_Chosen_Doctor === data.id) { %>
+          <div class="col-lg-4 col-md-6">
+              <div class="card shadow-lg">
+                  <ul class="mb-2">
+                      <li>Name: <%= appointment.Appointment_User_Name %></li>
+                      <li>Mobile No: <%= appointment.Appointment_User_Phone %></li>
+                      <li>Date: <%= helper.formatDate(appointment.Appointment_User_Book_Date, "DD-MM-YYYY") %></li>
+                      <li>Time: <%= appointment.Appointment_User_Book_Time %></li>
+                      <li>Reason: <%= appointment.Appointment_User_Health %></li>
+                  </ul>
+                  <div class="d-flex align-items-center gap-2 justify-content-center">
+                  <a href="/user/appointment/cancel/<%= appointment.id %>" 
+                  class="text-decoration-none px-4 py-1 bg-danger text-white">
+                      Cancel    
+                  </a>
+                  <a href="/user/appointment/confirmed/<%= appointment.id %>" 
+                  class="text-decoration-none px-4 py-1 bg-success text-white">
+                      Confirm   
+                  </a>
+                  </div>
+        
+              </div>
+          </div>
+          
+      <% }} %>
+      
+   <% }) %>         
+</div>

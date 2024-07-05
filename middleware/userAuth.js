@@ -1,5 +1,4 @@
 
-
 module.exports = {
 	AuthUser:function(req,res,next){
         	if(req.isAuthenticated()){

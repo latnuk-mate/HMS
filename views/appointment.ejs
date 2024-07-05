@@ -68,6 +68,7 @@
     </style>
   </head>
   <body>
+
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -118,7 +119,6 @@
               id="patientAge"
               name="patientAge"
               placeholder="Enter Your Age"
-              disabled
             />
           </div>
 
@@ -141,10 +141,11 @@
         <select name="doctor" id="doctors" class="form-control" required>
         <option value="" selected disabled>Appointment With Your Preferred Doctor</option>
           <% doctors.map((doctor)=> { %> 
-          <option value="Dr Akash Sen"><%= doctor.Name %>
+          <option value="<%=doctor.id%>"><%= doctor.Name %>
             <optgroup label="doctor-info">
               <option disabled>[<%=doctor.Speciality %>]</option>
               <option disabled>Available On [<%= doctor.Date1 %> , <%= doctor.Date2 %>]</option>
+              <option disabled>From <%= doctor.DoctorHours1 %> To <%= doctor.DoctorHours2 %>]</option>
             </optgroup>
           </option>
         <hr />
@@ -160,6 +161,19 @@
         class="form-control"
         id="date"
         name="date"
+        required
+      />
+      <span id="error-msg-for-booking"></span>
+    </div>
+
+    <div class="form-group mb-2">
+      <label for="date">What's Your Preferred Time
+      </label>
+       <input
+        type="time"
+        class="form-control"
+        id="time"
+        name="time"
         required
       />
     </div>
@@ -183,7 +197,6 @@
 
    const number = document.getElementById('number');
    const birthDate = document.getElementById('patientDob');
-
 
     function calculateAge() {
     const [year, month, day] = birthDate.value.split('-').map(Number);

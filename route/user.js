@@ -28,7 +28,7 @@ router.get('/admin/signIn' , AuthAdmin, (req,res)=>{
 router.post('/login', 
   passport.authenticate('local', { failureRedirect: '/user/login' , failureFlash : true}),
   function(req, res) {
-    res.redirect('/dashboard');
+    res.redirect(`/dashboard`);
   });
 
 
@@ -56,28 +56,33 @@ router.post('/signup' , async(req,res)=>{
 router.post('/doctor/post/login' , async(req, res, next)=>{
     const {doctorId , doctorPass} = req.body;
 
-    try{
-        const doctorData = await Doctor.findOne({Password : doctorPass});
-        if(doctorId === doctorData.userName && doctorPass === doctorData.Password){
-            req.session.regenerate((err)=>{
-                if(err){next(err)}
+    const doctorData = await Doctor.findOne({Password : doctorPass});
 
-                req.session.user = doctorData.id;
-
-                req.session.save((err)=>{
-                    if(err){
-                         return next(err)
-                      }
-                   res.redirect(`/doctor/dashboard/${doctorData.id}`); 
+    if(!doctorData){
+        res.render('verification/doctorLogin' , {error : req.flash("flash")});
+    }else{
+        
+        try{
+            if(doctorId === doctorData.userName && doctorPass === doctorData.Password){
+                req.session.regenerate((err)=>{
+                    if(err){next(err)}
+    
+                    req.session.user = doctorData.id;
+    
+                    req.session.save((err)=>{
+                        if(err){
+                             return next(err)
+                          }
+                       res.redirect(`/doctor/dashboard/${doctorData.id}`); 
+                    });
                 });
-            });
-
-        }else{
-            res.render('verification/doctorLogin' , {error : req.flash("flash")});
+    
+            }
+        }catch(err){
+            res.sendStatus(500).json(err);
         }
-    }catch(err){
-        res.sendStatus(500).json(err);
     }
+    
 });
 
 

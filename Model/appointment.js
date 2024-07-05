@@ -29,16 +29,25 @@ const AppointmentSchema = new mongoose.Schema({
     },
     Appointment_User_Chosen_Doctor:{
         type: String,
-        required : true 
+        required: true
     },
     Appointment_User_Book_Date:{
         type: Date,
+        required: true
+    },
+    
+    Appointment_User_Book_Time:{
+        type: String,
         required: true
     },
     Appointment_User_Health:{
         type: String,
         required: true
     },
+    Appointment_Patient: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Patient'
+      },
     createdAt:{
         type: Date,
         default : Date.now()

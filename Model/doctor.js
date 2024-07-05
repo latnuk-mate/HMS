@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 
 const DoctorSchema = new mongoose.Schema({
@@ -82,7 +82,6 @@ const DoctorSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    
     createdAt:{
         type: Date,
         default : Date.now()

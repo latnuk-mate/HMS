@@ -4,32 +4,18 @@
     }
 </style>
     
-<div class="d-flex justify-content-around align-items-center mt-2 mb-5">
-    <a href="/admin/appointment/panel/pending" class="text-decoration-none px-5 py-2 bg-primary text-white position-relative">
+<div class="d-flex justify-content-end mt-2 mb-2">
+    <a href="/doctor/appointment/panel/<%=data.id %>/pending" class="text-decoration-none px-5 py-2 bg-primary text-white position-relative">
         Pending Appointments
         <% appointments.map((appointment) => { %>
             <% if(appointment.Appointment_Status == "pending") { %>
+                <% if(appointment.Appointment_User_Chosen_Doctor === data.id) { %>
                     <% length++  %>           
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                      <%= length %>
                     <span class="visually-hidden">pending appointments</span>
                 </span>
-            <% } %>   
-       <% }) %>
-       <% length = 0 %>  
-    </a>
-    <a href="/admin/appointment/panel/list" 
-    class="text-decoration-none px-5 py-2 bg-primary text-white position-relative">
-         All Appointments
-         <% appointments.map(appointment => { %>
-            <% if(appointment.Appointment_Status == "confirmed") { %> 
-                <% length++  %>                       
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                     <%= length%>
-                    <span class="visually-hidden">pending appointments</span>
-                </span>
-            <% } %>
-            
+            <% }} %>   
        <% }) %>
        <% length = 0 %>  
     </a>

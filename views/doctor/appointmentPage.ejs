@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOCTOR DASHBOARD | Appointment Panel</title>
+</head>
+<body>
+    
+  <%- include('../partials/appHeader') %>
+
+    <h5 class="mb-4 text-center text-secondary">All Your Appointments</h5>
+  <table class="table table-primary table-striped table-hover">
+    <thead>
+        <tr>
+          <th scope="col">PatientName</th>
+          <th scope="col">Mobile</th>
+          <th scope="col">Appointment Date</th>
+          <th scope="col">Appointment Time</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <% appointments.map((appointment)=>{ %> 
+        <% if(appointment.Appointment_Status == "confirmed") { %>
+           <% if(appointment.Appointment_User_Chosen_Doctor === data.id) { %>
+            <tbody>
+                <tr>
+                <td><%= appointment.Appointment_User_Name %></td>
+                <td><%= appointment.Appointment_User_Phone %></td>
+                <td><%= helper.formatDate(appointment.Appointment_User_Book_Date, "DD-MM-YYYY") %></td>
+                <td><%= appointment.Appointment_User_Book_Time%></td>
+                <td>
+                    <a href="/user/appointment/update/<%= appointment.id %>" 
+                        class="text-decoration-none px-4 py-1 bg-warning text-black">
+                            Reschedule    
+                    </a> 
+                </td>
+                </tr>
+                </tbody>         
+                <% }} %>
+                    
+                <% }) %>  
+  </table>
+    
+</body>
+</html>

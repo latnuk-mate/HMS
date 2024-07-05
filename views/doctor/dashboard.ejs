@@ -11,10 +11,12 @@
           <div class="p-4 bg-secondary text-white rounded">
             <div class="pb-3">
               <h5 class="text-white-50 mb-2">Welcome!</h5>
-              <h5 class="fs-3 mb-2"><%= data.Name %></h5>
-              <p class=" mb-3">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eveniet culpa odio.</p>
-              
-              <a href="/doctor/accounts/id"
+              <h5 class="fs-3 mb-2">Dr. <%= data.Name %></h5>
+              <p class=" mb-3">
+                We're delighted to have you here.
+               Your dedicated dashboard is ready to assist you in managing patient care efficiently.
+                Your commitment to healthcare excellence is greatly valued.</p>
+              <a href="/doctor/accounts/<%=data.id%>"
                class="px-5 py-2 bg-primary text-white text-decoration-none" style="border-radius: 100px;">
                 View My Account
               </a>
@@ -39,7 +41,7 @@
               <div class="card bg-light text-primary">
                 <div class="card-body d-flex align-items-center justify-content-between ">
                   <div class="card--text">
-                    <h5 class="fs-2">5</h5>
+                    <h5 class="fs-2"><%= doctors.length %></h5>
                     <p class="fs-5 mb-2 text-black-50">All Doctors</p>
                   </div>
                   <div class="bg-light">
@@ -53,7 +55,7 @@
               <div class="card bg-light text-primary">
                 <div class="card-body d-flex align-items-center justify-content-between ">
                   <div class="card--text">
-                    <h5 class="fs-2">2</h5>
+                    <h5 class="fs-2"><%= patientData.length %></h5>
                     <p class="fs-5 mb-2 text-black-50">All Patients</p>
                   </div>
                   <div class="bg-light">
@@ -71,7 +73,7 @@
                     <p class="fs-5 mb-2 text-black-50">New Bookings</p>
                   </div>
                   <div class="bg-light">
-                    <i class="fa fa-user-doctor fs-2"></i>
+                    <i class="fa fa-receipt fs-2"></i>
                   </div>
                 </div>
               </div> 
@@ -81,8 +83,8 @@
               <div class="card bg-light text-primary">
                 <div class="card-body d-flex align-items-center justify-content-between ">
                   <div class="card--text">
-                    <h5 class="fs-2">1</h5>
-                    <p class="fs-5 mb-2 text-black-50">Appointments</p>
+                    <h5 class="fs-2"><%= appointments.length %></h5>
+                    <p class="fs-5 mb-2 text-black-50">All Appointments</p>
                   </div>
                   <div class="">
                     <i class="fa fa-bookmark fs-2"></i>
@@ -100,30 +102,28 @@
           <h5 class="text-secondary mb-3">
             Your upcoming appointments until next week!
           </h5>
-          <table class="table table-striped border">
-            <thead>
-              <tr>
-                <th scope="col">PatientName</th>
-                <th scope="col">Date</th>
-                <th scope="col">Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Suzzy</td>
-                <td>2024/06/24</td>
-                <td>10.30AM</td>
-              </tr>
-              <tr>
-                
-                <td>Katty</td>
-                <td>2024/04/24</td>
-                <td>11.00AM</td>
-              </tr>
-             
-            </tbody>
-           
-          </table>
+            <table class="table table-striped border">
+                <thead>
+                  <tr>
+                    <th scope="col">PatientName</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                  </tr>
+                </thead>
+            <% appointments.map((app)=>{ %>
+              <% if(app.Appointment_User_Chosen_Doctor == data.id) { %>
+                 <!--if the date falls within this current week  -->
+                <% if(helper.AppointmentChecker(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD"))) {%>
+                <tbody>
+                  <tr>
+                    <td><%= app.Appointment_User_Name %></td>
+                    <td><%= helper.formatDate(app.Appointment_User_Book_Date, "DD-MM-YYYY")%></td>
+                    <td><%= app.Appointment_User_Book_Time %></td>
+                  </tr>         
+                </tbody>
+            <% }} %>
+         <% }) %>
+         </table> 
         </div>
       </div> 
 

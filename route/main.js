@@ -1,17 +1,23 @@
 
 const { Appointment } = require("../Model/appointment");
 const { Doctor } = require("../Model/doctor");
+const { Patient } = require("../Model/patient");
 const upload = require("../middleware/fileSave");
+const {formatTime} = require("../middleware/helper");
 const { NotAuthUser, NotAuthAdmin, NotAuthDoctor } = require("../middleware/userAuth");
 
 const router = require("express").Router();
 
 
 router.get("/dashboard", NotAuthUser, (req, res) => {
-  res.render("layouts/PatientModule", { user: req.user.userName });
+  res.render("patient/dashboard", { 
+    layout: 'layouts/PatientModule',
+    helper: require("../middleware/helper"),
+    patient: req.user,
+  });
 });
 
-router.get("/user/appointment", async(req, res) => {
+router.get("/user/appointment", NotAuthUser, async(req, res) => {
   try{
     const data = await Doctor.find({});
     res.render("appointment", {doctors : data});
@@ -47,47 +53,20 @@ router.get('/admin/department/panel', NotAuthAdmin, async(req, res)=>{
   }
 });
 
-router.get('/admin/appointment/panel/:query?', async(req, res)=>{
-  try {
-    const apponitments = await Appointment.find({});
-    res.render('admin/appointment', 
-      {layout : 'layouts/adminModule', 
-      query : req.params.query, 
-      appointments : apponitments,
-      length : 0});
+// router.get('/admin/appointment/panel/:query?', async(req, res)=>{
+//   try {
+//     const apponitments = await Appointment.find({});
+//     res.render('admin/appointment', 
+//       {layout : 'layouts/adminModule', 
+//       query : req.params.query, 
+//       appointments : apponitments,
+//       length : 0});
 
-} catch (error) {
-    res.sendStatus(500).json(error); 
-}
-});
+// } catch (error) {
+//     res.sendStatus(500).json(error); 
+// }
+// });
 
-router.get('/user/appointment/confirmed/:id', async(req, res)=>{
-  const app_id = req.params.id;
-  try{
-    const app_data = await Appointment.findById(app_id);
-    app_data.Appointment_Status = "confirmed";
-    await Appointment.create(app_data);
-    res.redirect(302, '/admin/appointment/panel');
-  }catch(err){
-    res.sendStatus(500).json(err);
-  }
-});
-
-router.get('/user/appointment/cancel/:id', async(req,res)=>{
-  const app_id = req.params.id;
-  try{
-    await Appointment.findByIdAndDelete(app_id, (err)=>{
-      if(err){
-        res.sendStatus(500).json(err);
-      }else{
-        res.redirect(302, '/admin/appointment/panel'); 
-      }
-    });
-   
-  }catch(err){
-    res.sendStatus(500).json(err);
-  }
-})
 
 router.post("/appointment/create", async(req, res) => {
   const {
@@ -95,22 +74,31 @@ router.post("/appointment/create", async(req, res) => {
       patientAge,
       patientEmail, 
       patientDob,  phone,
-      doctor, date, health 
+      doctor, date, time, health 
     } = req.body;
 
   try {
-    const data = await Appointment.create({
-      Appointment_User_Name: patientName,
-      Appointment_User_Age: patientAge,
-      Appointment_User_Email: patientEmail,
-      Appointment_User_Dob: patientDob,
-      Appointment_User_Phone: phone,
-      Appointment_User_Chosen_Doctor: doctor,
-      Appointment_User_Book_Date: date,
-      Appointment_User_Health: health
-    });
-    await data.save();
-    res.redirect(302, '/admin/appointment/panel');
+    const doctors = await Doctor.findById( doctor);
+   
+    if(doctors){
+      const data = await Appointment.create({
+        Appointment_User_Name: patientName,
+        Appointment_User_Age: patientAge,
+        Appointment_User_Email: patientEmail,
+        Appointment_User_Dob: patientDob,
+        Appointment_User_Phone: phone,
+        Appointment_User_Chosen_Doctor: doctor,
+        Appointment_User_Book_Date: date,
+        Appointment_User_Book_Time: formatTime(time),
+        Appointment_User_Health: health,
+        Appointment_Patient: req.user.id,
+        createdAt: new Date()
+      });
+      await data.save();
+      console.log(data);
+      res.redirect(302, `/doctor/appointment/panel/${doctors.id}`);
+    }
+
 } catch (error) {
     res.sendStatus(500).json(error);
 }
@@ -142,8 +130,8 @@ router.post("/doctor/profile/save", (req, res) => {
                         Department : req.body.doctorDepartment,
                         EmploymentStatus: req.body.doctorEmploymentStatus,
                         EmploymentDate: req.body.EmpDate,
-                        DoctorHours1: req.body.doctorHours1,
-                        DoctorHours2: req.body.doctorHours2,
+                        DoctorHours1: formatTime(req.body.doctorHours1),
+                        DoctorHours2: formatTime(req.body.doctorHours2),
                         userName: req.body.doctorUser,
                         Password: req.body.doctorPass,
                         createdAt : new Date()
@@ -161,16 +149,109 @@ router.post("/doctor/profile/save", (req, res) => {
 
 });
 
-// doctors module pages...
 
-router.get('/doctor/dashboard/:id?', NotAuthDoctor,  async(req, res)=>{
+
+
+// doctors module pages functions...
+router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
   const doctorId = req.params.id;
   try {
+    
+    const patientData = await Patient.find({});
+    const doctors = await Doctor.find({});
     const doctorData = await Doctor.findById(doctorId);
-    res.render('doctor/dashboard', {layout: 'layouts/doctorModule', data: doctorData});
+    const appointments = await Appointment.find({});
+    res.render('doctor/dashboard',
+     {layout: 'layouts/doctorModule',
+       data: doctorData,
+       helper: require("../middleware/helper"),
+       doctors,
+       patientData,
+       appointments,
+      });
   } catch (error) {
     res.sendStatus(500).json(error);
   }
+});
+
+router.get('/doctor/accounts/:id', async(req,res)=>{
+  const doctorId = req.params.id;
+  try {
+    const doctorData = await Doctor.findById(doctorId);
+    res.render('doctor/profile', 
+      {layout: 'layouts/doctorModule',
+         data: doctorData, 
+         helper: require("../middleware/helper")
+      });
+
+  } catch (error) {
+    res.sendStatus(500).json(error);
+  }
+});
+
+router.get('/doctor/appointment/panel/:id/:query?', async(req, res)=>{
+  const query = req.params.query;
+
+  try {
+    const doctors = await Doctor.findById(req.params.id);
+    const apponitments = await Appointment.find({});
+    if(query === undefined){
+      res.render('doctor/appointmentPage', 
+      {layout : 'layouts/doctorModule', 
+      appointments : apponitments,
+      data: doctors,
+      helper: require("../middleware/helper"),
+      length : 0});
+    }
+
+    if(query === "pending"){
+      res.render('doctor/PendingAppointment', 
+        {layout : 'layouts/doctorModule', 
+        appointments : apponitments,
+        data: doctors,
+        helper: require("../middleware/helper"),
+          });
+    }
+
+
+} catch (error) {
+    res.sendStatus(500).json(error); 
+}
+});
+
+router.get('/user/appointment/confirmed/:id', async(req, res)=>{
+  const app_id = req.params.id;
+  try{
+    const app_data = await Appointment.findById(app_id);
+    app_data.Appointment_Status = "confirmed";
+    await Appointment.create(app_data);
+    res.redirect(302, `/doctor/appointment/panel/${app_id}`);
+  }catch(err){
+    res.sendStatus(500).json(err);
+  }
+});
+
+router.get('/user/appointment/cancel/:id', async(req,res)=>{
+  const app_id = req.params.id;
+  try{
+    await Appointment.findByIdAndDelete(app_id, (err)=>{
+      if(err){
+        res.sendStatus(500).json(err);
+      }else{
+        res.redirect(302, `/doctor/appointment/panel/${app_id}`);
+      }
+    });
+   
+  }catch(err){
+    res.sendStatus(500).json(err);
+  }
 })
+
+
+
+
+
+
+
 
 module.exports = router;

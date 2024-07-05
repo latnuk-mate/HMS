@@ -71,10 +71,20 @@ referrerpolicy="no-referrer"
     .main--area .error--img{
       height: 200px; width: 300px; display: block; margin: auto;
     }
+
+    .card{
+        border-radius: 8px;
+        background-color: antiquewhite;
+        padding: 10px;
+    }
+    .card ul{
+        list-style-type: none;
+    }
+    .card ul li{
+        padding: 4px 6px;
+    }
  
     
-
-
 </style>
 </head>
 <body>
@@ -114,18 +124,18 @@ referrerpolicy="no-referrer"
 
         <ul class="navigation--bar navbar-nav mt-5">
           <li class="px-4 py-1 mb-3 d-block" title="Home">
-            <a href="/doctor/dashboard" class="text-decoration-none sub--title d-flex align-items-center">
+            <a href="/doctor/dashboard/<%=data.id %>" class="text-decoration-none sub--title d-flex align-items-center">
               <i class="fa fa-home me-2 fs-4"></i><span class="d-none d-lg-block">Home</span></a>
           </li>
           <li class="px-4 py-1 mb-3" title="Patients">
-              <a href="/doctor/patient/panel" class="text-decoration-none sub--title d-flex align-items-center ">
+              <a href="/doctor/patient/panel/<%=data.id %>" class="text-decoration-none sub--title d-flex align-items-center ">
                <i class="fa fa-user me-2 fs-4"></i> 
                 <span class="d-none d-lg-block">My Patients</span></a>
           </li>
 
           <li class="px-4 py-1 mb-3" title="Appointments">
            
-              <a href="/doctor/appointment/panel" class="text-decoration-none sub--title d-flex align-items-center">
+              <a href="/doctor/appointment/panel/<%=data.id %>" class="text-decoration-none sub--title d-flex align-items-center">
                  <i class="fa fa-pen-to-square me-2 fs-4"></i>
                 <span class="d-none d-lg-block">My Appointments</span></a>
           </li>
@@ -174,7 +184,9 @@ referrerpolicy="no-referrer"
           <p class="text-secondary d-none d-md-block text-center">
             Today's Date <i class="fa fa-calendar ms-1"></i>
             <br/>
-            <span id="dashdate" class="fw-semibold text-black"></span>
+            <span id="dashdate" class="fw-semibold text-black">
+              <%= helper.formatDate() %>
+            </span>
             </p>
         </div>
         <div class="main--area">
@@ -187,11 +199,5 @@ referrerpolicy="no-referrer"
   </div>
 
 
-
-  <script>
-    const date = document.getElementById('dashdate');
-    const d = new Date();
-    date.innerHTML = d.toLocaleDateString();
-  </script>
 </body>
 </html>
