@@ -47,11 +47,13 @@ referrerpolicy="no-referrer"
         color: #fff;
         font-weight: 800;
       }
-
+  .sidebar-col{
+      min-height: 100vh;
+  }
     .sidebar{
       background-color: #0C359E;
       color: #f2f6f5;
-      height: 100vh;
+      height: 100%;
     }
 
     .patient--img{
@@ -65,6 +67,15 @@ referrerpolicy="no-referrer"
       object-fit: cover;
       width: 100%;
 
+    }
+
+    .patientDashCard{
+      background-color: cornflowerblue;
+      border-radius: 10px;
+    }
+    .patientDashCard button{
+      border-radius: 100px;
+      text-decoration: none;
     }
     
 </style>
@@ -91,7 +102,7 @@ referrerpolicy="no-referrer"
 <!-- topbar part is done! -->
 
   <div class="d-flex">
-    <div class="col-lg-3 p-0 col-2">
+    <div class="col-lg-3 p-0 col-2 sidebar-col">
       <div class="sidebar p-lg-4">
         <div class="border border-top-0 border-start-0 border-end-0 pt-2 pt-lg-0">
           <div class="d-flex align-items-center gap-2 justify-content-center pb-1">
@@ -107,7 +118,7 @@ referrerpolicy="no-referrer"
 
         <ul class="navigation--bar navbar-nav mt-5">
           <li class="px-4 py-1 mb-3 d-block" title="Home">
-            <a href="/patient/dashboard/<%=patient.id %>" class="text-decoration-none sub--title d-flex align-items-center">
+            <a href="/dashboard" class="text-decoration-none sub--title d-flex align-items-center">
               <i class="fa fa-home me-2 fs-4"></i><span class="d-none d-lg-block">Home</span></a>
           </li>
      
@@ -117,12 +128,12 @@ referrerpolicy="no-referrer"
                 <span class="d-none d-lg-block">Appointments</span></a>
           </li>
 
-          <li class="px-4 py-1 mb-3" title="Nurses">
+          <li class="px-4 py-1 mb-3" title="Doctors">
             <a href="/doctor/panel" class="text-decoration-none sub--title d-flex align-items-center ">
              <i class="fa fa-user-doctor me-2 fs-4"></i> 
               <span class="d-none d-lg-block">Doctors</span></a>
         </li>
-        <li class="px-4 py-1 mb-3" title="Nurses">
+        <li class="px-4 py-1 mb-3" title="Departments">
             <a href="/department/panel" class="text-decoration-none sub--title d-flex align-items-center ">
              <i class="fa fa-sitemap me-2 fs-4"></i> 
               <span class="d-none d-lg-block">Departments</span></a>
@@ -179,5 +190,12 @@ referrerpolicy="no-referrer"
   </div>
 
 
+
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+  integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
 </body>
 </html>

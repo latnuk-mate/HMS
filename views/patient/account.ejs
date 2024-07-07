@@ -1,0 +1,30 @@
+
+  <!-- Account details for patient -->
+  <div class="modal fade" id="Account" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-body rounded">
+         <div class="d-flex justify-content-end">
+            <button type="button" 
+            class="btn-close" 
+            data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="img--box mb-2">
+            <img src="/imgs/PatientPhoto.png" alt="" width="50px" class="d-block m-auto">
+         </div>
+          <h5 class="fs-5 text-center mb-2">Your Name: <%=patient.userName %></h5>
+          <h5 class="fs-5 text-center mb-2">Your Email: <%=patient.userEmail %></h5>
+          <h5 class="fs-5 text-center mb-2">Your Phone: <%=patient.userPhone %></h5>
+          <h5 class="fs-5 text-center mb-4">Account Created: <%=helper.formatDate(patient.createdAt, "DD-MM-YYYY")%></h5>
+          <div class="d-flex justify-content-around">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+            <a href="/patient/account/delete/<%=patient.id%>"
+                class="text-decoration-none text-white bg-danger px-5 py-2 rounded">
+                Delete Account
+            </a>
+          </div>
+        </div>
+     
+      </div>
+    </div>
+  </div>

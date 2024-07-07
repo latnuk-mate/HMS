@@ -9,22 +9,104 @@ const { NotAuthUser, NotAuthAdmin, NotAuthDoctor } = require("../middleware/user
 const router = require("express").Router();
 
 
-router.get("/dashboard", NotAuthUser, (req, res) => {
-  res.render("patient/dashboard", { 
-    layout: 'layouts/PatientModule',
-    helper: require("../middleware/helper"),
-    patient: req.user,
-  });
+router.get("/dashboard", NotAuthUser, async(req, res) => {
+  try {
+      const doctors = await Doctor.find({});
+      const appointments = await Appointment.find({Appointment_Patient : req.user.id});
+      const patients = await Patient.find({});
+      res.render("patient/dashboard", { 
+        layout: 'layouts/PatientModule',
+        helper: require("../middleware/helper"),
+        patient: req.user,
+        doctors,
+        appointments,
+        patients
+      });
+  } catch (error) {
+      res.sendStatus(500).json(error.message);
+  }
 });
 
-router.get("/user/appointment", NotAuthUser, async(req, res) => {
+router.get('/patient/appointment/panel/:id', NotAuthUser, async(req,res)=>{
+  try {
+    const appointments = await Appointment.find({Appointment_Patient : req.params.id});
+    const doctors = await Doctor.find({});
+    res.render('patient/appointment', {
+      layout: 'layouts/patientModule',
+      appointments,
+      doctors,
+      patient: req.user,
+      helper: require("../middleware/helper"),
+    });
+  } catch (err) {
+    res.sendStatus(500).json({err});
+  }
+})
+
+
+router.get("/patient/appointment/create", NotAuthUser, async(req, res) => {
   try{
     const data = await Doctor.find({});
-    res.render("appointment", {doctors : data});
+    res.render("appointment", {
+      layout: 'layouts/patientModule',
+      patient: req.user,
+      doctors : data,
+      helper: require("../middleware/helper"),
+    });
  }catch(err){
    res.sendStatus(500).json(err);
  }
 });
+
+router.post("/patient/appointment/save", async(req, res) => {
+  const {
+      patientName, 
+      patientAge,
+      patientEmail, 
+      patientDob,  phone,
+      doctor, date, time, health 
+    } = req.body;
+
+  try {
+      const data = await Appointment.create({
+        Appointment_User_Name: patientName,
+        Appointment_User_Age: patientAge,
+        Appointment_User_Email: patientEmail,
+        Appointment_User_Dob: patientDob,
+        Appointment_User_Phone: phone,
+        Appointment_User_Chosen_Doctor: doctor,
+        Appointment_User_Book_Date: date,
+        Appointment_User_Book_Time: formatTime(time),
+        Appointment_User_Health: health,
+        Appointment_Patient: req.user.id,
+        createdAt: new Date()
+      });
+      await data.save();
+      res.redirect(302, `/patient/appointment/panel/${req.user.id}`);
+
+} catch (error) {
+    res.sendStatus(500).json(error);
+}
+});
+
+
+
+router.get('/patient/account/delete/:id', NotAuthUser, async(req, res)=>{
+  const id = req.params.id;
+  try {
+      await Patient.findByIdAndDelete(id, (err)=>{
+        if(err){
+          res.sendStatus(500).json({err})
+        }
+        res.redirect(302, '/user/login');
+      });
+  } catch (error) {
+    res.sendStatus(500).json(error.message);
+  }
+})
+
+
+
 
 router.get("/admin/dashboard", NotAuthAdmin, (req, res) => {
   res.render("admin/dashboard", { layout: "layouts/adminModule" });
@@ -67,42 +149,6 @@ router.get('/admin/department/panel', NotAuthAdmin, async(req, res)=>{
 // }
 // });
 
-
-router.post("/appointment/create", async(req, res) => {
-  const {
-      patientName, 
-      patientAge,
-      patientEmail, 
-      patientDob,  phone,
-      doctor, date, time, health 
-    } = req.body;
-
-  try {
-    const doctors = await Doctor.findById( doctor);
-   
-    if(doctors){
-      const data = await Appointment.create({
-        Appointment_User_Name: patientName,
-        Appointment_User_Age: patientAge,
-        Appointment_User_Email: patientEmail,
-        Appointment_User_Dob: patientDob,
-        Appointment_User_Phone: phone,
-        Appointment_User_Chosen_Doctor: doctor,
-        Appointment_User_Book_Date: date,
-        Appointment_User_Book_Time: formatTime(time),
-        Appointment_User_Health: health,
-        Appointment_Patient: req.user.id,
-        createdAt: new Date()
-      });
-      await data.save();
-      console.log(data);
-      res.redirect(302, `/doctor/appointment/panel/${doctors.id}`);
-    }
-
-} catch (error) {
-    res.sendStatus(500).json(error);
-}
-});
 
 router.post("/doctor/profile/save", (req, res) => {
 
@@ -221,11 +267,12 @@ router.get('/doctor/appointment/panel/:id/:query?', async(req, res)=>{
 
 router.get('/user/appointment/confirmed/:id', async(req, res)=>{
   const app_id = req.params.id;
+  const id = req.session.user;
   try{
     const app_data = await Appointment.findById(app_id);
     app_data.Appointment_Status = "confirmed";
     await Appointment.create(app_data);
-    res.redirect(302, `/doctor/appointment/panel/${app_id}`);
+    res.redirect(302, `/doctor/appointment/panel/${id}`);
   }catch(err){
     res.sendStatus(500).json(err);
   }
@@ -233,12 +280,13 @@ router.get('/user/appointment/confirmed/:id', async(req, res)=>{
 
 router.get('/user/appointment/cancel/:id', async(req,res)=>{
   const app_id = req.params.id;
+  const id = req.session.user;
   try{
     await Appointment.findByIdAndDelete(app_id, (err)=>{
       if(err){
         res.sendStatus(500).json(err);
       }else{
-        res.redirect(302, `/doctor/appointment/panel/${app_id}`);
+        res.redirect(302, `/doctor/appointment/panel/${id}`);
       }
     });
    

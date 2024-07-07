@@ -74,7 +74,7 @@
         <div class="col-lg-8">
         <div class="appointment--area">
         <h5 class="title">Get An Appointment!</h5>
-        <form action="/appointment/create" method="post" name="appointmentForm">
+        <form action="/patient/appointment/save" method="post" name="appointmentForm">
           <div class="form-group mb-2">
             <label for="username">Your Name</label>
             <input
@@ -185,7 +185,13 @@
             class="form-control" required>
             </textarea>
           </div>
-          <button type="submit" class="px-5 py-2 appointment--btn form-control" id="signup">Make Appointment</button>
+          <div class=" d-block d-lg-flex justify-content-around gap-4">
+            <button type="button" class="px-5 py-2 appointment--btn form-control bg-secondary mb-3 mb-lg-0"
+              onclick="history.back()"
+            >Back</button>
+            <button type="submit" class="px-5 py-2 appointment--btn form-control"
+            id="signup">Make Appointment</button>
+          </div>
         </form>
       </div>  
        </div>
