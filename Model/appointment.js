@@ -4,7 +4,8 @@ const mongoose = require('mongoose')
 const AppointmentSchema = new mongoose.Schema({
     Appointment_Status: {
         type: String,
-        default : "pending"
+        default : "pending",
+        enum: ['pending', 'approved', 'confirmed']
     },
     Appointment_User_Name: {
         type: String,
@@ -43,6 +44,11 @@ const AppointmentSchema = new mongoose.Schema({
     Appointment_User_Health:{
         type: String,
         required: true
+    },
+    Payment:{
+        type: String,
+        default: "pay",
+        enum: ['pay', 'done']
     },
     Appointment_Patient: {
         type: mongoose.Schema.Types.ObjectId,

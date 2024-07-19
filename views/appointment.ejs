@@ -112,17 +112,6 @@
           </div>
 
           <div class="form-group mb-2">
-            <label for="userage">Your Age</label>
-            <input
-              type="text"
-              class="form-control"
-              id="patientAge"
-              name="patientAge"
-              placeholder="Enter Your Age"
-            />
-          </div>
-
-          <div class="form-group mb-2">
             <label for="phoneNumber">Phone Number</label>
             <input
               type="text"
@@ -140,12 +129,26 @@
         <label for="doctors">Choose Your Doctor</label>
         <select name="doctor" id="doctors" class="form-control" required>
         <option value="" selected disabled>Appointment With Your Preferred Doctor</option>
-          <% doctors.map((doctor)=> { %> 
-          <option value="<%=doctor.id%>"><%= doctor.Name %>
+          <% doctors.map((doctor)=> { %>
+            <% if(appointments.length == 0) {%>
+              <option value="<%=doctor.id%>"><%= doctor.Name %> 
+              </option> 
+            <% } %>
+            <% appointments.map(app => { %>
+                <% if(app.Appointment_User_Chosen_Doctor === doctor.id) { %>
+                 <option value="<%=doctor.id%>"
+                 disabled 
+                 title="You already have an appointment with the doctor"><%= doctor.Name %> 
+                </option> 
+              <% }else { %>
+                <option value="<%=doctor.id%>"><%= doctor.Name %> 
+                 </option> 
+               <% }}) %>
             <optgroup label="doctor-info">
               <option disabled>[<%=doctor.Speciality %>]</option>
               <option disabled>Available On [<%= doctor.Date1 %> , <%= doctor.Date2 %>]</option>
-              <option disabled>From <%= doctor.DoctorHours1 %> To <%= doctor.DoctorHours2 %>]</option>
+              <option disabled>From <%= doctor.DoctorHours1 %> - <%= doctor.DoctorHours2 %></option>
+              <option disabled>Session Fee &#8377; <%= doctor.DoctorFee %></option>
             </optgroup>
           </option>
         <hr />
@@ -202,26 +205,7 @@
     <script>
 
    const number = document.getElementById('number');
-   const birthDate = document.getElementById('patientDob');
-
-    function calculateAge() {
-    const [year, month, day] = birthDate.value.split('-').map(Number);
-    
-    // Get current date
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth() + 1;
-
-    let age = currentYear - year;
-
-    if (currentMonth < month || (currentMonth === month && currentDate.getDate() < day)) {
-        age--;
-    }
-
-    document.getElementById('patientAge').value = age;
-
-}
-
+   
       function isNumber(num) {
         if (!isNaN(num)) {
           if (num.length > 10 || num.length < 10) {

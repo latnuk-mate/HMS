@@ -35,8 +35,33 @@ module.exports = {
                         const endOfWeek = new Date(currentDate);
                         endOfWeek.setHours(23, 59, 59, 999);
                         endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+                        if (typeof date === 'string') {
+                                date = new Date(date);
+                            }
+                
+                            date.setHours(0, 0, 0, 0);
                     
                         return date >= startOfWeek && date <= endOfWeek;
                 
-        }
+        },
+
+        calculateAge : (birthday)=>{
+                const [year, month, day] = birthday.split('-').map(Number);
+    
+                // Get current date
+                const currentDate = new Date();
+                const currentYear = currentDate.getFullYear();
+                const currentMonth = currentDate.getMonth() + 1;
+            
+                let age = currentYear - year;
+            
+                if (currentMonth < month || (currentMonth === month && currentDate.getDate() < day)) {
+                    age--;
+                }
+
+                return age;
+        },
+
 }
+

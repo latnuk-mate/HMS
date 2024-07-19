@@ -13,6 +13,7 @@
                     <td class="col">Doctor</td>
                     <td class="col">Date</td>
                     <td class="col">Status</td>
+                    <td class="col">Payment</td>
                     <td class="col">Action</td>
                 </tr>
             </thead>
@@ -24,7 +25,7 @@
                               <td> <%= doctor.Name %></td>  
                         <% }}) %>
                         <td> <%= helper.formatDate(app.Appointment_User_Book_Date , 'DD-MM-YYYY') %></td>
-                        <% if(app.Appointment_Status === "pending") { %>
+                        <% if(app.Appointment_Status === "confirmed" && app.Payment === 'done') { %>
                         <td>
                             <div class="px-3 py-1 text-white bg-warning rounded ">
                                 <%= app.Appointment_Status %>
@@ -37,6 +38,20 @@
                                 </div>
                             </td>
                         <% } %>
+                            <% if(app.Payment === 'pay') {%>
+                                <td>
+                                    <a href=""
+                                        class="px-3 py-1 text-decoration-none bg-primary text-white rounded">
+                                        &#8377; Pay Now
+                                    </a> 
+                                </td>
+                            <% }else {%>
+                                <td>
+                                    <div class="px-3 py-1 text-white bg-success rounded">
+                                        <%= app.Payment %>
+                                    </div>
+                                </td>  
+                            <%} %>
                         <td>
                             <a href="/patient/appointment/cancel/<%=app.id%>"
                                 class="px-3 py-1 text-decoration-none bg-danger text-white rounded">

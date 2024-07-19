@@ -1,0 +1,51 @@
+
+    <h5 class="text-center text-secondary fs-4 mb-3">All Available Doctors</h5>
+    <div class="patient--doctors--area pb-3">
+            <% doctors.map(doctor =>{ %>
+                <div class="d-flex align-items-center gap-5 justify-content-center mb-3">
+                        <div class="img--box" style="width: 160px; height: 150px; overflow: hidden;">
+                            <img src="/uploads/<%=doctor.Image%>" alt="" class="img-thumbnail h-100 w-100">
+                        </div>
+
+                        <div>
+                            <h5 class="text-secondary mb-1">Dr. <%= doctor.Name %></h5>
+                            <p class="mb-1"><%= doctor.Phone %></p>
+                            <p class="mb-1"><%= doctor.Department %></p>
+                            <p class="mb-1"><%= doctor.Academics%></p>
+                            <p class="mb-3"><%= doctor.Speciality %></p>
+                            <p class="mb-3"><%= doctor.DoctorFee %></p>
+                            <% if(appointments.length == 0) {%>
+                                <a href="/patient/appointment/create" 
+                                class="text-decoration-none rounded px-3 py-2 bg-primary text-white d-flex gap-1 align-items-center"
+                                >
+                                <span class="d-none d-lg-block">Make Appointment</span>
+                                <i class="fa fa-edit"></i>
+                                </a>  
+                            <% } %>
+                            <% appointments.map(app =>{ %>
+                            <% if(app.Appointment_User_Chosen_Doctor === doctor.id) { %>
+                                <div 
+                                    class="px-lg-4 py-lg-2 px-3 bg-warning text-white"
+                                    style="border-radius: 100px;">
+                                        Booked Date
+                                        <span>
+                                            <%= helper.formatDate(app.Appointment_User_Book_Date, "DD-MM-YYYY") %>
+                                        </span>
+                                </div> 
+                     
+                          <% }else{ %>
+                               <a href="/patient/appointment/create" 
+                                    class="text-decoration-none rounded px-3 py-2 bg-primary text-white d-flex gap-1 align-items-center"
+                                >
+                            <span class="d-none d-lg-block">Make Appointment</span>
+                            <i class="fa fa-edit"></i>
+                                </a> 
+                        <% }}) %>
+                  
+                     </div>
+                   
+                </div>
+           
+        <% }) %>
+    </div>
+        

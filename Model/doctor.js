@@ -74,6 +74,10 @@ const DoctorSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    DoctorFee:{
+        type: Number,
+        required: true
+    },
     userName:{
         type: String,
         required: true

@@ -3,7 +3,7 @@ const { Appointment } = require("../Model/appointment");
 const { Doctor } = require("../Model/doctor");
 const { Patient } = require("../Model/patient");
 const upload = require("../middleware/fileSave");
-const {formatTime} = require("../middleware/helper");
+const {formatTime, calculateAge, saveNotification} = require("../middleware/helper");
 const { NotAuthUser, NotAuthAdmin, NotAuthDoctor } = require("../middleware/userAuth");
 
 const router = require("express").Router();
@@ -20,7 +20,8 @@ router.get("/dashboard", NotAuthUser, async(req, res) => {
         patient: req.user,
         doctors,
         appointments,
-        patients
+        patients,
+        notification : 0
       });
   } catch (error) {
       res.sendStatus(500).json(error.message);
@@ -37,9 +38,11 @@ router.get('/patient/appointment/panel/:id', NotAuthUser, async(req,res)=>{
       doctors,
       patient: req.user,
       helper: require("../middleware/helper"),
+      notification : 0
     });
   } catch (err) {
-    res.sendStatus(500).json({err});
+    // res.sendStatus(500).json({err});
+    console.log(err.message)
   }
 })
 
@@ -47,11 +50,14 @@ router.get('/patient/appointment/panel/:id', NotAuthUser, async(req,res)=>{
 router.get("/patient/appointment/create", NotAuthUser, async(req, res) => {
   try{
     const data = await Doctor.find({});
+    const appointments = await Appointment.find({Appointment_Patient : req.user.id});
     res.render("appointment", {
       layout: 'layouts/patientModule',
       patient: req.user,
       doctors : data,
+      appointments,
       helper: require("../middleware/helper"),
+      notification : 0
     });
  }catch(err){
    res.sendStatus(500).json(err);
@@ -60,8 +66,7 @@ router.get("/patient/appointment/create", NotAuthUser, async(req, res) => {
 
 router.post("/patient/appointment/save", async(req, res) => {
   const {
-      patientName, 
-      patientAge,
+      patientName,
       patientEmail, 
       patientDob,  phone,
       doctor, date, time, health 
@@ -70,7 +75,7 @@ router.post("/patient/appointment/save", async(req, res) => {
   try {
       const data = await Appointment.create({
         Appointment_User_Name: patientName,
-        Appointment_User_Age: patientAge,
+        Appointment_User_Age: calculateAge(patientDob),
         Appointment_User_Email: patientEmail,
         Appointment_User_Dob: patientDob,
         Appointment_User_Phone: phone,
@@ -85,9 +90,45 @@ router.post("/patient/appointment/save", async(req, res) => {
       res.redirect(302, `/patient/appointment/panel/${req.user.id}`);
 
 } catch (error) {
-    res.sendStatus(500).json(error);
+    // res.sendStatus(500).json(error);
+    console.log(error.message)
 }
 });
+
+
+router.get('/patient/appointment/cancel/:id', async(req,res)=>{
+  const app_id = req.params.id;
+  const id = req.user.id;
+  try{
+    await Appointment.findByIdAndDelete(app_id, (err)=>{
+      if(err){
+        res.sendStatus(500).json(err);
+      }else{
+        res.redirect(302, `/patient/appointment/panel/${id}`);
+      }
+    });
+   
+  }catch(err){
+    res.sendStatus(500).json(err);
+  }
+})
+
+router.get('/patient/doctor/panel/:id' , NotAuthUser, async(req, res)=>{
+  try {
+    const doctors = await Doctor.find({});
+    const appointments = await Appointment.find({Appointment_Patient : req.params.id});
+    res.render('patient/doctorPage', {
+      layout: 'layouts/patientModule',
+      patient: req.user,
+      helper: require("../middleware/helper"),
+      doctors,
+      appointments,
+      notification : 0
+    })
+  } catch (e) {
+      res.sendStatus(500).json(e.message);
+  }
+})
 
 
 
@@ -178,6 +219,7 @@ router.post("/doctor/profile/save", (req, res) => {
                         EmploymentDate: req.body.EmpDate,
                         DoctorHours1: formatTime(req.body.doctorHours1),
                         DoctorHours2: formatTime(req.body.doctorHours2),
+                        DoctorFee: req.body.doctorFee,
                         userName: req.body.doctorUser,
                         Password: req.body.doctorPass,
                         createdAt : new Date()
@@ -247,7 +289,7 @@ router.get('/doctor/appointment/panel/:id/:query?', async(req, res)=>{
       appointments : apponitments,
       data: doctors,
       helper: require("../middleware/helper"),
-      length : 0});
+      length : 0, currentDate : new Date()});
     }
 
     if(query === "pending"){
@@ -270,11 +312,12 @@ router.get('/user/appointment/confirmed/:id', async(req, res)=>{
   const id = req.session.user;
   try{
     const app_data = await Appointment.findById(app_id);
-    app_data.Appointment_Status = "confirmed";
+    app_data.Appointment_Status = "approved";
     await Appointment.create(app_data);
     res.redirect(302, `/doctor/appointment/panel/${id}`);
   }catch(err){
-    res.sendStatus(500).json(err);
+    // res.sendStatus(500).json(err);
+    console.log(err.message)
   }
 });
 

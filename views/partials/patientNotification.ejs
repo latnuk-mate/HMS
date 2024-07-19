@@ -1,0 +1,40 @@
+   <!-- Account details for patient -->
+   <div class="modal fade" id="Patient_Notification" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content p-3">
+        <div class="modal-body rounded">
+         <div class="d-flex justify-content-end mb-3">
+            <button type="button" 
+            class="btn-close" 
+            data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+            <% appointments.map(app => {%> 
+                <% if(app.Appointment_Status === 'approved') { %>
+                    <% doctors.map(doctor => { %> 
+                     <% if(app.Appointment_User_Chosen_Doctor === doctor.id) {%> 
+                      <div class="alert alert-primary alert-dismissible fade show position-relative" role="alert">
+                        <h5 class="alert-heading">Approved!</h5>
+                        <p>Your appointment with <%= doctor.Name %> got approved, Proceed with the Payment!</p>
+                        <button type="button" class="close position-absolute top-0 end-0 bg-transparent border-0"\
+                         data-bs-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true" style="font-size: 18px;">&times;</span>
+                        </button>
+                      </div> 
+                    <% }}) %>
+                       
+            <% } if(app.Appointment_Status === 'confirmed' && app.Payment === 'done') {%>
+           
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading">Confirmed!</h5>
+                <p>Your appointment is confirmed!</p>
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+          
+          <% }}) %>
+        </div>
+     
+      </div>
+    </div>
+  </div>
