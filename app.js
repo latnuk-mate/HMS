@@ -58,9 +58,17 @@ app.use((req,res,next)=>{
 })
 
 
-
+// for user and doctor and admin verification
 app.use('/' , require('./route/user'));
+
+// for patient module
 app.use('/' , require('./route/main'));
+
+// for doctor module...
+app.use('/', require('./route/doctor'));
+
+// for admin module...
+app.use('/', require('./route/admin'));
 
 
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ADMIN DASHBOARD | DEPARTMENT</title>
+<title>DEPARTMENT PAGE</title>
 <style>
     .department--area{
         height: 550px;
@@ -145,7 +145,7 @@
              <div class="mb-3">
                 <!-- staff details -->
                <% staffs.map((staff)=>{ %>
-                    <% if(staff.Department === "Operators"){ %>
+                    <% if(staff.Category === "operator"){ %>
                        <% value++ %>
                     <% } %>
               <%  }) %>

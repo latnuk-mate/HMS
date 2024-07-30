@@ -1,0 +1,23 @@
+
+<div class="mb-4 text-center fs-5 text-secondary">Staff Nurse Data</div>
+<table class="table table-striped border table-hover">
+    <thead class="text-center fs-5 fw-semibold">
+        <th>
+            <td class="col">Name</td>
+            <td class="col">Shift Time</td>
+            <td class="col">Date Employed</td>
+        </th>
+    </thead>
+    <% if(staffs.length > 0) { %>
+    <tbody class="text-center">
+        <th>
+        <% staffs.map(staff => { %>
+         <% if(staff.Category === "nurse") { %>
+             <td><%= staff.Name %></td>
+             <td><%= staff.Shift || "N/A" %></td>
+             <td><%= helper.formatDate(staff.EmpDate, "DD-MM-YYYY") %></td>
+       <% }}) %>  
+        </th>
+    </tbody>
+    <% } %>
+</table>

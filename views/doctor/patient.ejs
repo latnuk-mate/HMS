@@ -1,0 +1,34 @@
+<div class="mb-4 text-center fs-5 text-secondary">My Patient Details</div>
+<table class="table table-striped border table-hover table-info">
+    <thead class="text-center fs-5 fw-semibold">
+        <th>
+            <td class="col">Name</td>
+            <td class="col">Phone Number</td>
+            <td class="col">Upcoming Appointments</td>
+            <td class="col">Action</td>
+        </th>
+    </thead>
+    <% if(patients.length > 0 && appointments.length > 0) { %>
+    <tbody class="text-center">
+        <th>
+        <% appointments.map(app => { %>
+           <% patients.map(patient => { %>
+            <% if(patient.id == app.Appointment_Patient) {%>
+                <td><%= patient.userName %></td>
+                 <td><%= patient.userPhone %></td>
+                <td>
+     <% if(helper.AppointmentChecker(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD"))) { %>
+        <% if(new Date(app.Appointment_User_Book_Date).getDate() > new Date().getDate()) { %>
+            <%= helper.formatDate(app.Appointment_User_Book_Date, "DD-MM-YYYY")%> 
+     <% }}%>
+        </td> 
+        <td>
+            <a href="#" class="text-decoration-none bg-primary text-white px-4 py-1 rounded">
+                View Details
+            </a>
+        </td> 
+       <% }})}) %>  
+        </th>
+    </tbody>
+    <% } %>
+</table>

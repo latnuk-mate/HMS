@@ -1,94 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ADMIN DASHBOARD | Appointment Panel</title>
-<style>
-    .card{
-        border-radius: 8px;
-        background-color: antiquewhite;
-        padding: 10px;
-    }
-    ul{
-        list-style-type: none;
-    }
-    ul li{
-        padding: 4px 6px;
-    }
-</style>
-</head>
-<body>
-    
-  <%- include('../partials/appHeader') %>
- 
-    
-        <% if(query == 'pending'){ %>
-            <% if(appointments.length == 0){ %>
-                <h5 class="text-center fs-5 text-secondary">No Pending Appointments</h5>
-           <% } %>
-            <div class="row">
-                  <% appointments.map((appointment)=>{ %> 
-                     <% if(appointment.Appointment_Status == "pending") { %>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card shadow-lg">
-                                <ul class="mb-2">
-                                    <li>Name: <%= appointment.Appointment_User_Name %></li>
-                                    <li>Mobile No: <%= appointment.Appointment_User_Phone %></li>
-                                    <li>Age: <%= appointment.Appointment_User_Age %></li>
-                                    <li>Date For Appointment: <%= appointment.Appointment_User_Book_Date.toLocaleDateString() %></li>
-                                </ul>
-                                <div class="d-flex align-items-center gap-2 justify-content-center">
-                                <a href="/user/appointment/cancel/<%= appointment.id %>" 
-                                class="text-decoration-none px-4 py-1 bg-danger text-white">
-                                    Cancel    
-                                </a>
-                                <a href="/user/appointment/confirmed/<%= appointment.id %>" 
-                                class="text-decoration-none px-4 py-1 bg-success text-white">
-                                    Confirm   
-                                </a>
-                                </div>
-                      
-                            </div>
-                        </div>
-                        
-                    <% } %>
-                    
-                 <% }) %>         
-            </div>
-        <% } %>
 
-        <% if(query == 'list'){ %>
-            <% if(appointments.length == 0){ %>
-                <h5 class="text-center fs-5 text-secondary">No Appointments</h5>
-           <% } %>
-            <div class="row">
-                <% appointments.map((appointment)=>{ %> 
-                   <% if(appointment.Appointment_Status == "confirmed") { %>
-                      <div class="col-lg-4 col-md-6">
-                          <div class="card shadow-lg">
-                              <ul class="mb-2">
-                                  <li>Name: <%= appointment.Appointment_User_Name %></li>
-                                  <li>Mobile No: <%= appointment.Appointment_User_Phone %></li>
-                                  <li>Age: <%= appointment.Appointment_User_Age %></li>
-                                  <li>Date For Appointment: <%= appointment.Appointment_User_Book_Date.toLocaleDateString() %></li>
-                              </ul>
-                              <div class="d-flex justify-content-center">
-                              <a href="/user/appointment/update/<%= appointment.id %>" 
-                              class="text-decoration-none px-4 py-1 bg-warning text-black">
-                                  Reschedule    
-                              </a>
-                             </div>
-                    
-                          </div>
-                      </div>
-                      
-                  <% } %>
-                  
-                 <% }) %>
+<% if(appointments.length > 0) { %>
+    <h4 class="text-center text-secondary mb-3">Appointment List</h4>
+    <div class="m-2">
+    <table class="table table-striped table-primary border border-secondary">
+        <thead class="fw-semibold text-center border-end-2 border-secondary">
+            <tr>
+                <th class="col">PatientName</th>
+                <th class="col">Appointment With</th>
+                <th class="col">Date</th>
+                <th class="col">Time</th>
+                <th class="col">Status</th>
+                <th class="col">Payment</th>
+            </tr> 
+    </thead>
+    <% appointments.map(app => { %>
+        <tbody class="text-center">
+            <tr>
+                <td><%= app.Appointment_User_Name %></td>
+            <td>
+                <% doctors.map(doctor => { %> 
+                <% if(doctor.id === app.Appointment_User_Chosen_Doctor){ %>
+                    <%= doctor.Name %>
+            <% }}) %>
+           </td>
 
-                
-          </div>
-        <% } %>
-</body>
-</html>
+           
+            <td><%= helper.formatDate(app.Appointment_User_Book_Date, "DD-MM-YYYY") %></td>
+            <td><%= app.Appointment_User_Book_Time %></td>
+            <td><%= app.Appointment_Status %></td>
+            <td><%= app.Payment %></td>
+            </tr>
+        </tbody>    
+
+    <% }) %>
+
+    </table> 
+</div>   
+<%} else {%>
+    <h4 class="text-center text-secondary">No Appointments Avaiable!</h4>
+ <% } %>

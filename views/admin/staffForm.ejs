@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="p-3 shadow-lg bg-white text-secondary rounded">
+            <form action="/admin/staffProfileSave" method="post">
+                <div class="form-group mb-2">
+                    <label for="category">Select a Category!</label>
+                    <select name="category" class="form-control" required>
+                        <option value="" selected disabled>Please Select a Category</option>
+                        <option value="nurse">Nurse</option>
+                        <option value="receptionist">Receptionist</option>
+                        <option value="pharmacist">Phramacist</option>
+                        <option value="operator">Operator</option>
+                    </select>
+                </div>
+            <div class="form-group mb-2">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="name" required>
+            </div>
+            <div class="form-group mb-2">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="form-group mb-2">
+                <label for="phone">Phone</label>
+                <input type="Number" class="form-control" name="phone" required>
+            </div>
+            <div class="form-group mb-2">
+                <label for="sftTime">Shift Time</label>
+                <input type="text" class="form-control" name="shiftTime">
+            </div>
+            <div class="form-group mb-2">
+                <label for="empDate">EmploymentDate</label>
+                <input type="date" class="form-control" name="empDate" required>
+            </div>
+
+            <button type="submit" 
+            class="form-control px-5 py-2 bg-primary text-white rounded">
+            Create Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
