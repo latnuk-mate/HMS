@@ -1,0 +1,40 @@
+
+<style>
+    ul{
+        list-style-type: none;
+        display: inline-block;
+        text-align: left;
+    }
+</style>
+    <div class="text-center">
+        <h5 class="text-secondary mb-4">Doctor Details!</h5>
+        <h4 class="fs-2 text-secondary mb-3 leading-2">Name:- <%=doctor.Name%></h4>
+        <p class="mb-1">Email:- <%=doctor.Email%></p>
+        <p>Phone:- <%=doctor.Phone%></p>
+
+
+    <ul class="fw-semibold fs-5">
+        <li>Visiting Days:- <%=doctor.Date1%> and <%=doctor.Date2%></li>
+        <li>EmploymentStatus:- <%=doctor.EmploymentStatus || "N/A" %></li>
+        <li>Department:- <%=doctor.Department%></li>
+        <li>Visiting Time:-
+    <%=(doctor.DoctorHours1 && doctor.DoctorHours2) ? doctor.DoctorHours1 - doctor.DoctorHours2 : "N/A"%></li>
+        <li>Fees Per Session:- <%=doctor.DoctorFee || "N/A" %></li>
+        <li>Speciality:- <%=doctor.Speciality || "N/A" %></li>
+    </ul>
+
+    <div class="d-flex align-items-center gap-3 justify-content-center">
+        <a href="#/admin/doctor/profileUpdate/<%=doctor.id%>" 
+            class="text-decoration-none text-white bg-primary rounded px-5 py-2"
+            >
+            Update Profile
+        </a>
+    <button 
+    onclick="history.back()" 
+    class="bg-secondary text-white px-5 py-2 rounded border-0">
+        Back
+    </button>
+    </div>
+
+    </div>
+

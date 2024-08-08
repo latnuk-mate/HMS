@@ -17,11 +17,11 @@ router.get('/user/signup' , AuthUser, (req,res)=>{
 });
 
 router.get('/doctor/signIn' , AuthDoctor,  (req,res)=>{
-    res.render('verification/doctorLogin' ,  {error : " "})
+    res.render('verification/doctorLogin' ,  {error : ""})
 });
 
 router.get('/admin/signIn' , AuthAdmin, (req,res)=>{
-    res.render('verification/adminLogin' , {error : " "})
+    res.render('verification/adminLogin' , {error : ""})
 })
 
 

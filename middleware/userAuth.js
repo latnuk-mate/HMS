@@ -37,4 +37,9 @@ NotAuthDoctor: function(req, res,next){
 	}
 	res.redirect('/doctor/signIn');
 },
+
+AuthenticaionError: (req,res, next)=>{
+	req.flash('flash', 'Incorrect Credentials!');
+	return next();
+},
 }

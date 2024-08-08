@@ -12,8 +12,25 @@ const router = require('express').Router();
 
 
 
-router.get("/admin/dashboard", NotAuthAdmin, (req, res) => {
-    res.render("admin/dashboard", { layout: "layouts/adminModule" });
+router.get("/admin/dashboard", NotAuthAdmin, async(req, res) => {
+  try {
+        const patients = await Patient.find({});
+        const appointments  = await Appointment.find({});
+        const staffs = await Staff.find({});
+
+      res.render("admin/dashboard", 
+        { 
+          layout: "layouts/adminModule",
+          patients,
+          appointments,
+          staffs,
+          count : 0
+         });
+
+  } catch (error) {
+    console.log(error)  
+  }
+    
   });
   
   router.get("/admin/doctor/panel",  NotAuthAdmin, async(req, res) => {
@@ -26,9 +43,22 @@ router.get("/admin/dashboard", NotAuthAdmin, (req, res) => {
      
   });
   
+
+
   router.get("/create/doctor/profile", NotAuthAdmin, (req, res) => {
-    res.render("admin/doctorProfileForm", { layout: "layouts/adminModule" });
+    res.render("admin/doctorProfileForm", { layout: "layouts/adminModule" , doctor: {}});
   });
+
+
+  /** 
+   * I will fix this route later...
+  */
+  // router.get('/admin/doctor/profileUpdate/:id', NotAuthAdmin, async (req, res)=>{
+  //   const doctor = await Doctor.findById(req.params.id);
+  //   res.render("admin/doctorProfileForm", { layout: "layouts/adminModule" , doctor});
+  // })
+
+
   
   router.get('/admin/department/panel', NotAuthAdmin, async(req, res)=>{
     try {
@@ -118,11 +148,13 @@ router.get("/admin/dashboard", NotAuthAdmin, (req, res) => {
   
     upload(req, res , async(err)=>{
       if(err){
-          res.render("admin/doctorProfileForm", { layout: "layouts/adminModule" , msg: err});
+          res.render("admin/doctorProfileForm",
+         { layout: "layouts/adminModule" , msg: err, doctor: {}});
       }else{
         
           if(req.file == undefined){
-              res.render("admin/doctorProfileForm", { layout: "layouts/adminModule" , msg: "Please select a file!"});
+              res.render("admin/doctorProfileForm", 
+            { layout: "layouts/adminModule" , msg: "Please select a file!", doctor: {}});
           }else{
                   try{
                       const doctorData = await Doctor.create({
@@ -152,13 +184,26 @@ router.get("/admin/dashboard", NotAuthAdmin, (req, res) => {
                       res.redirect(302 , '/admin/doctor/panel');
                   }
                   catch(err){
-                      res.render("admin/doctorProfileForm", { layout: "layouts/adminModule" , msg: err.message});
+                      res.render("admin/doctorProfileForm", 
+                      { layout: "layouts/adminModule" , msg: err.message, doctor: {}});
                   }
   
           }};
   });
   
   });
+
+  router.get('/admin/doctorProfile/view/:id', NotAuthAdmin, async(req,res)=>{
+    const doctor = await Doctor.findById(req.params.id);
+    try {
+      res.render('partials/doctorInfo', {
+        layout: 'layouts/adminModule',
+        doctor
+      });
+    } catch (error) {
+        res.sendStatus(500).json(error);
+    }
+  })
 
 
 

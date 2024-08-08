@@ -25,14 +25,17 @@
 </head>
 <body>
   <div class="text-center text-danger mb-1">
-    <%= typeof msg != 'undefined' ? msg : "" %>
-     
+    <%= typeof msg != 'undefined' ? msg : "" %>    
   </div>
+
+  <button 
+  class="bg-secondary text-white px-5 py-2 border-0 rounded fw-semibold" 
+  onclick="history.back()">
+  Back</button>
+
     <h5 class="text-center fs-4 mb-2">Create a Doctor's Profile!</h5>  
     <!-- Designing the doctor page -->
-  <div class="doctors--area mt-2">
-  
-    <!-- copy this area -->
+  <div class="doctors--area mt-2 mb-3">
         <div class="row justify-content-center pb-2">
         <div class="col-lg-8 shadow shadow-lg rounded bg-white p-3">
           <!-- progress bar of the form -->

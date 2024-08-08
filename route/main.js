@@ -143,6 +143,25 @@ router.get('/patient/account/delete/:id', NotAuthUser, async(req, res)=>{
   } catch (error) {
     res.sendStatus(500).json(error.message);
   }
+});
+
+
+router.get('/patient/bloodbank/panel/:id', NotAuthUser, async(req,res)=>{
+  try {
+    const doctors = await Doctor.find({});
+    const appointments  = await Appointment.find({Appointment_Patient : req.params.id});
+
+    res.render('partials/nullPage', {
+      layout: 'layouts/patientModule',
+      patient: req.user,
+      helper: require("../middleware/helper"),
+      doctors,
+      appointments,
+      notification : 0
+    });
+  } catch (error) {
+      res.sendStatus(500).json(error);
+  }
 })
 
 

@@ -19,6 +19,7 @@ connection();
 
 // calling localStrategy...
 const strategy = require('./config/passportStrategy');
+const { AuthenticaionError } = require('./middleware/userAuth');
 strategy();
 
 
@@ -52,14 +53,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use((req,res,next)=>{
-    req.flash('flash' , "Incorrect Credentials!");
-    next();
-})
-
-
 // for user and doctor and admin verification
-app.use('/' , require('./route/user'));
+app.use('/' , AuthenticaionError, require('./route/user'));
 
 // for patient module
 app.use('/' , require('./route/main'));
@@ -71,6 +66,16 @@ app.use('/', require('./route/doctor'));
 app.use('/', require('./route/admin'));
 
 
+
+// rendering some error pages...
+
+app.get('/error/500', (req,res)=>{
+    res.render('partials/error_500');
+});
+
+app.get('/error/404', (req,res)=>{
+    res.render('partials/error_404');
+})
 
 
 

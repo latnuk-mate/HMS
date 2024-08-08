@@ -1,6 +1,7 @@
 // doctors module pages functions...
 
 const router = require("express").Router();
+const { Passport } = require("passport");
 const { NotAuthDoctor } = require("../middleware/userAuth");
 const { Appointment } = require("../Model/appointment");
 const { Doctor } = require("../Model/doctor");
@@ -27,7 +28,7 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
          data: doctorData
         });
     } catch (error) {
-      res.sendStatus(500).json(error);
+      res.redirect(302 , '/error/500');
     }
   });
   
@@ -37,14 +38,45 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
       const doctorData = await Doctor.findById(doctorId);
       res.render('doctor/profile', 
         {layout: 'layouts/doctorModule',
-           data: doctorData, 
+           data: doctorData,
+           passUpdated: false,
            helper: require("../middleware/helper")
         });
   
     } catch (error) {
-      res.sendStatus(500).json(error);
+      res.redirect(302 , '/error/500');
     }
   });
+
+
+router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
+  const { newPass, oldPass } = req.body;
+  const id = req.params.id;
+    try {
+      const doctor = await Doctor.findById(id);
+      if(doctor.Password === oldPass){
+         await Doctor.findByIdAndUpdate(id, {Password : newPass}, (err)=>{
+            if(err) {
+              res.render('partials/error_500' , {error: err.message});
+            }
+        });
+        res.render('doctor/profile', 
+          {layout: 'layouts/doctorModule',
+             data: doctor,
+             passUpdated: true,
+             helper: require("../middleware/helper")
+          });
+      }else{
+        // prepare some page for graceful errors...
+        res.sendStatus(404).json({err: "error"})
+      }
+
+    } catch (error) {
+      res.redirect(302, '/error/500');
+    }
+})
+
+
   
   router.get('/doctor/appointment/panel/:id/:query?', async(req, res)=>{
     const query = req.params.query;
@@ -72,7 +104,7 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
   
   
   } catch (error) {
-      res.sendStatus(500).json(error); 
+    res.redirect(302 , '/error/500');
   }
   });
   
@@ -85,8 +117,7 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
       await Appointment.create(app_data);
       res.redirect(302, `/doctor/appointment/panel/${id}`);
     }catch(err){
-      // res.sendStatus(500).json(err);
-      console.log(err.message)
+      res.render('partials/error_500' , {error: err.message});
     }
   });
   
@@ -96,14 +127,14 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
     try{
       await Appointment.findByIdAndDelete(app_id, (err)=>{
         if(err){
-          res.sendStatus(500).json(err);
+          res.redirect(302 , '/error/500');
         }else{
           res.redirect(302, `/doctor/appointment/panel/${id}`);
         }
       });
      
     }catch(err){
-      res.sendStatus(500).json(err);
+      res.redirect(302 , '/error/500');
     }
   });
   
@@ -120,7 +151,7 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
           helper: require("../middleware/helper"),
         });
       } catch (err) {
-        res.sendStatus(500).json(err);
+        res.redirect(302 , '/error/500');
       }
   })
   
@@ -135,8 +166,8 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
         helper: require("../middleware/helper"),
         data: doctors
       });
-    } catch (error) {
-        res.sendStatus(500).json(error);
+    } catch (err) {
+      res.redirect(302 , '/error/500');
     }
   });
   
@@ -155,8 +186,8 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
        data,
        helper: require("../middleware/helper"),
       });
-    } catch (error) {
-      res.sendStatus(500).json(error);
+    } catch (err) {
+      res.redirect(302 , '/error/500');
     }
   });
   
@@ -168,8 +199,8 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
         helper: require("../middleware/helper"),
         data: doctors
       });
-    } catch (error) {
-        res.sendStatus(500).json(error);
+    } catch (err) {
+      res.redirect(302 , '/error/500');
     }
   });
   
@@ -182,7 +213,7 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
         data: doctors
       });
     } catch (error) {
-        res.sendStatus(500).json(error);
+      res.redirect(302 , '/error/500');
     }
   });
 
