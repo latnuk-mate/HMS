@@ -53,10 +53,16 @@
                                 </td>  
                             <%} %>
                         <td>
-                            <a href="/patient/appointment/cancel/<%=app.id%>"
-                                class="px-3 py-1 text-decoration-none bg-danger text-white rounded">
-                                Cancel
-                            </a>
+                            <% if(new Date(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD")) > new Date()) { %>
+                                <a href="/patient/appointment/cancel/<%=app.id%>"
+                                    class="px-3 py-1 text-decoration-none bg-danger text-white rounded">
+                                    Cancel
+                                </a>
+                            <% }else{ %>
+                                <div class="px-3 py-1 text-dark bg-secondary rounded">
+                                    Rejected
+                                </div>  
+                          <%  } %>
                         </td>
                         
                     </tr>

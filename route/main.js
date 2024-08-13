@@ -3,6 +3,7 @@
 const { Appointment } = require("../Model/appointment");
 const { Doctor } = require("../Model/doctor");
 const { Patient } = require("../Model/patient");
+const { Staff } = require("../Model/staff");
 const {formatTime, calculateAge} = require("../middleware/helper");
 const { NotAuthUser} = require("../middleware/userAuth");
 
@@ -162,7 +163,30 @@ router.get('/patient/bloodbank/panel/:id', NotAuthUser, async(req,res)=>{
   } catch (error) {
       res.sendStatus(500).json(error);
   }
-})
+});
+
+
+
+router.get('/patient/department/panel', NotAuthUser, async(req, res)=>{
+  try {
+    const doctors = await Doctor.find({});
+    const staffs = await Staff.find({});
+    const appointments  = await Appointment.find({Appointment_Patient : req.params.id});
+    res.render('department',
+     {
+      layout: 'layouts/patientModule',
+      patient: req.user,
+      doctors, 
+      staffs,
+      helper: require("../middleware/helper"),
+      appointments,
+      notification : 0,
+      value: 0
+    });
+  } catch (err) {
+    res.redirect(302 , '/error/500');
+  }
+});
 
 
 module.exports = router;

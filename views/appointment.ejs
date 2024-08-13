@@ -135,12 +135,14 @@
               </option> 
             <% } %>
             <% appointments.map(app => { %>
-                <% if(app.Appointment_User_Chosen_Doctor === doctor.id) { %>
-                 <option value="<%=doctor.id%>"
+          <!-- if we have an appointment, then check if the date is not expired! -->
+           <% if(new Date(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD")) > new Date()) {%>
+            <% if(app.Appointment_User_Chosen_Doctor === doctor.id) { %>
+                <option value="<%=doctor.id%>"
                  disabled 
                  title="You already have an appointment with the doctor"><%= doctor.Name %> 
                 </option> 
-              <% }else { %>
+              <% }} else { %>
                 <option value="<%=doctor.id%>"><%= doctor.Name %> 
                  </option> 
                <% }}) %>

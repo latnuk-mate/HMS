@@ -68,7 +68,7 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
           });
       }else{
         // prepare some page for graceful errors...
-        res.sendStatus(404).json({err: "error"})
+        res.redirect(302 , '/error/500');
       }
 
     } catch (error) {

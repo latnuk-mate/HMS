@@ -116,7 +116,7 @@
                  <!--if the date falls within this current week  -->
                 <% if(helper.AppointmentChecker(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD"))) {%>
                   <!-- if booked date is not expired! -->
-                  <% if(new Date(app.Appointment_User_Book_Date).getDate() > new Date().getDate()) { %>
+                  <% if(new Date(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD")) > new Date()) { %>
                 <tbody>
                   <tr>
                     <td><%= app.Appointment_User_Name %></td>

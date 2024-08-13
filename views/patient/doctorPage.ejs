@@ -23,6 +23,8 @@
                                 </a>  
                             <% } %>
                             <% appointments.map(app =>{ %>
+                                <!-- if the date is not expired, then find the doctor and display the app schedule -->
+                            <% if(new Date(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD")) > new Date()){ %>       
                             <% if(app.Appointment_User_Chosen_Doctor === doctor.id) { %>
                                 <div 
                                     class="px-lg-4 py-lg-2 px-3 bg-warning text-white"
@@ -33,7 +35,7 @@
                                         </span>
                                 </div> 
                      
-                          <% }else{ %>
+                          <% }}else{ %>
                                <a href="/patient/appointment/create" 
                                     class="text-decoration-none rounded px-3 py-2 bg-primary text-white d-flex gap-1 align-items-center"
                                 >
