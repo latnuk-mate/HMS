@@ -1,0 +1,123 @@
+<!-- first section 
+ create a health status bar
+ create heath test score
+ pending task
+ -->
+
+
+ <section class="">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="text-white p-3 rounded" style="background-color: teal;">
+                <h4 class="mb-2">Health Status</h4>
+                <strong class="">Good</strong>
+            <div class="progress mb-4 mt-2">
+                <div class="progress-bar bg-info" 
+                role="progressbar" style="width: 90%;"
+             aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="bg-primary p-2 rounded text-white">
+                <h4 class="mb-2">Health Score</h4>
+            <div class="d-flex align-items-center justify-content-around pt-2 pb-2">
+            <div 
+            class="border border-2 rounded-circle d-flex align-items-center justify-content-center" 
+                style="width: 80px; height: 80px;">
+                    <h5 class="fs-4 p-1">80/100</h5>
+                </div>
+                <div>
+                    <p class="mb-1"><i class="fa fa-check me-1"></i>Full Body Check </p>
+                    <p class="mb-1"><i class="fa fa-check me-1"></i>Test Results </p>
+                    <p class="mb-1"><i class="fa fa-check me-1"></i>No Serious issue </p>
+                </div>
+            </div>
+              
+            </div>
+        </div>
+    <div class="col-lg-4">
+        <div class="shadow-sm p-2 rounded border">
+            <h5 class="mb-1">Get Your EHR Card</h5>
+            <p class="mb-2">You can download and check your health report card.</p>
+
+             <button class="btn btn-primary rounded mb-1" id="generateBtn">
+                <span id="btn--text">Generate Your Report</span>
+            </button> 
+           
+        <div class="progress bar" style="visibility: hidden;">
+            <div class="progress-bar bg-primary downloadBar progress-bar-striped progress-bar-animated" 
+                role="progressbar" aria-valuemin="0"
+                aria-valuemax="100" aria-valuenow="0" style="width: 0%;">
+            </div>
+            </div>
+
+            <a 
+            href="/patient/healthCard/download"
+            style="display: none;"
+            class="btn btn-primary rounded mb-2 link">
+            Download
+        </a> 
+      
+        </div>
+    </div>
+    </div>
+ </section>
+
+ <section class="mt-3">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+           <div class="pb-4">
+            <img src="/imgs/healthChart.png" alt="" class="img-fluid">
+           </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="bg-light p-3 rounded shadow-sm border">
+                <marquee behavior="scroll" direction="up" height="250px">
+                    <ol class="text-secondary">
+                       <li class="mb-3 shadow-sm rounded p-2 bg-light">No Appointments until next week!</li>
+                       <li class="mb-3 shadow-sm rounded p-2 bg-light">No More Pending Tasks!</li>
+                       <li class="mb-3 shadow-sm rounded p-2 bg-light">Check Your Recent Test Result!</li>
+                    </ol>
+               </marquee>
+            </div>
+        </div>
+    </div>
+
+ </section>
+
+
+ <script>
+
+    const generateBtn = document.getElementById('generateBtn');
+    const text = document.getElementById('btn--text');
+    const downloadProgress = document.querySelector('.downloadBar');
+    const Progress = document.querySelector('.bar');
+    const link = document.querySelector('.link');
+     let currentWidth = 0;
+     let interval;
+
+    function downloadingFile(){
+        Progress.style.visibility = 'visible';
+        text.innerHTML = "Generating file...";
+        currentWidth += 2; 
+        downloadProgress.style.width = `${currentWidth}%`;
+
+        if(currentWidth >= 100){
+            clearInterval(interval);
+            Progress.style.visibility = 'hidden';
+            generateBtn.style.display = 'none';
+            link.style.display = 'block';
+        }
+    }
+
+    generateBtn.addEventListener('click', ()=>{
+        interval = setInterval(()=>{
+            downloadingFile()
+        }, 100);
+    });
+
+ </script>
+ 

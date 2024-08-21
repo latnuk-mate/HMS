@@ -1,7 +1,6 @@
 // doctors module pages functions...
 
 const router = require("express").Router();
-const { Passport } = require("passport");
 const { NotAuthDoctor } = require("../middleware/userAuth");
 const { Appointment } = require("../Model/appointment");
 const { Doctor } = require("../Model/doctor");

@@ -4,8 +4,10 @@ const { Appointment } = require("../Model/appointment");
 const { Doctor } = require("../Model/doctor");
 const { Patient } = require("../Model/patient");
 const { Staff } = require("../Model/staff");
+const generatePdf = require("../middleware/generatePdf");
 const {formatTime, calculateAge} = require("../middleware/helper");
 const { NotAuthUser} = require("../middleware/userAuth");
+const Path = require('path');
 
 const router = require("express").Router();
 
@@ -187,6 +189,50 @@ router.get('/patient/department/panel', NotAuthUser, async(req, res)=>{
     res.redirect(302 , '/error/500');
   }
 });
+
+
+
+router.get('/patient/healthDetails/:id', NotAuthUser, async(req, res)=>{
+  
+  try {
+    const doctors = await Doctor.find({});
+    const appointments  = await Appointment.find({Appointment_Patient : req.params.id});
+    res.render('patient/health',
+     {
+      layout: 'layouts/patientModule',
+      patient: req.user,
+      doctors,
+      helper: require("../middleware/helper"),
+      appointments,
+      notification : 0,
+      value: 0,
+    });
+  } catch (err) {
+    res.redirect(302 , '/error/500');
+  }
+});
+
+
+router.get('/patient/healthCard/download', (req,res)=>{
+    const user = {
+      date : new Date().toLocaleDateString(),
+      patient: req.user
+    }
+
+    try {
+      // generating the pdf docs
+         generatePdf(user);
+         const pdf = Path.join(__dirname , "../public/report/report.pdf");
+
+        res.set({
+          "Content-Type" : "application/pdf",
+          "Content-Disposition": "attachment; filename=report.pdf"
+        });
+      res.sendFile(pdf)
+    } catch (error) {
+      console.log(error.message)
+    }
+})
 
 
 module.exports = router;
