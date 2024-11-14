@@ -22,8 +22,10 @@
                     <tr>
                         <% doctors.map(doctor => { %>
                             <% if(doctor.id === app.Appointment_User_Chosen_Doctor) { %>
-                              <td> <%= doctor.Name %></td>  
-                        <% }}) %>
+                              <td> <%= doctor.Name%></td>  
+                        <% }else { %>
+                            <td>N/A</td>
+                       <% }}) %>
                         <td> <%= helper.formatDate(app.Appointment_User_Book_Date , 'DD-MM-YYYY') %></td>
                         <% if(app.Appointment_Status === "confirmed" && app.Payment === 'done') { %>
                         <td>

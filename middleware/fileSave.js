@@ -15,18 +15,12 @@ function checkMimeTypes(file, cb){
 	}
 }
 
-
-// configuring disk Engine
-const fileStore = multer.diskStorage({
-    destination: './public/uploads',
-filename: (req, file, cb)=> {
-        const imageFile = file.fieldname + '-'+Date.now().toString()+Path.extname(file.originalname);
-        cb(null, imageFile);
-}});
+// we are configuring the memory storage..
+const storage = multer.memoryStorage();
 
 const upload = multer({
-    storage: fileStore,
-    limits: {fileSize : 10000000},
+    storage: storage,
+    limits: {fileSize : 3145728}, // 3 mb of data...
     fileFilter: (req, file, cb)=>{
         checkMimeTypes(file, cb);
     }

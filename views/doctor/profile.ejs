@@ -60,7 +60,7 @@
         <div class="row g-4 align-items-center">
             <div class="col-md-6">
                 <div class="img--box">
-                    <img src="/uploads/<%=data.Image%>" alt="" class="img-thumbnail">
+                    <img src="/image/<%=data.id%>" alt="" class="img-thumbnail">
                 </div>
             </div>
 
@@ -93,61 +93,10 @@
                     <h5 class=" mb-2">Your Email:- <%= data.Email %></h5>
                     <h5 class="mb-1">Your Phone:- <%= data.Phone %></h5>
                     <p class="text-secondary mb-3">Department : <%= data.Department %></p>
-                    <a href="/doctor/dashboard/<%=data.id%>"
-                    class="text-decoration-none bg-primary text-white rounded px-5 py-2">Back</a>
+                    <button onclick="history.back()"
+                    class="btn btn-primary text-white rounded px-5 py-2">Back</button>
                 </div>
             </div>
         </div>
 
-        <script>
-            const oldPass = document.getElementById('oldPass');
-            const newPass = document.getElementById('newPass');
-            const confirmPass = document.getElementById('confirmPass');
-
-
-            // password view function...
-            const toggleForOld = document.getElementById('togglePasswordForOld');
-            const toggleForNew = document.getElementById('togglePasswordForNew');
-            const toggleForConfirm = document.getElementById('togglePasswordForConfirm');
-
-                function checkPass(pass, icon){
-                    const type = pass.getAttribute('type') === 'password' ? 'text' : 'password';
-                    pass.setAttribute('type', type);
-                    // toggle the eye slash icon
-                    if (icon.classList.contains('fa-eye')) {
-                        icon.classList.remove('fa-eye');
-                        icon.classList.add('fa-eye-slash');
-                    } else {
-                        icon.classList.remove('fa-eye-slash');
-                        icon.classList.add('fa-eye');
-                    }
-                }
-
-
-            toggleForOld.addEventListener('click', ()=>{
-                checkPass(oldPass, toggleForOld)
-            });
-
-            toggleForNew.addEventListener('click', ()=>{
-                checkPass(newPass, toggleForNew)
-            });
-
-            toggleForConfirm.addEventListener('click', ()=>{
-                checkPass(confirmPass, toggleForConfirm)
-            });
-
-    
-     document.forms["passUpdateForm"].addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        if(newPass.value !== confirmPass.value){
-                    document.querySelector('#msg').innerHTML = "Confirm Password Not Matched!";
-                    return false;
-
-                }else{
-                    document.forms["passUpdateForm"].submit();
-                }
-        
-      });
-
-        </script>
+    <script src="/js/profile.js"></script>

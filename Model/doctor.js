@@ -31,8 +31,9 @@ const DoctorSchema = new mongoose.Schema({
         required : true 
     },
     Image:{
-        type: String,
-        required : true 
+        fileName:{type:String, required: true},
+        fileContentType: {type: String, required: true},
+        fileData: {type: Buffer, required: true}
     },
 
     License:{

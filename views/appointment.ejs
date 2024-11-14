@@ -20,6 +20,8 @@
     referrerpolicy="no-referrer"
   />
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-timepicker@0.5.2/css/bootstrap-timepicker.min.css" rel="stylesheet">
+
     <style rel="stylesheet">
 
       body {
@@ -65,6 +67,10 @@
         font-size: medium;
         font-weight: 500;
       }
+
+
+
+      
     </style>
   </head>
   <body>
@@ -175,9 +181,9 @@
       <label for="date">What's Your Preferred Time
       </label>
        <input
-        type="time"
+        type="text"
         class="form-control"
-        id="time"
+        id="timepicker"
         name="time"
         required
       />
@@ -204,41 +210,26 @@
 
     </div>
 
-    <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+    <script src="/js/appoint.js">
+    </script>
 
-   const number = document.getElementById('number');
-   
-      function isNumber(num) {
-        if (!isNaN(num)) {
-          if (num.length > 10 || num.length < 10) {
-            document.querySelector(".msg-for-number").innerHTML =
-              "Please provide a correct number";
-              number.style.border = "1px solid red";
-              number.focus();
-            return false;
-          }
-        } else {
-          document.querySelector(".msg-for-number").innerHTML =
-            "Please provide a number";
-            number.style.border = "1px solid red";
-            number.focus();
-          return false;
-        }
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-timepicker@0.5.2/js/bootstrap-timepicker.min.js"></script>
+  <script>
 
-        return true;
-      }
-
-      document.forms["appointmentForm"].addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        if(isNumber(number.value)){
-          document.forms["appointmentForm"].submit();
-        }else{
-          document.forms["appointmentForm"].reset();
-        }
-        
-      });
+      $('#timepicker').timepicker({
+        timeFormat: 'hh:mm a',
+        interval: 15,
+        defaultTime: 'current',
+        dynamic: true,
+        dropdown: true,
+        scrollbar: true
+    });
 
     </script>
+
   </body>
 </html>

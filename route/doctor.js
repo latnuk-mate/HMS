@@ -1,25 +1,61 @@
 // doctors module pages functions...
-
 const router = require("express").Router();
-const { NotAuthDoctor } = require("../middleware/userAuth");
 const { Appointment } = require("../Model/appointment");
 const { Doctor } = require("../Model/doctor");
 const { Patient } = require("../Model/patient");
 const { Staff } = require("../Model/staff");
 
 
+async function findDoctorById(id){ 
+  try {
+    const doctor = await Doctor.findById(id);
 
+      if(!doctor){
+        throw Error('No Data found!');
+      }
 
-router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
+      return doctor;
+  } catch (err) {
+      console.log(err.message);
+  }
+}
+
+async function findData(module){
+    let data;
+    try {
+      switch(module){
+        case "patient":
+          data = await Patient.find({})
+          return data;
+        case "doctor":
+          data = await Doctor.find({});
+          return data;
+        case 'appointment':
+          data = await Appointment.find({});
+          return data;
+        case 'staff':
+          data = await Staff.find({});
+          return data;
+        default:
+          return null;
+  
+      }
+    } catch (err) {
+        console.error(err.code)
+    }
+}
+
+// all the routes...
+router.get('/dashboard/:id',  async(req, res)=>{
     const doctorId = req.params.id;
     try {
       
-      const patientData = await Patient.find({});
-      const doctors = await Doctor.find({});
-      const doctorData = await Doctor.findById(doctorId);
-      const appointments = await Appointment.find({});
+      const patientData = await findData('patient');
+      const doctors = await findData('doctor');
+      const doctorData = await findDoctorById(doctorId);
+      const appointments = await findData('appointment');
       res.render('doctor/dashboard',
-       {layout: 'layouts/doctorModule',
+       { layout: 'layouts/doctorModule',
          helper: require("../middleware/helper"),
          doctors,
          patientData,
@@ -31,10 +67,10 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
     }
   });
   
-  router.get('/doctor/accounts/:id', async(req,res)=>{
+  router.get('/accounts/:id', async(req,res)=>{
     const doctorId = req.params.id;
     try {
-      const doctorData = await Doctor.findById(doctorId);
+      const doctorData = await findDoctorById(doctorId);
       res.render('doctor/profile', 
         {layout: 'layouts/doctorModule',
            data: doctorData,
@@ -48,11 +84,11 @@ router.get('/doctor/dashboard/:id', NotAuthDoctor,  async(req, res)=>{
   });
 
 
-router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
+router.post('/pass/update/:id',   async(req,res)=>{
   const { newPass, oldPass } = req.body;
   const id = req.params.id;
     try {
-      const doctor = await Doctor.findById(id);
+      const doctor = await findDoctorById(id);
       if(doctor.Password === oldPass){
          await Doctor.findByIdAndUpdate(id, {Password : newPass}, (err)=>{
             if(err) {
@@ -66,7 +102,6 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
              helper: require("../middleware/helper")
           });
       }else{
-        // prepare some page for graceful errors...
         res.redirect(302 , '/error/500');
       }
 
@@ -77,12 +112,12 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
 
 
   
-  router.get('/doctor/appointment/panel/:id/:query?', async(req, res)=>{
+  router.get('/appointment/panel/:id/:query?', async(req, res)=>{
     const query = req.params.query;
   
     try {
-      const doctors = await Doctor.findById(req.params.id);
-      const apponitments = await Appointment.find({});
+      const doctors = await findDoctorById(req.params.id);
+      const apponitments = await findData('appointment');
       if(query === undefined){
         res.render('doctor/appointmentPage', 
         {layout : 'layouts/doctorModule', 
@@ -95,9 +130,9 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
       if(query === "pending"){
         res.render('doctor/PendingAppointment', 
           {layout : 'layouts/doctorModule', 
-          appointments : apponitments,
-          data: doctors,
-          helper: require("../middleware/helper"),
+            appointments : apponitments,
+            data: doctors,
+            helper: require("../middleware/helper"),
             });
       }
   
@@ -107,7 +142,7 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
   }
   });
   
-  router.get('/user/appointment/confirmed/:id', async(req, res)=>{
+  router.get('/appointment/confirmed/:id', async(req, res)=>{
     const app_id = req.params.id;
     const id = req.session.user;
     try{
@@ -116,11 +151,11 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
       await Appointment.create(app_data);
       res.redirect(302, `/doctor/appointment/panel/${id}`);
     }catch(err){
-      res.render('partials/error_500' , {error: err.message});
+      res.redirect(302 , '/error/500');
     }
   });
   
-  router.get('/user/appointment/cancel/:id', async(req,res)=>{
+  router.get('/appointment/cancel/:id', async(req,res)=>{
     const app_id = req.params.id;
     const id = req.session.user;
     try{
@@ -137,11 +172,11 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
     }
   });
   
-  router.get('/doctor/patient/panel/:id', NotAuthDoctor, async(req,res)=>{
+  router.get('/patient/panel/:id', async(req,res)=>{
       try {
-        const data = await Doctor.findById(req.params.id);
+        const data = await findDoctorById(req.params.id);
          const appointments = await Appointment.find({Appointment_User_Chosen_Doctor : req.params.id});
-         const patients = await Patient.find({});
+         const patients = await findData('patient');
         res.render('doctor/patient', {
           layout: 'layouts/doctorModule',
           data,
@@ -155,10 +190,10 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
   })
   
   
-  router.get('/doctor/nurse/panel', NotAuthDoctor, async(req,res)=>{
+  router.get('/nurse/panel', async(req,res)=>{
     try {
-      const staffs = await Staff.find({});
-      const doctors = await Doctor.findById(req.session.user);
+      const staffs = await findData('staff');
+      const doctors = await findDoctorById(req.session.user);
       res.render('doctor/staff', {
         layout: 'layouts/doctorModule',
         staffs,
@@ -171,14 +206,14 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
   });
   
   
-  router.get('/doctor/department/panel', NotAuthDoctor, async(req, res)=>{
+  router.get('/department/panel', async(req, res)=>{
     try {
-      const doctors = await Doctor.find({});
-      const staffs = await Staff.find({});
-      const data = await Doctor.findById(req.session.user);
+      const doctors = await findData('doctor');
+      const staffs = await findData('staff');
+      const data = await findDoctorById(req.session.user);
       res.render('department',
        {
-       layout : 'layouts/doctorModule' ,
+       layout : 'layouts/doctorModule',
        doctors, 
        value : 0 ,
        staffs,
@@ -190,9 +225,9 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
     }
   });
   
-  router.get('/doctor/bed/panel', NotAuthDoctor, async(req,res)=>{
+  router.get('/bed/panel', async(req,res)=>{
     try {
-      const doctors = await Doctor.findById(req.session.user);
+      const doctors = await findDoctorById(req.session.user);
       res.render('partials/nullPage', {
         layout: 'layouts/doctorModule',
         helper: require("../middleware/helper"),
@@ -203,9 +238,9 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
     }
   });
   
-  router.get('/doctor/bloodbank/panel', NotAuthDoctor, async(req,res)=>{
+  router.get('/bloodbank/panel', async(req,res)=>{
     try {
-      const doctors = await Doctor.findById(req.session.user);
+      const doctors = await findDoctorById(req.session.user);
       res.render('partials/nullPage', {
         layout: 'layouts/doctorModule',
         helper: require("../middleware/helper"),
@@ -216,6 +251,9 @@ router.post('/doctor/pass/update/:id', NotAuthDoctor , async(req,res)=>{
     }
   });
 
+
 module.exports = router;
+
+// doctor module is done!
 
   

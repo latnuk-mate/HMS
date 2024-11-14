@@ -6,6 +6,9 @@
 <div class="row justify-content-center">
     <div class="col-lg-6">
         <div class="p-3 shadow-lg bg-white text-secondary rounded">
+            <div class="text-center mb-2 text-danger">
+                <%= typeof msg != 'undefined' ? msg : "" %>
+            </div>
             <form action="/admin/staffProfileSave" method="post">
                 <div class="form-group mb-2">
                     <label for="category">Select a Category!</label>

@@ -24,5 +24,8 @@ $(window).on('load' , function(){
       $('.feedback--form').submit(function(event){
           event.preventDefault();
           location.href = '/user/login';
-      })
+      });
+
+
+
 })

@@ -20,6 +20,11 @@ integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pB
 crossorigin="anonymous"
 referrerpolicy="no-referrer"
 />
+
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.14.1/jquery.timepicker.min.css" 
+integrity="sha512-WlaNl0+Upj44uL9cq9cgIWSobsjEOD1H7GK1Ny1gmwl43sO0QAUxVpvX2x+5iQz/C60J3+bM7V07aC/CNWt/Yw==" 
+crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
   *{
     margin: 0;
@@ -95,7 +100,7 @@ referrerpolicy="no-referrer"
    <div class="d-flex justify-content-around align-items-center text-white text-center py-1 bg-primary">
     <a href="/" class="fs-3 fst-italic text-decoration-none text-white fw-bold">HealthHub </a>
    <div class="d-flex align-items-center gap-4">
-    <a href="/user/mail" class="text-white fs-5">
+    <a href="#/user/mail" class="text-white fs-5">
       <i class="fa fa-envelope"></i>
     </a>
     <a href="/notification/#" class="text-white fs-5 position-relative" data-bs-toggle="modal" data-bs-target="#Patient_Notification">
@@ -138,7 +143,7 @@ referrerpolicy="no-referrer"
 
         <ul class="navigation--bar navbar-nav mt-5">
           <li class="px-4 py-1 mb-3 d-block" title="Home">
-            <a href="/dashboard" class="text-decoration-none sub--title d-flex align-items-center">
+            <a href="/patient/dashboard" class="text-decoration-none sub--title d-flex align-items-center">
               <i class="fa fa-home me-2 fs-4"></i><span class="d-none d-lg-block">Home</span></a>
           </li>
      
@@ -217,5 +222,17 @@ referrerpolicy="no-referrer"
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 ></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
+integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
+crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- for custom timepicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.14.1/jquery.timepicker.min.js" 
+integrity="sha512-TYfUH4Mbt6NcWkJI7RS5MoMqFSkpBCChADy2EjAiFr5ckAdTjOUUjnTA3GH8PQAIa2Nz7eR/4PR9xXY3uhnu/A=="
+ crossorigin="anonymous"
+  referrerpolicy="no-referrer"></script>
+
+
 </body>
 </html>

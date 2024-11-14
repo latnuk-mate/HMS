@@ -28,7 +28,7 @@ router.get('/admin/signIn' , AuthAdmin, (req,res)=>{
 router.post('/login', 
   passport.authenticate('local', { failureRedirect: '/user/login' , failureFlash : true}),
   function(req, res) {
-    res.redirect(`/dashboard`);
+    res.redirect(`/patient/dashboard`);
   });
 
 
@@ -50,7 +50,7 @@ router.post('/signup' , async(req,res)=>{
     catch(err){
         console.log(err.message);
     }
-});
+}); 
 
 
 router.post('/doctor/post/login' , async(req, res, next)=>{

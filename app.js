@@ -8,7 +8,7 @@ const Session = require('express-session');
 const passport = require('passport');
 const layouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser')
-
+const { AuthenticaionError, NotAuthDoctor, NotAuthAdmin, NotAuthUser } = require('./middleware/userAuth');
 const app = express(); //express initializer
 
 
@@ -19,7 +19,8 @@ connection();
 
 // calling localStrategy...
 const strategy = require('./config/passportStrategy');
-const { AuthenticaionError } = require('./middleware/userAuth');
+const { Doctor } = require('./Model/doctor');
+
 strategy();
 
 
@@ -57,13 +58,15 @@ app.use(passport.session());
 app.use('/' , AuthenticaionError, require('./route/user'));
 
 // for patient module
-app.use('/' , require('./route/main'));
+app.use('/patient' , NotAuthUser ,  require('./route/main'));
+
+app.use('/admin', NotAuthAdmin, require('./route/admin'));
 
 // for doctor module...
-app.use('/', require('./route/doctor'));
+app.use('/doctor', NotAuthDoctor, require('./route/doctor'));
 
 // for admin module...
-app.use('/', require('./route/admin'));
+
 
 
 
@@ -75,7 +78,29 @@ app.get('/error/500', (req,res)=>{
 
 app.get('/error/404', (req,res)=>{
     res.render('partials/error_404');
-})
+});
+
+
+    // render docotorImage..
+
+    app.get('/image/:id', async(req,res,next)=>{
+        const {id} = req.params;
+  
+        try {
+            const doctor = await Doctor.findById(id);
+            if (!doctor) {
+                res.send('File not found');
+              }
+      
+            res.set('Content-Type' , doctor.Image.fileContentType);
+            res.set('Content-Disposition', `attachment; filename=${doctor.Image.fileName}`);
+            res.send(doctor.Image.fileData);
+  
+        } catch (error) {
+          console.log(error.code);
+          res.redirect(301, '/error/500');
+        }
+    })
 
 
 

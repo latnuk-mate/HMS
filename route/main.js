@@ -1,18 +1,16 @@
 // Patient Page...
-
 const { Appointment } = require("../Model/appointment");
 const { Doctor } = require("../Model/doctor");
 const { Patient } = require("../Model/patient");
 const { Staff } = require("../Model/staff");
 const generatePdf = require("../middleware/generatePdf");
 const {formatTime, calculateAge} = require("../middleware/helper");
-const { NotAuthUser} = require("../middleware/userAuth");
 const Path = require('path');
 
 const router = require("express").Router();
 
 
-router.get("/dashboard", NotAuthUser, async(req, res) => {
+router.get("/dashboard", async(req, res) => {
   try {
       const doctors = await Doctor.find({});
       const appointments = await Appointment.find({Appointment_Patient : req.user.id});
@@ -27,11 +25,11 @@ router.get("/dashboard", NotAuthUser, async(req, res) => {
         notification : 0
       });
   } catch (error) {
-      res.sendStatus(500).json(error.message);
+    res.redirect(301, '/error/500')
   }
 });
 
-router.get('/patient/appointment/panel/:id', NotAuthUser, async(req,res)=>{
+router.get('/appointment/panel/:id', async(req,res)=>{
   try {
     const appointments = await Appointment.find({Appointment_Patient : req.params.id});
     const doctors = await Doctor.find({});
@@ -44,13 +42,13 @@ router.get('/patient/appointment/panel/:id', NotAuthUser, async(req,res)=>{
       notification : 0
     });
   } catch (err) {
-     res.sendStatus(500).json({err});
+    res.redirect(301, '/error/500')
 
   }
 })
 
 
-router.get("/patient/appointment/create", NotAuthUser, async(req, res) => {
+router.get("/appointment/create", async(req, res) => {
   try{
     const data = await Doctor.find({});
     const appointments = await Appointment.find({Appointment_Patient : req.user.id});
@@ -63,11 +61,11 @@ router.get("/patient/appointment/create", NotAuthUser, async(req, res) => {
       notification : 0
     });
  }catch(err){
-   res.sendStatus(500).json(err);
+    res.redirect(301, '/error/500')
  }
 });
 
-router.post("/patient/appointment/save", async(req, res) => {
+router.post("/appointment/save", async(req, res) => {
   const {
       patientName,
       patientEmail, 
@@ -93,12 +91,12 @@ router.post("/patient/appointment/save", async(req, res) => {
       res.redirect(302, `/patient/appointment/panel/${req.user.id}`);
 
 } catch (error) {
-    res.sendStatus(500).json(error);
+    res.redirect(301, '/error/500')
 }
 });
 
 
-router.get('/patient/appointment/cancel/:id', async(req,res)=>{
+router.get('/appointment/cancel/:id', async(req,res)=>{
   const app_id = req.params.id;
   const id = req.user.id;
   try{
@@ -111,11 +109,11 @@ router.get('/patient/appointment/cancel/:id', async(req,res)=>{
     });
    
   }catch(err){
-    res.sendStatus(500).json(err);
+    res.redirect(301, '/error/500')
   }
 })
 
-router.get('/patient/doctor/panel/:id' , NotAuthUser, async(req, res)=>{
+router.get('/doctor/panel/:id' ,async(req, res)=>{
   try {
     const doctors = await Doctor.find({});
     const appointments = await Appointment.find({Appointment_Patient : req.params.id});
@@ -128,13 +126,13 @@ router.get('/patient/doctor/panel/:id' , NotAuthUser, async(req, res)=>{
       notification : 0
     })
   } catch (e) {
-      res.sendStatus(500).json(e.message);
+    res.redirect(301, '/error/500')
   }
 })
 
 
 
-router.get('/patient/account/delete/:id', NotAuthUser, async(req, res)=>{
+router.get('/account/delete/:id', async(req, res)=>{
   const id = req.params.id;
   try {
       await Patient.findByIdAndDelete(id, (err)=>{
@@ -144,12 +142,12 @@ router.get('/patient/account/delete/:id', NotAuthUser, async(req, res)=>{
         res.redirect(302, '/user/login');
       });
   } catch (error) {
-    res.sendStatus(500).json(error.message);
+    res.redirect(301, '/error/500')
   }
 });
 
 
-router.get('/patient/bloodbank/panel/:id', NotAuthUser, async(req,res)=>{
+router.get('/bloodbank/panel/:id', async(req,res)=>{
   try {
     const doctors = await Doctor.find({});
     const appointments  = await Appointment.find({Appointment_Patient : req.params.id});
@@ -163,13 +161,31 @@ router.get('/patient/bloodbank/panel/:id', NotAuthUser, async(req,res)=>{
       notification : 0
     });
   } catch (error) {
-      res.sendStatus(500).json(error);
+    res.redirect(301, '/error/500')
+  }
+});
+
+router.get('/paymentDetails/:id', async(req,res)=>{
+  try {
+    const doctors = await Doctor.find({});
+    const appointments  = await Appointment.find({Appointment_Patient : req.params.id});
+
+    res.render('partials/nullPage', {
+      layout: 'layouts/patientModule',
+      patient: req.user,
+      helper: require("../middleware/helper"),
+      doctors,
+      appointments,
+      notification : 0
+    });
+  } catch (error) {
+    res.redirect(301, '/error/500')
   }
 });
 
 
 
-router.get('/patient/department/panel', NotAuthUser, async(req, res)=>{
+router.get('/department/panel', async(req, res)=>{
   try {
     const doctors = await Doctor.find({});
     const staffs = await Staff.find({});
@@ -186,14 +202,13 @@ router.get('/patient/department/panel', NotAuthUser, async(req, res)=>{
       value: 0
     });
   } catch (err) {
-    res.redirect(302 , '/error/500');
+    res.redirect(301 , '/error/500');
   }
 });
 
 
 
-router.get('/patient/healthDetails/:id', NotAuthUser, async(req, res)=>{
-  
+router.get('/healthDetails/:id', async(req, res)=>{
   try {
     const doctors = await Doctor.find({});
     const appointments  = await Appointment.find({Appointment_Patient : req.params.id});
@@ -213,7 +228,7 @@ router.get('/patient/healthDetails/:id', NotAuthUser, async(req, res)=>{
 });
 
 
-router.get('/patient/healthCard/download', (req,res)=>{
+router.get('/healthCard/download', (req,res)=>{
     const user = {
       date : new Date().toLocaleDateString(),
       patient: req.user
@@ -230,9 +245,11 @@ router.get('/patient/healthCard/download', (req,res)=>{
         });
       res.sendFile(pdf)
     } catch (error) {
-      console.log(error.message)
+      res.redirect(301, '/error/500')
     }
 })
 
 
 module.exports = router;
+
+// patient part is done!

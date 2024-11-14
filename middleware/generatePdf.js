@@ -32,7 +32,7 @@ doc.pipe(fs.createWriteStream(Path.join(dirPath , 'report.pdf')));
 // First section of information...
 doc
 .fontSize(10)
-.text(`Created At : ${user.date}` ,{
+.text(`Created At : ${user.date}`,{
     align: 'right'
 })
 .moveDown(2.5)

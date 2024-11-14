@@ -27,7 +27,8 @@ module.exports = {
         AppointmentChecker: (date)=>{
                         // Get the current date
                         const currentDate = new Date();
-                
+
+                        // week range from sunday to saturday...     
                         const startOfWeek = new Date(currentDate);
                         startOfWeek.setHours(0, 0, 0, 0);
                         startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
