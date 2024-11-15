@@ -136,10 +136,6 @@
         <select name="doctor" id="doctors" class="form-control" required>
         <option value="" selected disabled>Appointment With Your Preferred Doctor</option>
           <% doctors.map((doctor)=> { %>
-            <% if(appointments.length == 0) {%>
-              <option value="<%=doctor.id%>"><%= doctor.Name %> 
-              </option> 
-            <% } %>
             <% appointments.map(app => { %>
           <!-- if we have an appointment, then check if the date is not expired! -->
            <% if(new Date(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD")) > new Date()) {%>
