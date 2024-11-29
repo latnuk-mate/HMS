@@ -10,7 +10,7 @@ module.exports = function () {
 
     try {
       if (!user) {
-        return done(null, false);
+        return done(null, false, {message : "No User record Found!" });
       }
       if (!bcrypt.compareSync(pass, user.userPass)) {
         return done(null, false, {message : "Invalid Username or PassWord!" });

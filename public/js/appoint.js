@@ -6,9 +6,11 @@ function isNumber(number) {
       if (num.length > 10 || num.length < 10) {
         document.querySelector(".msg-for-number").innerHTML =
           "Please provide a correct number";
-        number.style.border = "1px solid red";
-        number.focus();
-        return false;
+          number.style.border = "1px solid red";
+          number.focus();
+          return false;
+      }else{
+        return true;
       }
     } else {
       document.querySelector(".msg-for-number").innerHTML =

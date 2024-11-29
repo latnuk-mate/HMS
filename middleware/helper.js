@@ -9,19 +9,16 @@ module.exports = {
                    },
 
         formatTime: (time)=>{
-                let meridian;
                 let [hour, minute] = time.split(':');
                 if(hour > 12){
-                        meridian = "PM";
                         hour -= 12;
                 }
                 if(hour < 12){
-                        meridian = "AM";
                         if(hour == 0){
                                 hour = 12;
                         }
                 }
-                return `${hour}:${minute} ${meridian}`;
+                return `${hour}:${minute}`;
         },
 
         AppointmentChecker: (date)=>{

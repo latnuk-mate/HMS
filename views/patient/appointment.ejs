@@ -25,6 +25,7 @@
                     <tr>
                         <td> <%= doctor.Name %></td>
                         <td> <%= helper.formatDate(app.Appointment_User_Book_Date , 'DD-MM-YYYY') %></td>
+                        <!-- only for payments, when the payment is done, status will be confirmed! -->
                         <% if(app.Appointment_Status === "confirmed" && app.Payment === 'done') { %>
                         <td>
                             <div class="px-3 py-1 text-white bg-warning rounded ">

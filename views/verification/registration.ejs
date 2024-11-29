@@ -61,6 +61,12 @@
         color: red;
         font-size: 16px;
       }
+
+      .msg{
+        font-size: 16px;
+        color: red;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -73,6 +79,7 @@
           <div class="row justify-content-center">
             <div class="col-lg-7">
               <div class="registration--area">
+                <div class="msg"><%= typeof msg != 'undefined' ? msg : "" %></div>
                 <h4 class="title mb-3 text-center">Registration Form!</h4>
                 <form action="/signup" method="post" name="signupForm">
                   <div class="form-group mb-2">

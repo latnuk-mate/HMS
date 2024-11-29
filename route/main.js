@@ -4,7 +4,7 @@ const { Doctor } = require("../Model/doctor");
 const { Patient } = require("../Model/patient");
 const { Staff } = require("../Model/staff");
 const generatePdf = require("../middleware/generatePdf");
-const {formatTime, calculateAge} = require("../middleware/helper");
+const {formatTime, calculateAge, formatDate} = require("../middleware/helper");
 const Path = require('path');
 
 const router = require("express").Router();
@@ -74,7 +74,23 @@ router.post("/appointment/save", async(req, res) => {
     } = req.body;
 
   try {
-      const data = await Appointment.create({
+    // getting the necessary data..
+    const doctorsData = await Doctor.find({});
+    const appointments = await Appointment.find({Appointment_Patient : req.user.id});
+    
+    // check if the date is already past from the current date...
+    if(new Date(formatDate(date, "YYYY-MM-DD")) < new Date()){
+        res.render("appointment", {
+          layout: 'layouts/patientModule',
+          patient: req.user,
+          doctors : doctorsData,
+          appointments,
+          helper: require("../middleware/helper"),
+          notification : 0,
+          msg: "Appointment Booking date is not valid, it should be from the current date till the next any future date!"
+        });
+    }else{
+       const data = await Appointment.create({
         Appointment_User_Name: patientName,
         Appointment_User_Age: calculateAge(patientDob),
         Appointment_User_Email: patientEmail,
@@ -87,10 +103,11 @@ router.post("/appointment/save", async(req, res) => {
         Appointment_Patient: req.user.id,
         createdAt: new Date()
       });
+
       await data.save();
       res.redirect(302, `/patient/appointment/panel/${req.user.id}`);
 
-} catch (error) {
+    }} catch (error) {
     res.redirect(301, '/error/500')
 }
 });
@@ -134,11 +151,20 @@ router.get('/doctor/panel/:id' ,async(req, res)=>{
 
 router.get('/account/delete/:id', async(req, res)=>{
   const id = req.params.id;
+  const appData = await Appointment.find({Appointment_Patient : req.user.id});
   try {
-      await Patient.findByIdAndDelete(id, (err)=>{
+    await Patient.findByIdAndDelete(id, async(err)=>{
         if(err){
           res.sendStatus(500).json({err})
         }
+
+        // clear appointment queue for the current user..
+        appData.forEach(app => {
+          app.Appointment_Status = 'expired';
+        });
+  
+        await Appointment.create(appData); //saving the appointments before redirecting..
+        
         res.redirect(302, '/user/login');
       });
   } catch (error) {

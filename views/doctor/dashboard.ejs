@@ -112,7 +112,7 @@
                 </thead>
             <% appointments.map((app)=>{ %>
               <% if(app.Appointment_User_Chosen_Doctor == data.id) { %>
-                <% if (app.Appointment_Status === 'confirmed') { %>
+                <% if (app.Appointment_Status === 'approved') { %>
                  <!--if the date falls within this current week  -->
                 <% if(helper.AppointmentChecker(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD"))) {%>
                   <!-- if booked date is not expired! -->

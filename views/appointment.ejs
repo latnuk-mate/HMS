@@ -68,6 +68,11 @@
         font-weight: 500;
       }
 
+      .msg{
+        color: red;
+        font-size: 14px;
+      }
+
 
 
       
@@ -78,6 +83,9 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8">
+          <div class="msg">
+            <%= typeof msg != 'undefined' ? msg : "" %>
+          </div>
         <div class="appointment--area">
         <h5 class="title">Get An Appointment!</h5>
         <form action="/patient/appointment/save" method="post" name="appointmentForm">
@@ -113,7 +121,6 @@
               id="patientDob"
               name="patientDob"
               required
-              onchange="calculateAge()"
             />
           </div>
 
@@ -136,18 +143,25 @@
         <select name="doctor" id="doctors" class="form-control" required>
         <option value="" selected disabled>Appointment With Your Preferred Doctor</option>
           <% doctors.map((doctor)=> { %>
-            <% appointments.map(app => { %>
-          <!-- if we have an appointment, then check if the date is not expired! -->
-           <% if(new Date(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD")) > new Date()) {%>
-            <% if(app.Appointment_User_Chosen_Doctor === doctor.id) { %>
-                <option value="<%=doctor.id%>"
-                 disabled 
-                 title="You already have an appointment with the doctor"><%= doctor.Name %> 
-                </option> 
-              <% }} else { %>
-                <option value="<%=doctor.id%>"><%= doctor.Name %> 
-                 </option> 
-               <% }}) %>
+            <!-- first check if the appointment is not null -->
+             <% if(appointments.length > 0) { %>
+              <% appointments.map(app => { %>
+              <!-- if we have an appointment, then check if the date is not expired! -->
+              <% if(new Date(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD")) > new Date()) {%>
+                <!-- cheking, which doctor the patient has appointment with -->
+                <% if(app.Appointment_User_Chosen_Doctor === doctor.id) { %>
+                    <option value="<%=doctor.id%>"
+                    disabled 
+                    title="You already have an appointment with the doctor"><%= doctor.Name %> 
+                    </option> 
+                  <% }else{ %>
+                    <option value="<%=doctor.id%>"><%= doctor.Name %> 
+                    </option> 
+                  <% }}}) %>
+             <% }else { %>
+              <option value="<%=doctor.id%>"><%= doctor.Name %> 
+              </option> 
+             <% } %>
             <optgroup label="doctor-info">
               <option disabled>[<%=doctor.Speciality %>]</option>
               <option disabled>Available On [<%= doctor.Date1 %> , <%= doctor.Date2 %>]</option>
@@ -196,8 +210,7 @@
             <button type="button" class="px-5 py-2 appointment--btn form-control bg-secondary mb-3 mb-lg-0"
               onclick="history.back()"
             >Back</button>
-            <button type="submit" class="px-5 py-2 appointment--btn form-control"
-            id="signup">Make Appointment</button>
+            <button type="submit" class="px-5 py-2 appointment--btn form-control">Make Appointment</button>
           </div>
         </form>
       </div>  

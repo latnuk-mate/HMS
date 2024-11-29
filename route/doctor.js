@@ -6,6 +6,7 @@ const { Patient } = require("../Model/patient");
 const { Staff } = require("../Model/staff");
 
 
+
 async function findDoctorById(id){ 
   try {
     const doctor = await Doctor.findById(id);
@@ -74,7 +75,6 @@ router.get('/dashboard/:id',  async(req, res)=>{
       res.render('doctor/profile', 
         {layout: 'layouts/doctorModule',
            data: doctorData,
-           passUpdated: false,
            helper: require("../middleware/helper")
         });
   
@@ -84,13 +84,13 @@ router.get('/dashboard/:id',  async(req, res)=>{
   });
 
 
-router.post('/pass/update/:id',   async(req,res)=>{
+router.post('/pass/update/:id', async(req,res)=>{
   const { newPass, oldPass } = req.body;
   const id = req.params.id;
     try {
       const doctor = await findDoctorById(id);
       if(doctor.Password === oldPass){
-         await Doctor.findByIdAndUpdate(id, {Password : newPass}, (err)=>{
+         await Doctor.findByIdAndUpdate(id, {Password : newPass, isPassUpdated: true}, (err)=>{
             if(err) {
               res.render('partials/error_500' , {error: err.message});
             }
@@ -98,7 +98,6 @@ router.post('/pass/update/:id',   async(req,res)=>{
         res.render('doctor/profile', 
           {layout: 'layouts/doctorModule',
              data: doctor,
-             passUpdated: true,
              helper: require("../middleware/helper")
           });
       }else{
@@ -112,7 +111,7 @@ router.post('/pass/update/:id',   async(req,res)=>{
 
 
   
-  router.get('/appointment/panel/:id/:query?', async(req, res)=>{
+router.get('/appointment/panel/:id/:query?', async(req, res)=>{
     const query = req.params.query;
   
     try {
@@ -137,9 +136,9 @@ router.post('/pass/update/:id',   async(req,res)=>{
       }
   
   
-  } catch (error) {
-    res.redirect(302 , '/error/500');
-  }
+    } catch (error) {
+      res.redirect(302 , '/error/500');
+    }
   });
   
   router.get('/appointment/confirmed/:id', async(req, res)=>{

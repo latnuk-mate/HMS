@@ -12,42 +12,45 @@
                             <p class="mb-1"><%= doctor.Phone %></p>
                             <p class="mb-1"><%= doctor.Department %></p>
                             <p class="mb-1"><%= doctor.Academics%></p>
-                            <p class="mb-3"><%= doctor.Speciality %></p>
+                            <p class="mb-1"><%= doctor.Speciality %></p>
                             <p class="mb-3"><%= doctor.DoctorFee %></p>
-                            <% if(appointments.length == 0) {%>
+                            <% if(appointments.length > 0) {%>
+                                <% appointments.map(app =>{ %>
+                                    <!-- if the date is not expired, then find the doctor and display the app schedule -->
+                                <% if(new Date(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD")) > new Date()){ %>       
+                                    <!-- find which doctor user has appointment -->
+                                    <% if(app.Appointment_User_Chosen_Doctor === doctor.id) { %>
+                                    <div 
+                                        class="px-lg-4 py-lg-2 px-3 bg-warning text-white"
+                                        style="border-radius: 100px;">
+                                            Booked Date
+                                            <span>
+                                                <%= helper.formatDate(app.Appointment_User_Book_Date, "DD-MM-YYYY") %>
+                                            </span>
+                                    </div> 
+                                    <%}else{%>
+                                        <div>
+                                            <a href="/patient/appointment/create" 
+                                            class="text-decoration-none rounded px-3 py-2 bg-primary text-white d-flex gap-1 align-items-center"
+                                            >
+                                            <span class="d-none d-lg-block">Make Appointment</span>
+                                            <i class="fa fa-edit"></i>
+                                            </a> 
+                                        </div>
+                                    <% }}}) %> 
+                            <% }else{ %>
                                 <a href="/patient/appointment/create" 
                                 class="text-decoration-none rounded px-3 py-2 bg-primary text-white d-flex gap-1 align-items-center"
                                 >
                                 <span class="d-none d-lg-block">Make Appointment</span>
                                 <i class="fa fa-edit"></i>
-                                </a>  
-                            <% } %>
-                            <% appointments.map(app =>{ %>
-                                <!-- if the date is not expired, then find the doctor and display the app schedule -->
-                            <% if(new Date(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD")) > new Date()){ %>       
-                            <% if(app.Appointment_User_Chosen_Doctor === doctor.id) { %>
-                                <div 
-                                    class="px-lg-4 py-lg-2 px-3 bg-warning text-white"
-                                    style="border-radius: 100px;">
-                                        Booked Date
-                                        <span>
-                                            <%= helper.formatDate(app.Appointment_User_Book_Date, "DD-MM-YYYY") %>
-                                        </span>
-                                </div> 
-                     
-                          <% }}else{ %>
-                               <a href="/patient/appointment/create" 
-                                    class="text-decoration-none rounded px-3 py-2 bg-primary text-white d-flex gap-1 align-items-center"
-                                >
-                            <span class="d-none d-lg-block">Make Appointment</span>
-                            <i class="fa fa-edit"></i>
                                 </a> 
-                        <% }}) %>
-                  
-                     </div>
-                   
+                           <%  } %>
+                     </div> 
                 </div>
-           
+    
         <% }) %>
     </div>
+
+
         

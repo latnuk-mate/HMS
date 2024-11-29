@@ -18,7 +18,7 @@
         <li>EmploymentStatus:- <%=doctor.EmploymentStatus || "N/A" %></li>
         <li>Department:- <%=doctor.Department%></li>
         <li>Visiting Time:-
-    <%=(doctor.DoctorHours1 && doctor.DoctorHours2) ? doctor.DoctorHours1 - doctor.DoctorHours2 : "N/A"%></li>
+    <%=(doctor.DoctorHours1 && doctor.DoctorHours2) ? `${doctor.DoctorHours1} - ${doctor.DoctorHours2}` : "N/A"%></li>
         <li>Fees Per Session:- <%=doctor.DoctorFee || "N/A" %></li>
         <li>Speciality:- <%=doctor.Speciality || "N/A" %></li>
     </ul>

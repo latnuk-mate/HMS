@@ -87,6 +87,12 @@ const DoctorSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    isPassUpdated:
+    {
+    type:Boolean, 
+    default: false
+    },
+    
     createdAt:{
         type: Date,
         default : Date.now()

@@ -45,10 +45,14 @@ router.post('/signup' , async(req,res)=>{
         });
     
         await patient.save();
-        res.sendStatus(200).json("data saved successfully!");
+        res.redirect(302, `/patient/dashboard`); // by default it will redirect to login page.
     }
     catch(err){
-        console.log(err.message);
+        if(err.code == 11000){
+            res.render('verification/registration' , {msg: "Email is already present! Try another"});
+        }else{
+            res.sendStatus(500).json(err)
+        }   
     }
 }); 
 
@@ -91,7 +95,7 @@ router.post('/admin/post/login' , (req, res)=>{
     try{
         if(adminId === process.env.ADMIN_ID && adminPass === process.env.ADMIN_PASS){
             res.cookie('admin' , true);
-            res.status(302).redirect('/admin/dashboard');
+            res.redirect(302, '/admin/dashboard');
         }else{
             res.render("verification/adminLogin" , {error : req.flash("flash")});
         }

@@ -14,20 +14,23 @@
         <% appointments.map(app => { %>
            <% patients.map(patient => { %>
             <% if(patient.id == app.Appointment_Patient) {%>
+            <% if(app.Appointment_Status === 'approved'){ %>
+
                 <td><%= patient.userName %></td>
                  <td><%= patient.userPhone %></td>
-                <td>
-     <% if(helper.AppointmentChecker(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD"))) { %>
+     
+        <!-- check if falls within the current week! -->
+        <% if(helper.AppointmentChecker(helper.formatDate(app.Appointment_User_Book_Date, "YYYY-MM-DD"))) { %>
+            <!-- check if not expired -->
         <% if(new Date(app.Appointment_User_Book_Date).getDate() > new Date().getDate()) { %>
-            <%= helper.formatDate(app.Appointment_User_Book_Date, "DD-MM-YYYY")%> 
+            <td> <%= helper.formatDate(app.Appointment_User_Book_Date, "DD-MM-YYYY")%> </td>
      <% }}%>
-        </td> 
         <td>
             <a href="#" class="text-decoration-none bg-primary text-white px-4 py-1 rounded">
                 View Details
             </a>
         </td> 
-       <% }})}) %>  
+       <% }}})}) %>  
         </th>
     </tbody>
     <% } %>

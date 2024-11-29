@@ -70,9 +70,9 @@
                     <p class="mb-2 text-secondary">UserName: <%=data.userName %></p>
                     <p class="mb-2 text-secondary">Password:
                         
-                        <%= passUpdated ? "*****" : data.Password %>
+                        <%= data.isPassUpdated ? "*****" : data.Password %>
                         
-                        <% if(passUpdated) { %>
+                        <% if(data.isPassUpdated) { %>
                         <a href="#" 
                             style="cursor: not-allowed; font-size: 14px;" 
                             class="text-secondary">
@@ -93,8 +93,8 @@
                     <h5 class=" mb-2">Your Email:- <%= data.Email %></h5>
                     <h5 class="mb-1">Your Phone:- <%= data.Phone %></h5>
                     <p class="text-secondary mb-3">Department : <%= data.Department %></p>
-                    <button onclick="history.back()"
-                    class="btn btn-primary text-white rounded px-5 py-2">Back</button>
+                    <a href="/doctor/dashboard/<%=data.id%>"
+                    class="btn btn-primary text-white rounded px-5 py-2">Back</a>
                 </div>
             </div>
         </div>
