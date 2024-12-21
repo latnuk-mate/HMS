@@ -34,7 +34,7 @@ router.get('/appointment/panel/:id', async(req,res)=>{
     const appointments = await Appointment.find({Appointment_Patient : req.params.id});
     const doctors = await Doctor.find({});
     res.render('patient/appointment', {
-      layout: 'layouts/patientModule',
+      layout: 'layouts/PatientModule',
       appointments,
       doctors,
       patient: req.user,
@@ -53,7 +53,7 @@ router.get("/appointment/create", async(req, res) => {
     const data = await Doctor.find({});
     const appointments = await Appointment.find({Appointment_Patient : req.user.id});
     res.render("appointment", {
-      layout: 'layouts/patientModule',
+      layout: 'layouts/PatientModule',
       patient: req.user,
       doctors : data,
       appointments,
@@ -81,7 +81,7 @@ router.post("/appointment/save", async(req, res) => {
     // check if the date is already past from the current date...
     if(new Date(formatDate(date, "YYYY-MM-DD")) < new Date()){
         res.render("appointment", {
-          layout: 'layouts/patientModule',
+          layout: 'layouts/PatientModule',
           patient: req.user,
           doctors : doctorsData,
           appointments,
@@ -135,7 +135,7 @@ router.get('/doctor/panel/:id' ,async(req, res)=>{
     const doctors = await Doctor.find({});
     const appointments = await Appointment.find({Appointment_Patient : req.params.id});
     res.render('patient/doctorPage', {
-      layout: 'layouts/patientModule',
+      layout: 'layouts/PatientModule',
       patient: req.user,
       helper: require("../middleware/helper"),
       doctors,
@@ -179,7 +179,7 @@ router.get('/bloodbank/panel/:id', async(req,res)=>{
     const appointments  = await Appointment.find({Appointment_Patient : req.params.id});
 
     res.render('partials/nullPage', {
-      layout: 'layouts/patientModule',
+      layout: 'layouts/PatientModule',
       patient: req.user,
       helper: require("../middleware/helper"),
       doctors,
@@ -197,7 +197,7 @@ router.get('/paymentDetails/:id', async(req,res)=>{
     const appointments  = await Appointment.find({Appointment_Patient : req.params.id});
 
     res.render('partials/nullPage', {
-      layout: 'layouts/patientModule',
+      layout: 'layouts/PatientModule',
       patient: req.user,
       helper: require("../middleware/helper"),
       doctors,
@@ -218,7 +218,7 @@ router.get('/department/panel', async(req, res)=>{
     const appointments  = await Appointment.find({Appointment_Patient : req.params.id});
     res.render('department',
      {
-      layout: 'layouts/patientModule',
+      layout: 'layouts/PatientModule',
       patient: req.user,
       doctors, 
       staffs,
@@ -240,7 +240,7 @@ router.get('/healthDetails/:id', async(req, res)=>{
     const appointments  = await Appointment.find({Appointment_Patient : req.params.id});
     res.render('patient/health',
      {
-      layout: 'layouts/patientModule',
+      layout: 'layouts/PatientModule',
       patient: req.user,
       doctors,
       helper: require("../middleware/helper"),
